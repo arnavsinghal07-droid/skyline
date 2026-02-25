@@ -28,7 +28,9 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. User generates a new brief and sees a Data Model Hints section with typed table/field suggestions and a rationale per hint, rendered with syntax highlighting
   3. User opens an existing v1 brief and it renders without errors — all existing fields display, new sections are absent without crashing
   4. When brief generation hits token limits, user receives a clear structured error instead of a truncated JSON crash
-**Plans**: TBD
+**Plans**: 2 plans
+  - [ ] 01-01-PLAN.md — Backend: extend BriefContent v2 type, expand prompt, raise max_tokens, token limit error handling, per-section regeneration endpoint
+  - [ ] 01-02-PLAN.md — Frontend: UIDirectionSection, DataModelSection, EvidenceChip components + wire into query and briefs pages + v1 backward compat + stagger reveal + per-section regenerate UX
 
 ### Phase 2: Coding Agent Export
 **Goal**: Users can export any v2 brief as a complete 7-section coding agent handoff package, delivered via clipboard copy or .md file download
@@ -71,7 +73,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Brief v2 | 0/TBD | Not started | - |
+| 1. Brief v2 | 0/2 | Planned | - |
 | 2. Coding Agent Export | 0/TBD | Not started | - |
 | 3. Stripe Billing | 0/TBD | Not started | - |
 | 4. Landing Page | 0/TBD | Not started | - |
