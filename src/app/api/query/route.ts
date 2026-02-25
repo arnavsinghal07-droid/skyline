@@ -8,7 +8,7 @@ import { createClient } from '@/lib/supabase/server'
 export type SSEEvent =
   | { type: 'status'; message: string }
   | { type: 'delta';  text: string }
-  | { type: 'result'; data: QueryResult }
+  | { type: 'result'; data: QueryResult; queryId: string | null }
   | { type: 'error';  message: string }
 
 export interface QueryResult {
@@ -221,17 +221,19 @@ export async function POST(request: NextRequest) {
       }
 
       // ── Persist to queries table ──────────────────────────────────────────
+      let savedQueryId: string | null = null
       if (workspace) {
-        await supabase.from('queries').insert({
+        const { data: savedQuery } = await supabase.from('queries').insert({
           workspace_id:  workspace.id,
           org_id,
           user_id:       user.id,
           text:          query,
           response_json: parsed,
-        })
+        }).select('id').single()
+        savedQueryId = savedQuery?.id ?? null
       }
 
-      await send({ type: 'result', data: parsed })
+      await send({ type: 'result', data: parsed, queryId: savedQueryId })
     } catch (err) {
       await send({
         type: 'error',
