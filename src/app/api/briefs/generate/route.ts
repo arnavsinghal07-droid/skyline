@@ -3,6 +3,27 @@ import Anthropic from '@anthropic-ai/sdk'
 import { createClient } from '@/lib/supabase/server'
 import type { QueryResult } from '@/app/api/query/route'
 
+export interface UIDirectionScreen {
+  screen_name: string
+  changes: Array<{
+    text: string
+    signal_count?: number
+    confidence?: 'HIGH' | 'MED' | 'LOW'
+    low_evidence?: boolean
+  }>
+  new_components: string[]
+  interactions: string[]
+}
+
+export interface UIDirection {
+  screens: UIDirectionScreen[]
+}
+
+export interface DataModelHint {
+  feature_group: string
+  ddl: string
+}
+
 export interface BriefContent {
   problem_statement: string
   proposed_solution: string
@@ -13,6 +34,8 @@ export interface BriefContent {
   }>
   success_metrics: string[]
   out_of_scope: string[]
+  ui_direction?: UIDirection
+  data_model_hints?: DataModelHint[]
 }
 
 function buildBriefPrompt(queryResult: QueryResult, query: string): string {
@@ -52,6 +75,29 @@ Write a structured feature brief based on these findings. Respond with a JSON ob
     "Thing explicitly not included 1",
     "Thing explicitly not included 2",
     "Thing explicitly not included 3"
+  ],
+  "ui_direction": {
+    "screens": [
+      {
+        "screen_name": "Name of the affected screen",
+        "changes": [
+          {
+            "text": "Description of the specific UI change",
+            "signal_count": 2,
+            "confidence": "HIGH",
+            "low_evidence": false
+          }
+        ],
+        "new_components": ["ComponentName1", "ComponentName2"],
+        "interactions": ["Clicking X does Y", "Form validates on blur"]
+      }
+    ]
+  },
+  "data_model_hints": [
+    {
+      "feature_group": "Feature name grouping these changes",
+      "ddl": "CREATE TABLE example (\\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\\n  -- Rationale as inline comment\\n  field_name TEXT NOT NULL\\n);\\nCREATE INDEX ON example (field_name);"
+    }
   ]
 }
 
@@ -59,7 +105,15 @@ Rules:
 - Write exactly 3 user stories
 - Write 3-4 success metrics (quantitative where possible, e.g. "Reduce onboarding drop-off by 30%")
 - Write 3-4 out-of-scope items that prevent scope creep
-- Ground everything in the evidence — do not fabricate requirements`
+- Ground everything in the evidence — do not fabricate requirements
+- Write 1-3 screens in ui_direction — only include screens that are directly affected by this feature
+- For each UI change, set signal_count to how many of the provided evidence items support it (max: the number of evidence items provided). Set confidence to HIGH if 3+, MED if 2, LOW if 1
+- Set low_evidence to true when signal_count is 1
+- For data_model_hints, write DDL in PostgreSQL syntax with inline -- comments explaining WHY each field exists
+- Include CREATE INDEX for all foreign key columns and commonly queried fields
+- Group related table changes under one feature_group (e.g. 'Onboarding tracking') — group by feature purpose, not by table
+- Escape newlines in DDL strings as \\n
+- Every UI change MUST be grounded in the provided evidence — do not fabricate changes unsupported by the evidence`
 }
 
 const anthropic = new Anthropic()
@@ -88,7 +142,7 @@ export async function POST(request: NextRequest) {
   try {
     const message = await anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1500,
+      max_tokens: 4000,
       system:
         'You are a senior product manager. Generate structured feature briefs based on customer research. Always respond with valid JSON in the exact format requested — no markdown, no prose outside the JSON.',
       messages: [{ role: 'user', content: buildBriefPrompt(queryResult, query) }],
@@ -100,7 +154,30 @@ export async function POST(request: NextRequest) {
       .replace(/\s*```\s*$/m, '')
       .trim()
 
+    if (message.stop_reason === 'max_tokens') {
+      return NextResponse.json(
+        {
+          error: 'Brief generation hit the token limit. The brief was truncated and could not be completed.',
+          error_code: 'TOKEN_LIMIT',
+          partial_text: rawText,
+        },
+        { status: 422 }
+      )
+    }
+
     const brief: BriefContent = JSON.parse(jsonStr)
+
+    const evidenceCount = queryResult.evidence.length
+    if (brief.ui_direction) {
+      for (const screen of brief.ui_direction.screens) {
+        for (const change of screen.changes) {
+          if (change.signal_count && change.signal_count > evidenceCount) {
+            change.signal_count = evidenceCount
+          }
+        }
+      }
+    }
+
     return NextResponse.json({ brief })
   } catch (err) {
     console.error('[Sightline] Brief generation error:', err)
