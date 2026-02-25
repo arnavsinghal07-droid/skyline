@@ -186,7 +186,7 @@ function BriefPanel({
         current++
         setVisibleSections(current)
         if (current >= TOTAL_SECTIONS) clearInterval(interval)
-      }, 100)
+      }, 200)
       return () => clearInterval(interval)
     }
   }, [phase, brief])
@@ -217,7 +217,7 @@ function BriefPanel({
   }
 
   return (
-    <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl flex flex-col overflow-hidden">
+    <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl flex flex-col">
       {/* Panel header */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
         <div className="flex items-center gap-2">
@@ -278,132 +278,146 @@ function BriefPanel({
           <>
             {/* Section 1 */}
             {visibleSections >= 1 && (
-              <SectionWithRegen
-                label="Problem Statement"
-                section="problem_statement"
-                onRegenerate={handleRegenerate}
-                isRegenerating={!!regenerating.problem_statement}
-              >
-                <p className="text-sm text-white/65 leading-relaxed">
-                  {brief.problem_statement}
-                </p>
-              </SectionWithRegen>
+              <div className="animate-fade-in-up">
+                <SectionWithRegen
+                  label="Problem Statement"
+                  section="problem_statement"
+                  onRegenerate={handleRegenerate}
+                  isRegenerating={!!regenerating.problem_statement}
+                >
+                  <p className="text-sm text-white/65 leading-relaxed">
+                    {brief.problem_statement}
+                  </p>
+                </SectionWithRegen>
+              </div>
             )}
 
             {/* Section 2 */}
             {visibleSections >= 2 && (
-              <SectionWithRegen
-                label="Proposed Solution"
-                section="proposed_solution"
-                onRegenerate={handleRegenerate}
-                isRegenerating={!!regenerating.proposed_solution}
-              >
-                <p className="text-sm text-white/65 leading-relaxed">
-                  {brief.proposed_solution}
-                </p>
-              </SectionWithRegen>
+              <div className="animate-fade-in-up">
+                <SectionWithRegen
+                  label="Proposed Solution"
+                  section="proposed_solution"
+                  onRegenerate={handleRegenerate}
+                  isRegenerating={!!regenerating.proposed_solution}
+                >
+                  <p className="text-sm text-white/65 leading-relaxed">
+                    {brief.proposed_solution}
+                  </p>
+                </SectionWithRegen>
+              </div>
             )}
 
             {/* Section 3 */}
             {visibleSections >= 3 && (
-              <SectionWithRegen
-                label="User Stories"
-                section="user_stories"
-                onRegenerate={handleRegenerate}
-                isRegenerating={!!regenerating.user_stories}
-              >
-                <div className="space-y-2">
-                  {brief.user_stories.map((story, i) => (
-                    <div
-                      key={i}
-                      className="bg-[#0a0a12] border border-white/[0.06] rounded-lg px-4 py-3"
-                    >
-                      <p className="text-xs text-white/55 leading-relaxed">
-                        <span className="text-white/25">As a </span>
-                        <span className="text-white/70 font-medium">{story.role}</span>
-                        <span className="text-white/25">, I want </span>
-                        <span className="text-white/70">{story.action}</span>
-                        <span className="text-white/25"> so that </span>
-                        <span className="text-white/70">{story.outcome}</span>
-                        <span className="text-white/25">.</span>
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </SectionWithRegen>
+              <div className="animate-fade-in-up">
+                <SectionWithRegen
+                  label="User Stories"
+                  section="user_stories"
+                  onRegenerate={handleRegenerate}
+                  isRegenerating={!!regenerating.user_stories}
+                >
+                  <div className="space-y-2">
+                    {brief.user_stories.map((story, i) => (
+                      <div
+                        key={i}
+                        className="bg-[#0a0a12] border border-white/[0.06] rounded-lg px-4 py-3"
+                      >
+                        <p className="text-xs text-white/55 leading-relaxed">
+                          <span className="text-white/25">As a </span>
+                          <span className="text-white/70 font-medium">{story.role}</span>
+                          <span className="text-white/25">, I want </span>
+                          <span className="text-white/70">{story.action}</span>
+                          <span className="text-white/25"> so that </span>
+                          <span className="text-white/70">{story.outcome}</span>
+                          <span className="text-white/25">.</span>
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </SectionWithRegen>
+              </div>
             )}
 
             {/* Section 4 */}
             {visibleSections >= 4 && (
-              <SectionWithRegen
-                label="Success Metrics"
-                section="success_metrics"
-                onRegenerate={handleRegenerate}
-                isRegenerating={!!regenerating.success_metrics}
-              >
-                <ul className="space-y-2">
-                  {brief.success_metrics.map((metric, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <ChevronRight size={12} className="text-white/20 shrink-0 mt-0.5" />
-                      <span className="text-xs text-white/55 leading-relaxed">{metric}</span>
-                    </li>
-                  ))}
-                </ul>
-              </SectionWithRegen>
+              <div className="animate-fade-in-up">
+                <SectionWithRegen
+                  label="Success Metrics"
+                  section="success_metrics"
+                  onRegenerate={handleRegenerate}
+                  isRegenerating={!!regenerating.success_metrics}
+                >
+                  <ul className="space-y-2">
+                    {brief.success_metrics.map((metric, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <ChevronRight size={12} className="text-white/20 shrink-0 mt-0.5" />
+                        <span className="text-xs text-white/55 leading-relaxed">{metric}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </SectionWithRegen>
+              </div>
             )}
 
             {/* Section 5 */}
             {visibleSections >= 5 && (
-              <SectionWithRegen
-                label="Out of Scope"
-                section="out_of_scope"
-                onRegenerate={handleRegenerate}
-                isRegenerating={!!regenerating.out_of_scope}
-              >
-                <ul className="space-y-2">
-                  {brief.out_of_scope.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2">
-                      <span className="text-white/15 shrink-0 mt-0.5 text-xs leading-relaxed">—</span>
-                      <span className="text-xs text-white/35 leading-relaxed">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </SectionWithRegen>
+              <div className="animate-fade-in-up">
+                <SectionWithRegen
+                  label="Out of Scope"
+                  section="out_of_scope"
+                  onRegenerate={handleRegenerate}
+                  isRegenerating={!!regenerating.out_of_scope}
+                >
+                  <ul className="space-y-2">
+                    {brief.out_of_scope.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2">
+                        <span className="text-white/15 shrink-0 mt-0.5 text-xs leading-relaxed">—</span>
+                        <span className="text-xs text-white/35 leading-relaxed">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </SectionWithRegen>
+              </div>
             )}
 
             {/* Section 6 — UI Direction */}
             {visibleSections >= 6 && (
-              <SectionWithRegen
-                label="UI Direction"
-                section="ui_direction"
-                onRegenerate={handleRegenerate}
-                isRegenerating={!!regenerating.ui_direction}
-              >
-                {brief.ui_direction ? (
-                  <UIDirectionSection
-                    direction={brief.ui_direction}
-                    evidence={queryResult?.evidence}
-                  />
-                ) : (
-                  <p className="text-xs text-white/25 italic">Not available — generated before v2</p>
-                )}
-              </SectionWithRegen>
+              <div className="animate-fade-in-up">
+                <SectionWithRegen
+                  label="UI Direction"
+                  section="ui_direction"
+                  onRegenerate={handleRegenerate}
+                  isRegenerating={!!regenerating.ui_direction}
+                >
+                  {brief.ui_direction ? (
+                    <UIDirectionSection
+                      direction={brief.ui_direction}
+                      evidence={queryResult?.evidence}
+                    />
+                  ) : (
+                    <p className="text-xs text-white/25 italic">Not available — generated before v2</p>
+                  )}
+                </SectionWithRegen>
+              </div>
             )}
 
             {/* Section 7 — Data Model Hints */}
             {visibleSections >= 7 && (
-              <SectionWithRegen
-                label="Data Model Hints"
-                section="data_model_hints"
-                onRegenerate={handleRegenerate}
-                isRegenerating={!!regenerating.data_model_hints}
-              >
-                {brief.data_model_hints && brief.data_model_hints.length > 0 ? (
-                  <DataModelSection hints={brief.data_model_hints} />
-                ) : (
-                  <p className="text-xs text-white/25 italic">Not available — generated before v2</p>
-                )}
-              </SectionWithRegen>
+              <div className="animate-fade-in-up">
+                <SectionWithRegen
+                  label="Data Model Hints"
+                  section="data_model_hints"
+                  onRegenerate={handleRegenerate}
+                  isRegenerating={!!regenerating.data_model_hints}
+                >
+                  {brief.data_model_hints && brief.data_model_hints.length > 0 ? (
+                    <DataModelSection hints={brief.data_model_hints} />
+                  ) : (
+                    <p className="text-xs text-white/25 italic">Not available — generated before v2</p>
+                  )}
+                </SectionWithRegen>
+              </div>
             )}
 
             {saveState === 'error' && (

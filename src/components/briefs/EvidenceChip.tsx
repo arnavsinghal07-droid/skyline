@@ -70,10 +70,10 @@ export function EvidenceChip({
         <span className={CONFIDENCE_COLORS[confidence]}>{confidence}</span>
       </span>
       {hasPopover && (
-        <span className="absolute top-full left-0 mt-1 z-10 bg-[#0d0d15] border border-white/[0.1] rounded-lg p-3 w-64 shadow-xl hidden group-hover:block">
+        <span className="absolute bottom-full left-0 mb-1.5 z-50 bg-[#0d0d15] border border-white/[0.1] rounded-lg p-3 w-64 max-h-32 overflow-y-auto shadow-xl hidden group-hover:block">
           {evidence.slice(0, 2).map((item, i) => (
             <p key={i} className="text-[10px] text-white/50 italic leading-relaxed mb-1 last:mb-0">
-              &ldquo;{item.quote.length > 80 ? item.quote.slice(0, 80) + '…' : item.quote}&rdquo; &mdash; {item.customer_name}
+              &ldquo;{item.quote.length > 60 ? item.quote.slice(0, 60) + '…' : item.quote}&rdquo; &mdash; {item.customer_name}
             </p>
           ))}
         </span>
