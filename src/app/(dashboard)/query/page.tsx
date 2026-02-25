@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   ArrowRight,
   Loader2,
@@ -12,9 +12,12 @@ import {
   CheckCircle,
   Save,
   ChevronRight,
+  RefreshCw,
 } from 'lucide-react'
 import type { SSEEvent, QueryResult } from '@/app/api/query/route'
 import type { BriefContent } from '@/app/api/briefs/generate/route'
+import { UIDirectionSection } from '@/components/briefs/UIDirectionSection'
+import { DataModelSection } from '@/components/briefs/DataModelSection'
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -33,6 +36,8 @@ const CONFIDENCE_STYLES: Record<
   MEDIUM: { badge: 'text-amber-400  bg-amber-400/[0.08]  border border-amber-400/20',  dot: 'bg-amber-400',  label: 'Medium confidence' },
   LOW:    { badge: 'text-red-400    bg-red-400/[0.08]    border border-red-400/20',    dot: 'bg-red-400',    label: 'Low confidence' },
 }
+
+const TOTAL_SECTIONS = 7
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -114,10 +119,32 @@ function PulsingDot() {
   )
 }
 
-function BriefSection({ label, children }: { label: string; children: React.ReactNode }) {
+function SectionWithRegen({
+  label,
+  section,
+  onRegenerate,
+  isRegenerating,
+  children,
+}: {
+  label: string
+  section: keyof BriefContent
+  onRegenerate: (s: keyof BriefContent) => void
+  isRegenerating: boolean
+  children: React.ReactNode
+}) {
   return (
     <div>
-      <p className="text-[10px] text-white/25 uppercase tracking-widest mb-2.5">{label}</p>
+      <div className="flex items-center justify-between mb-2.5">
+        <p className="text-[10px] text-white/25 uppercase tracking-widest">{label}</p>
+        <button
+          onClick={() => onRegenerate(section)}
+          disabled={isRegenerating}
+          className="text-white/15 hover:text-white/40 transition-colors disabled:cursor-not-allowed"
+          title={`Regenerate ${label}`}
+        >
+          <RefreshCw size={11} className={isRegenerating ? 'animate-spin' : ''} />
+        </button>
+      </div>
       {children}
     </div>
   )
@@ -133,6 +160,9 @@ function BriefPanel({
   saveState,
   canSave,
   onSave,
+  queryResult,
+  activeQuery,
+  onBriefUpdate,
 }: {
   phase: BriefPhase
   brief: BriefContent | null
@@ -140,7 +170,52 @@ function BriefPanel({
   saveState: SaveState
   canSave: boolean
   onSave: () => void
+  queryResult: QueryResult | null
+  activeQuery: string
+  onBriefUpdate: (updater: (prev: BriefContent | null) => BriefContent | null) => void
 }) {
+  const [visibleSections, setVisibleSections] = useState(0)
+  const [regenerating, setRegenerating] = useState<Record<string, boolean>>({})
+
+  // Stagger reveal when phase transitions to 'done'
+  useEffect(() => {
+    if (phase === 'done' && brief) {
+      setVisibleSections(0)
+      let current = 0
+      const interval = setInterval(() => {
+        current++
+        setVisibleSections(current)
+        if (current >= TOTAL_SECTIONS) clearInterval(interval)
+      }, 100)
+      return () => clearInterval(interval)
+    }
+  }, [phase, brief])
+
+  async function handleRegenerate(section: keyof BriefContent) {
+    if (!brief || !queryResult || !activeQuery) return
+    setRegenerating(prev => ({ ...prev, [section]: true }))
+    try {
+      const res = await fetch('/api/briefs/regenerate-section', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          section,
+          queryResult,
+          query: activeQuery,
+          existingBrief: brief,
+        }),
+      })
+      if (!res.ok) throw new Error('Failed')
+      const { data } = await res.json()
+      // endpoint returns { section, data: value }
+      onBriefUpdate(prev => prev ? { ...prev, [section]: data } : prev)
+    } catch {
+      // Silently fail — user can retry
+    } finally {
+      setRegenerating(prev => ({ ...prev, [section]: false }))
+    }
+  }
+
   return (
     <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl flex flex-col overflow-hidden">
       {/* Panel header */}
@@ -180,10 +255,15 @@ function BriefPanel({
 
       {/* Panel body */}
       <div className="flex-1 overflow-y-auto p-5 space-y-6 max-h-[calc(100vh-200px)]">
+        {/* Loading skeleton — 7 pulse rows */}
         {phase === 'generating' && (
-          <div className="py-12 flex flex-col items-center">
-            <Loader2 size={20} className="animate-spin text-white/20 mb-4" />
-            <p className="text-sm text-white/30">Generating brief…</p>
+          <div className="space-y-6">
+            {Array.from({ length: 7 }).map((_, i) => (
+              <div key={i} className="space-y-2">
+                <div className="h-2.5 w-24 bg-white/[0.06] rounded animate-pulse" />
+                <div className="h-12 bg-white/[0.04] rounded-lg animate-pulse" />
+              </div>
+            ))}
           </div>
         )}
 
@@ -196,60 +276,135 @@ function BriefPanel({
 
         {phase === 'done' && brief && (
           <>
-            <BriefSection label="Problem Statement">
-              <p className="text-sm text-white/65 leading-relaxed">
-                {brief.problem_statement}
-              </p>
-            </BriefSection>
+            {/* Section 1 */}
+            {visibleSections >= 1 && (
+              <SectionWithRegen
+                label="Problem Statement"
+                section="problem_statement"
+                onRegenerate={handleRegenerate}
+                isRegenerating={!!regenerating.problem_statement}
+              >
+                <p className="text-sm text-white/65 leading-relaxed">
+                  {brief.problem_statement}
+                </p>
+              </SectionWithRegen>
+            )}
 
-            <BriefSection label="Proposed Solution">
-              <p className="text-sm text-white/65 leading-relaxed">
-                {brief.proposed_solution}
-              </p>
-            </BriefSection>
+            {/* Section 2 */}
+            {visibleSections >= 2 && (
+              <SectionWithRegen
+                label="Proposed Solution"
+                section="proposed_solution"
+                onRegenerate={handleRegenerate}
+                isRegenerating={!!regenerating.proposed_solution}
+              >
+                <p className="text-sm text-white/65 leading-relaxed">
+                  {brief.proposed_solution}
+                </p>
+              </SectionWithRegen>
+            )}
 
-            <BriefSection label="User Stories">
-              <div className="space-y-2">
-                {brief.user_stories.map((story, i) => (
-                  <div
-                    key={i}
-                    className="bg-[#0a0a12] border border-white/[0.06] rounded-lg px-4 py-3"
-                  >
-                    <p className="text-xs text-white/55 leading-relaxed">
-                      <span className="text-white/25">As a </span>
-                      <span className="text-white/70 font-medium">{story.role}</span>
-                      <span className="text-white/25">, I want </span>
-                      <span className="text-white/70">{story.action}</span>
-                      <span className="text-white/25"> so that </span>
-                      <span className="text-white/70">{story.outcome}</span>
-                      <span className="text-white/25">.</span>
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </BriefSection>
+            {/* Section 3 */}
+            {visibleSections >= 3 && (
+              <SectionWithRegen
+                label="User Stories"
+                section="user_stories"
+                onRegenerate={handleRegenerate}
+                isRegenerating={!!regenerating.user_stories}
+              >
+                <div className="space-y-2">
+                  {brief.user_stories.map((story, i) => (
+                    <div
+                      key={i}
+                      className="bg-[#0a0a12] border border-white/[0.06] rounded-lg px-4 py-3"
+                    >
+                      <p className="text-xs text-white/55 leading-relaxed">
+                        <span className="text-white/25">As a </span>
+                        <span className="text-white/70 font-medium">{story.role}</span>
+                        <span className="text-white/25">, I want </span>
+                        <span className="text-white/70">{story.action}</span>
+                        <span className="text-white/25"> so that </span>
+                        <span className="text-white/70">{story.outcome}</span>
+                        <span className="text-white/25">.</span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </SectionWithRegen>
+            )}
 
-            <BriefSection label="Success Metrics">
-              <ul className="space-y-2">
-                {brief.success_metrics.map((metric, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <ChevronRight size={12} className="text-white/20 shrink-0 mt-0.5" />
-                    <span className="text-xs text-white/55 leading-relaxed">{metric}</span>
-                  </li>
-                ))}
-              </ul>
-            </BriefSection>
+            {/* Section 4 */}
+            {visibleSections >= 4 && (
+              <SectionWithRegen
+                label="Success Metrics"
+                section="success_metrics"
+                onRegenerate={handleRegenerate}
+                isRegenerating={!!regenerating.success_metrics}
+              >
+                <ul className="space-y-2">
+                  {brief.success_metrics.map((metric, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <ChevronRight size={12} className="text-white/20 shrink-0 mt-0.5" />
+                      <span className="text-xs text-white/55 leading-relaxed">{metric}</span>
+                    </li>
+                  ))}
+                </ul>
+              </SectionWithRegen>
+            )}
 
-            <BriefSection label="Out of Scope">
-              <ul className="space-y-2">
-                {brief.out_of_scope.map((item, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <span className="text-white/15 shrink-0 mt-0.5 text-xs leading-relaxed">—</span>
-                    <span className="text-xs text-white/35 leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </BriefSection>
+            {/* Section 5 */}
+            {visibleSections >= 5 && (
+              <SectionWithRegen
+                label="Out of Scope"
+                section="out_of_scope"
+                onRegenerate={handleRegenerate}
+                isRegenerating={!!regenerating.out_of_scope}
+              >
+                <ul className="space-y-2">
+                  {brief.out_of_scope.map((item, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <span className="text-white/15 shrink-0 mt-0.5 text-xs leading-relaxed">—</span>
+                      <span className="text-xs text-white/35 leading-relaxed">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </SectionWithRegen>
+            )}
+
+            {/* Section 6 — UI Direction */}
+            {visibleSections >= 6 && (
+              <SectionWithRegen
+                label="UI Direction"
+                section="ui_direction"
+                onRegenerate={handleRegenerate}
+                isRegenerating={!!regenerating.ui_direction}
+              >
+                {brief.ui_direction ? (
+                  <UIDirectionSection
+                    direction={brief.ui_direction}
+                    evidence={queryResult?.evidence}
+                  />
+                ) : (
+                  <p className="text-xs text-white/25 italic">Not available — generated before v2</p>
+                )}
+              </SectionWithRegen>
+            )}
+
+            {/* Section 7 — Data Model Hints */}
+            {visibleSections >= 7 && (
+              <SectionWithRegen
+                label="Data Model Hints"
+                section="data_model_hints"
+                onRegenerate={handleRegenerate}
+                isRegenerating={!!regenerating.data_model_hints}
+              >
+                {brief.data_model_hints && brief.data_model_hints.length > 0 ? (
+                  <DataModelSection hints={brief.data_model_hints} />
+                ) : (
+                  <p className="text-xs text-white/25 italic">Not available — generated before v2</p>
+                )}
+              </SectionWithRegen>
+            )}
 
             {saveState === 'error' && (
               <p className="text-xs text-red-400/60">Failed to save. Please try again.</p>
@@ -364,7 +519,15 @@ export default function QueryPage() {
         body: JSON.stringify({ queryResult: result, query: activeQuery }),
       })
       const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? 'Failed to generate brief')
+      if (!res.ok) {
+        if (data.error_code === 'TOKEN_LIMIT') {
+          setBriefError('Brief was too long and got truncated. Try a more specific query or regenerate individual sections.')
+        } else {
+          setBriefError(data.error ?? 'Failed to generate brief')
+        }
+        setBriefPhase('error')
+        return
+      }
       setBrief(data.brief)
       setBriefPhase('done')
     } catch (err) {
@@ -591,6 +754,9 @@ export default function QueryPage() {
                 saveState={saveState}
                 canSave={!!queryId}
                 onSave={handleSaveBrief}
+                queryResult={result}
+                activeQuery={activeQuery}
+                onBriefUpdate={setBrief}
               />
             </div>
           )}

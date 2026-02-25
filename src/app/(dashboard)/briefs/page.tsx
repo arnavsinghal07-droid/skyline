@@ -11,6 +11,8 @@ import {
   Inbox,
 } from 'lucide-react'
 import type { BriefContent } from '@/app/api/briefs/generate/route'
+import { UIDirectionSection } from '@/components/briefs/UIDirectionSection'
+import { DataModelSection } from '@/components/briefs/DataModelSection'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -190,6 +192,28 @@ function BriefDetail({
             ))}
           </ul>
         </DetailSection>
+
+        {/* UI Direction — v2 section with v1 backward compatibility guard */}
+        {c.ui_direction ? (
+          <DetailSection label="UI Direction">
+            <UIDirectionSection direction={c.ui_direction} />
+          </DetailSection>
+        ) : (
+          <DetailSection label="UI Direction">
+            <p className="text-xs text-white/25 italic">Not available — generated before v2</p>
+          </DetailSection>
+        )}
+
+        {/* Data Model Hints — v2 section with v1 backward compatibility guard */}
+        {c.data_model_hints && c.data_model_hints.length > 0 ? (
+          <DetailSection label="Data Model Hints">
+            <DataModelSection hints={c.data_model_hints} />
+          </DetailSection>
+        ) : (
+          <DetailSection label="Data Model Hints">
+            <p className="text-xs text-white/25 italic">Not available — generated before v2</p>
+          </DetailSection>
+        )}
       </div>
 
       {/* Log Decision button */}
