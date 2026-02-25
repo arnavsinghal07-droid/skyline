@@ -760,7 +760,7 @@ export default function QueryPage() {
 
           {/* Right column: brief panel */}
           {showBriefPanel && (
-            <div className="w-[440px] shrink-0 sticky top-8">
+            <div className="w-[540px] shrink-0 sticky top-8">
               <BriefPanel
                 phase={briefPhase as BriefPhase}
                 brief={brief}
