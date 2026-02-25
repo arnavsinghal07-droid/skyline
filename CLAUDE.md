@@ -281,13 +281,12 @@ Every failure is a chance to make Sightline stronger:
 
 | Module | Status | Notes |
 |---|---|---|
-| Monorepo scaffold        | ✅ Done | Next.js 15, Tailwind, Supabase SSR |
+|Monorepo scaffold        | ✅ Done | Next.js 15, Tailwind, Supabase SSR |
 | Prisma schema + Supabase | ✅ Done | 9 tables, RLS enabled |
 | Auth (Supabase)          | ✅ Done | Magic link working |
-| Ingestion pipeline (CSV) | ✅ Done | 20 signals imported and saved | |
-| Qdrant setup + schema | 🔲 Not started | |
-| Discovery query interface | 🔲 Not started | |
-| Feature brief generator | 🔲 Not started | |
+| Ingestion pipeline (CSV) | ✅ Done | CSV upload, 20 signals saved |
+| Discovery query interface| ✅ Done | Streaming, evidence panel, confidence score |
+| Feature brief generator  | ✅ Done | Generates and saves to DB ||
 | Competitive intelligence module | 🔲 Not started | |
 | Interview guide generator | 🔲 Not started | |
 | Decision log | 🔲 Not started | |
