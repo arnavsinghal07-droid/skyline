@@ -262,13 +262,15 @@ export default function BriefsPage() {
 
     setDecisionStates(s => ({ ...s, [brief.id]: 'logging' }))
 
-    const title = brief.content_json.problem_statement.slice(0, 200)
+    const recommendation = brief.queries?.response_json?.recommendation
+    const title = (recommendation ?? brief.content_json.problem_statement).slice(0, 200)
+    const confidence = getConfidence(brief)
 
     try {
       const res = await fetch('/api/decisions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ briefId: brief.id, title }),
+        body: JSON.stringify({ briefId: brief.id, title, confidence }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed')
