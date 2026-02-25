@@ -73,7 +73,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Brief v2 | 0/2 | Planned | - |
+| 1. Brief v2 | 1/2 | In Progress|  |
 | 2. Coding Agent Export | 0/TBD | Not started | - |
 | 3. Stripe Billing | 0/TBD | Not started | - |
 | 4. Landing Page | 0/TBD | Not started | - |

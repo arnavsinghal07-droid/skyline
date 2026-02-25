@@ -1,3 +1,16 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: unknown
+last_updated: "2026-02-25T20:15:09.682Z"
+progress:
+  total_phases: 1
+  completed_phases: 0
+  total_plans: 2
+  completed_plans: 1
+---
+
 # State: Sightline
 
 ## Project Reference
@@ -10,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 ## Current Position
 
 Phase: 1 of 4 (Brief v2)
-Plan: — of — in current phase
-Status: Ready to plan
-Last activity: 2026-02-25 — Roadmap created, Phase 1 ready to plan
+Plan: 1 of 2 complete in current phase
+Status: In Progress
+Last activity: 2026-02-25 — Plan 01 complete (BriefContent v2 backend)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█░░░░░░░░░] 10%
 
 ## Performance Metrics
 
@@ -34,6 +47,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: —
 
 *Updated after each plan completion*
+| Phase 01-brief-v2 P01 | 2 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -47,6 +61,9 @@ Recent decisions affecting current work:
 - Roadmap: Landing page placed last — copy and screenshots are only credible after the product works end-to-end
 - Research: Structured outputs API vs. prompt-based JSON — decide at Phase 1 start (both viable; structured outputs is more robust)
 - Research: Brief count reset column lives in `organizations` or `profiles` — reconcile at Phase 3 start
+- [Phase 01-brief-v2]: Used optional fields on BriefContent for backward compatibility with existing v1 callers
+- [Phase 01-brief-v2]: Raised max_tokens to 4000 — 1500 caused silent JSON truncation on v2 prompts
+- [Phase 01-brief-v2]: stop_reason check placed before JSON.parse to prevent truncated JSON reaching the parser
 
 ### Pending Todos
 
@@ -57,10 +74,10 @@ None yet.
 - Phase 3 start: Verify `RESEND_API_KEY` and sender domain before Phase 4 begins (waitlist confirmation email blocks on Resend setup)
 - Phase 3: `stripe.redirectToCheckout()` removed Sept 2025 — use `router.push(session.url)` after server-side session creation
 - Phase 3: Webhook handler must use `await request.text()` not `await request.json()` — JSON parsing breaks signature verification
-- Phase 1: `max_tokens` must be raised to 4000 before touching the prompt — current 1500 budget causes silent JSON truncation
+- ~~Phase 1: `max_tokens` must be raised to 4000 before touching the prompt~~ RESOLVED in Plan 01
 
 ## Session Continuity
 
 Last session: 2026-02-25
-Stopped at: Roadmap created — ready to plan Phase 1
+Stopped at: Completed 01-brief-v2-01-PLAN.md (BriefContent v2 backend + regenerate-section endpoint)
 Resume file: None
