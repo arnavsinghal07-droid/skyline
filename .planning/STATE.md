@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-02-25T20:15:09.682Z"
+last_updated: "2026-02-25T21:00:00.000Z"
 progress:
   total_phases: 1
   completed_phases: 0
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # State: Sightline
@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 ## Current Position
 
 Phase: 1 of 4 (Brief v2)
-Plan: 1 of 2 complete in current phase
-Status: In Progress
-Last activity: 2026-02-25 — Plan 01 complete (BriefContent v2 backend)
+Plan: 2 of 2 complete in current phase
+Status: All plans complete — awaiting verification
+Last activity: 2026-02-25 — Plan 02 complete (Brief v2 frontend components + integration)
 
-Progress: [█░░░░░░░░░] 10%
+Progress: [████░░░░░░] 25%
 
 ## Performance Metrics
 
@@ -48,6 +48,7 @@ Progress: [█░░░░░░░░░] 10%
 
 *Updated after each plan completion*
 | Phase 01-brief-v2 P01 | 2 | 2 tasks | 2 files |
+| Phase 01-brief-v2 P02 | 8 | 3 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,9 @@ Recent decisions affecting current work:
 - [Phase 01-brief-v2]: Used optional fields on BriefContent for backward compatibility with existing v1 callers
 - [Phase 01-brief-v2]: Raised max_tokens to 4000 — 1500 caused silent JSON truncation on v2 prompts
 - [Phase 01-brief-v2]: stop_reason check placed before JSON.parse to prevent truncated JSON reaching the parser
+- [Phase 01-brief-v2]: Evidence chip popover opens upward (bottom-full) to avoid scroll container clipping
+- [Phase 01-brief-v2]: Brief panel widened to 540px for DDL readability
+- [Phase 01-brief-v2]: Stagger reveal 200ms + fadeInUp animation for smooth section appearance
 
 ### Pending Todos
 
@@ -79,5 +83,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-25
-Stopped at: Completed 01-brief-v2-01-PLAN.md (BriefContent v2 backend + regenerate-section endpoint)
+Stopped at: Completed 01-brief-v2-02-PLAN.md (Brief v2 frontend — all plans done, awaiting phase verification)
 Resume file: None
