@@ -22,7 +22,7 @@ Generate a complete 7-section coding agent handoff package from any v2 brief, de
 
 ### Package formatting
 - Acceptance Criteria rendered as a testable checklist: `- [ ] User can X and sees Y`
-- Data Model Hints rendered as Prisma schema syntax in fenced code blocks (matches Sightline's ORM)
+- Data Model Hints rendered as SQL DDL in fenced ```sql code blocks (brief generator produces PostgreSQL DDL; Prisma conversion is lossy — SQL is immediately usable by coding agents)
 - Sections separated by H2 headings (`##`) with horizontal rules (`---`) between sections
 - Compact metadata header at the top: brief title, generation date, source query, confidence level
 
@@ -50,7 +50,7 @@ Generate a complete 7-section coding agent handoff package from any v2 brief, de
 ## Specific Ideas
 
 - Export should feel like a natural next step after reviewing a brief — the floating action bar keeps it always visible
-- Prisma schema format for Data Model Hints means coding agents using Sightline's stack can copy-paste directly into schema.prisma
+- SQL DDL format for Data Model Hints means coding agents can copy-paste directly into migration files or use as reference for schema changes
 - The testable checklist format for Acceptance Criteria lets coding agents treat each item as a verification step
 
 </specifics>
