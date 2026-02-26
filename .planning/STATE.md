@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
-last_updated: "2026-02-26T02:47:33.331Z"
+status: in_progress
+last_updated: "2026-02-26T04:18:00Z"
 progress:
-  total_phases: 2
+  total_phases: 4
   completed_phases: 2
-  total_plans: 4
-  completed_plans: 4
+  total_plans: 6
+  completed_plans: 5
 ---
 
 # State: Sightline
@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** Every product recommendation must be traceable to customer evidence — trust is the product.
-**Current focus:** Phase 2 — Coding Agent Export
+**Current focus:** Phase 3 — Stripe Billing
 
 ## Current Position
 
-Phase: 2 of 4 (Coding Agent Export) — COMPLETE
-Plan: 2 of 2 complete in current phase
-Status: Phase 2 fully complete — checkpoint approved, export flow verified end-to-end
-Last activity: 2026-02-26 — Plan 02 complete (ExportPreview + briefs page state machine, user-verified)
+Phase: 3 of 4 (Stripe Billing) — IN PROGRESS
+Plan: 1 of 2 complete in current phase
+Status: Phase 3 Plan 1 complete — billing backend (webhook, checkout, portal, status, plan gate) implemented
+Last activity: 2026-02-26 — Plan 01 complete (Stripe billing backend — 7 files created, plan gate added to brief generation)
 
-Progress: [█████░░░░░] 50%
+Progress: [██████░░░░] 62%
 
 ## Performance Metrics
 
@@ -50,6 +50,7 @@ Progress: [█████░░░░░] 50%
 | Phase 01-brief-v2 P01 | 2 | 2 tasks | 2 files |
 | Phase 01-brief-v2 P02 | 8 | 3 tasks | 6 files |
 | Phase 02-coding-agent-export P01 | 1 | 1 task | 1 file |
+| Phase 03-stripe-billing P01 | 225s | 4 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -75,6 +76,11 @@ Recent decisions affecting current work:
 - [Phase 02-coding-agent-export]: Used custom line-by-line markdown parser in ExportPreview — avoids dangerouslySetInnerHTML and react-markdown dependency
 - [Phase 02-coding-agent-export]: Toast notification via local CopyState enum (not react-hot-toast/sonner) — zero new dependencies
 - [Phase 02-coding-agent-export]: ExportPreview replaces BriefDetail panel (not modal/drawer) — panel replacement per CONTEXT.md decision
+- [Phase 03-stripe-billing P01]: Webhook uses await request.text() as first operation — preserves raw body for Stripe signature verification
+- [Phase 03-stripe-billing P01]: Idempotency via INSERT into stripe_webhook_events BEFORE side effects — duplicate events silently return 200
+- [Phase 03-stripe-billing P01]: Handler errors return 200 (not 500) since event is recorded — Stripe retry would hit idempotency
+- [Phase 03-stripe-billing P01]: Plan gate runs before Claude API call — prevents wasting API credits on over-limit requests
+- [Phase 03-stripe-billing P01]: Usage increment is non-atomic — acceptable at design partner scale, deferred Postgres function for Phase 4
 
 ### Pending Todos
 
@@ -82,13 +88,13 @@ None yet.
 
 ### Blockers/Concerns
 
-- Phase 3 start: Verify `RESEND_API_KEY` and sender domain before Phase 4 begins (waitlist confirmation email blocks on Resend setup)
-- Phase 3: `stripe.redirectToCheckout()` removed Sept 2025 — use `router.push(session.url)` after server-side session creation
-- Phase 3: Webhook handler must use `await request.text()` not `await request.json()` — JSON parsing breaks signature verification
+- Phase 4 start: Verify `RESEND_API_KEY` and sender domain before Phase 4 begins (waitlist confirmation email blocks on Resend setup). Currently using `onboarding@resend.dev` for development.
+- ~~Phase 3: `stripe.redirectToCheckout()` removed Sept 2025~~ RESOLVED in Plan 01 — using hosted checkout session URL
+- ~~Phase 3: Webhook handler must use `await request.text()`~~ RESOLVED in Plan 01 — implemented correctly
 - ~~Phase 1: `max_tokens` must be raised to 4000 before touching the prompt~~ RESOLVED in Plan 01
 
 ## Session Continuity
 
 Last session: 2026-02-26
-Stopped at: Completed 02-coding-agent-export-02-PLAN.md (ExportPreview + state machine — Phase 2 fully complete, checkpoint verified)
+Stopped at: Completed 03-stripe-billing-01-PLAN.md (Stripe billing backend — webhook idempotency, checkout, portal, status, plan gate)
 Resume file: None

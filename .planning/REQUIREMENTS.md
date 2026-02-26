@@ -22,11 +22,11 @@ Requirements for milestone v1.0 — Brief v2 + Ship Ready. Each maps to roadmap 
 
 ### Stripe Billing
 
-- [ ] **BILL-01**: User can subscribe to Starter plan ($79/mo) via Stripe hosted checkout
-- [ ] **BILL-02**: User can subscribe to Pro plan ($299/mo) via Stripe hosted checkout
-- [ ] **BILL-03**: Subscription events are processed via webhook with idempotency (no double-processing)
-- [ ] **BILL-04**: User can manage their subscription (cancel, upgrade, view invoices) via Stripe Customer Portal
-- [ ] **BILL-05**: Brief generation is gated by plan — Starter: 10 briefs/month, Pro: unlimited
+- [x] **BILL-01**: User can subscribe to Starter plan ($79/mo) via Stripe hosted checkout
+- [x] **BILL-02**: User can subscribe to Pro plan ($299/mo) via Stripe hosted checkout
+- [x] **BILL-03**: Subscription events are processed via webhook with idempotency (no double-processing)
+- [x] **BILL-04**: User can manage their subscription (cancel, upgrade, view invoices) via Stripe Customer Portal
+- [x] **BILL-05**: Brief generation is gated by plan — Starter: 10 briefs/month, Pro: unlimited
 - [ ] **BILL-06**: User sees current plan and usage on a billing page
 
 ### Landing Page
@@ -92,11 +92,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EXPORT-01 | Phase 2 | Complete |
 | EXPORT-02 | Phase 2 | Complete |
 | EXPORT-03 | Phase 2 | Complete |
-| BILL-01 | Phase 3 | Pending |
-| BILL-02 | Phase 3 | Pending |
-| BILL-03 | Phase 3 | Pending |
-| BILL-04 | Phase 3 | Pending |
-| BILL-05 | Phase 3 | Pending |
+| BILL-01 | Phase 3 | Complete |
+| BILL-02 | Phase 3 | Complete |
+| BILL-03 | Phase 3 | Complete |
+| BILL-04 | Phase 3 | Complete |
+| BILL-05 | Phase 3 | Complete |
 | BILL-06 | Phase 3 | Pending |
 | LAND-01 | Phase 4 | Pending |
 | LAND-02 | Phase 4 | Pending |
