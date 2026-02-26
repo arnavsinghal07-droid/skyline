@@ -18,6 +18,7 @@ import type { SSEEvent, QueryResult } from '@/app/api/query/route'
 import type { BriefContent } from '@/app/api/briefs/generate/route'
 import { UIDirectionSection } from '@/components/briefs/UIDirectionSection'
 import { DataModelSection } from '@/components/briefs/DataModelSection'
+import { UpgradeGate } from '@/components/billing/UpgradeGate'
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -449,7 +450,33 @@ export default function QueryPage() {
   const [briefError, setBriefError] = useState('')
   const [saveState, setSaveState] = useState<SaveState>('idle')
 
+  // ── Billing state ──────────────────────────────────────────────────────
+  const [billingPlan, setBillingPlan] = useState<string>('free')
+  const [briefsUsed, setBriefsUsed] = useState(0)
+  const [briefsLimit, setBriefsLimit] = useState<number | null>(0)
+  const [limitReached, setLimitReached] = useState(false)
+
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // ── Billing status fetch ────────────────────────────────────────────────────
+  useEffect(() => {
+    fetch('/api/billing/status')
+      .then(r => r.json())
+      .then(data => {
+        setBillingPlan(data.plan ?? 'free')
+        setBriefsUsed(data.briefsUsed ?? 0)
+        const limits: Record<string, number | null> = { free: 0, starter: 10, pro: null }
+        setBriefsLimit(limits[data.plan] ?? 0)
+
+        const limit = limits[data.plan] ?? 0
+        if (limit !== null && (data.briefsUsed ?? 0) >= limit) {
+          setLimitReached(true)
+        }
+      })
+      .catch(() => {
+        // Silent failure — billing status is not blocking for query
+      })
+  }, [])
 
   // ── Submit ─────────────────────────────────────────────────────────────────
   async function handleSubmit() {
@@ -534,6 +561,14 @@ export default function QueryPage() {
       })
       const data = await res.json()
       if (!res.ok) {
+        if (data.error === 'limit_reached') {
+          setBillingPlan(data.plan)
+          setBriefsUsed(data.used)
+          setBriefsLimit(data.limit)
+          setLimitReached(true)
+          setBriefPhase('idle')
+          return
+        }
         if (data.error_code === 'TOKEN_LIMIT') {
           setBriefError('Brief was too long and got truncated. Try a more specific query or regenerate individual sections.')
         } else {
@@ -544,6 +579,14 @@ export default function QueryPage() {
       }
       setBrief(data.brief)
       setBriefPhase('done')
+      // Update local brief count after successful generation
+      setBriefsUsed(prev => {
+        const newUsed = prev + 1
+        if (briefsLimit !== null && newUsed >= briefsLimit) {
+          setLimitReached(true)
+        }
+        return newUsed
+      })
     } catch (err) {
       setBriefError(err instanceof Error ? err.message : 'Failed to generate brief')
       setBriefPhase('error')
@@ -744,16 +787,37 @@ export default function QueryPage() {
               </div>
             )}
 
-            {/* Generate Brief button — only shown before brief is triggered */}
+            {/* Generate Brief button / Upgrade gate — only shown before brief is triggered */}
             {briefPhase === 'idle' && (
               <div className="pt-1">
-                <button
-                  onClick={handleGenerateBrief}
-                  className="flex items-center gap-2 bg-white/[0.04] border border-white/[0.08] text-white/50 hover:text-white/80 hover:bg-white/[0.08] hover:border-white/[0.15] rounded-xl px-5 py-3 text-sm font-medium transition-all"
-                >
-                  <FileText size={14} />
-                  Generate Feature Brief
-                </button>
+                {limitReached ? (
+                  <UpgradeGate
+                    plan={billingPlan}
+                    used={briefsUsed}
+                    limit={briefsLimit}
+                  />
+                ) : (
+                  <div className="space-y-2">
+                    <button
+                      onClick={handleGenerateBrief}
+                      className="flex items-center gap-2 bg-white/[0.04] border border-white/[0.08] text-white/50 hover:text-white/80 hover:bg-white/[0.08] hover:border-white/[0.15] rounded-xl px-5 py-3 text-sm font-medium transition-all"
+                    >
+                      <FileText size={14} />
+                      Generate Feature Brief
+                    </button>
+                    {/* Always-visible brief count */}
+                    {briefsLimit !== null && (
+                      <p className="text-[10px] text-white/25 px-1">
+                        {Math.max((briefsLimit ?? 0) - briefsUsed, 0)}/{briefsLimit} briefs remaining
+                      </p>
+                    )}
+                    {billingPlan === 'pro' && (
+                      <p className="text-[10px] text-white/25 px-1">
+                        Unlimited briefs — Pro plan
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
             )}
           </div>

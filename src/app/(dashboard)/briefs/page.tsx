@@ -306,6 +306,11 @@ export default function BriefsPage() {
   const [exportTitle, setExportTitle] = useState('')
   const [exportError, setExportError] = useState('')
 
+  // ── Billing state ──────────────────────────────────────────────────────
+  const [billingPlan, setBillingPlan] = useState<string>('free')
+  const [briefsUsed, setBriefsUsed] = useState(0)
+  const [briefsLimit, setBriefsLimit] = useState<number | null>(0)
+
   // ── Brief selection (resets export state) ────────────────────────────────
   function handleSelectBrief(id: string) {
     setSelectedId(id)
@@ -326,6 +331,19 @@ export default function BriefsPage() {
       })
       .catch(err => setFetchError(err.message))
       .finally(() => setLoading(false))
+  }, [])
+
+  // ── Fetch billing status ──────────────────────────────────────────────────
+  useEffect(() => {
+    fetch('/api/billing/status')
+      .then(r => r.json())
+      .then(data => {
+        setBillingPlan(data.plan ?? 'free')
+        setBriefsUsed(data.briefsUsed ?? 0)
+        const limits: Record<string, number | null> = { free: 0, starter: 10, pro: null }
+        setBriefsLimit(limits[data.plan] ?? 0)
+      })
+      .catch(() => {})
   }, [])
 
   const selectedBrief = briefs.find(b => b.id === selectedId) ?? null
@@ -403,9 +421,17 @@ export default function BriefsPage() {
       >
         Feature Briefs
       </h1>
-      <p className="text-sm text-white/35 mb-8">
+      <p className="text-sm text-white/35 mb-2">
         Saved briefs generated from your customer signal analysis
       </p>
+      {/* Brief count indicator */}
+      {billingPlan !== 'free' && (
+        <p className="text-[10px] text-white/25 mb-6">
+          {briefsLimit === null
+            ? `${briefsUsed} briefs generated — Unlimited (Pro)`
+            : `${briefsUsed}/${briefsLimit} briefs used this month`}
+        </p>
+      )}
       <div className="border-b border-white/[0.06] mb-8" />
 
       {/* ── Error ─────────────────────────────────────────────────────────── */}
