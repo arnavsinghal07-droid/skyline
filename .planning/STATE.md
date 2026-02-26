@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-last_updated: "2026-02-26T04:18:00Z"
+last_updated: "2026-02-26T04:27:22Z"
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 6
-  completed_plans: 5
+  completed_plans: 6
 ---
 
 # State: Sightline
@@ -22,12 +22,12 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 ## Current Position
 
-Phase: 3 of 4 (Stripe Billing) — IN PROGRESS
-Plan: 1 of 2 complete in current phase
-Status: Phase 3 Plan 1 complete — billing backend (webhook, checkout, portal, status, plan gate) implemented
-Last activity: 2026-02-26 — Plan 01 complete (Stripe billing backend — 7 files created, plan gate added to brief generation)
+Phase: 3 of 4 (Stripe Billing) — AWAITING HUMAN VERIFICATION
+Plan: 2 of 2 complete (code tasks done, human-verify checkpoint pending)
+Status: Phase 3 Plan 2 complete (code) — billing frontend built, awaiting end-to-end Stripe verification
+Last activity: 2026-02-26 — Plan 02 complete (billing UI — settings layout, billing page, PlanCard/UsageBar/UpgradeGate, query+briefs integration)
 
-Progress: [██████░░░░] 62%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
@@ -51,6 +51,7 @@ Progress: [██████░░░░] 62%
 | Phase 01-brief-v2 P02 | 8 | 3 tasks | 6 files |
 | Phase 02-coding-agent-export P01 | 1 | 1 task | 1 file |
 | Phase 03-stripe-billing P01 | 225s | 4 tasks | 8 files |
+| Phase 03-stripe-billing P02 | 309s | 3 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -81,6 +82,10 @@ Recent decisions affecting current work:
 - [Phase 03-stripe-billing P01]: Handler errors return 200 (not 500) since event is recorded — Stripe retry would hit idempotency
 - [Phase 03-stripe-billing P01]: Plan gate runs before Claude API call — prevents wasting API credits on over-limit requests
 - [Phase 03-stripe-billing P01]: Usage increment is non-atomic — acceptable at design partner scale, deferred Postgres function for Phase 4
+- [Phase 03-stripe-billing P02]: UpgradeGate is inline replacement (not modal/drawer) — plan gate replaces Generate Brief button in-place
+- [Phase 03-stripe-billing P02]: Brief counter increments locally after successful generation — avoids redundant /api/billing/status call
+- [Phase 03-stripe-billing P02]: Polling stops after 10s regardless — banner stays visible even if webhook hasn't fired yet
+- [Phase 03-stripe-billing P02]: URL params cleaned 500ms after reading (?success=true&plan=) to avoid stale state on refresh
 
 ### Pending Todos
 
@@ -96,5 +101,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-26
-Stopped at: Completed 03-stripe-billing-01-PLAN.md (Stripe billing backend — webhook idempotency, checkout, portal, status, plan gate)
+Stopped at: Completed 03-02-PLAN.md code tasks — awaiting checkpoint:human-verify (Task 4) for end-to-end Stripe billing verification
 Resume file: None

@@ -27,7 +27,7 @@ Requirements for milestone v1.0 — Brief v2 + Ship Ready. Each maps to roadmap 
 - [x] **BILL-03**: Subscription events are processed via webhook with idempotency (no double-processing)
 - [x] **BILL-04**: User can manage their subscription (cancel, upgrade, view invoices) via Stripe Customer Portal
 - [x] **BILL-05**: Brief generation is gated by plan — Starter: 10 briefs/month, Pro: unlimited
-- [ ] **BILL-06**: User sees current plan and usage on a billing page
+- [x] **BILL-06**: User sees current plan and usage on a billing page
 
 ### Landing Page
 
@@ -97,7 +97,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BILL-03 | Phase 3 | Complete |
 | BILL-04 | Phase 3 | Complete |
 | BILL-05 | Phase 3 | Complete |
-| BILL-06 | Phase 3 | Pending |
+| BILL-06 | Phase 3 | Complete |
 | LAND-01 | Phase 4 | Pending |
 | LAND-02 | Phase 4 | Pending |
 | LAND-03 | Phase 4 | Pending |
