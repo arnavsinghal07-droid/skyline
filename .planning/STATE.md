@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: in_progress
-last_updated: "2026-02-26T00:36:51Z"
+status: unknown
+last_updated: "2026-02-26T00:43:07.884Z"
 progress:
-  total_phases: 4
-  completed_phases: 1
-  total_plans: 6
-  completed_plans: 3
+  total_phases: 2
+  completed_phases: 2
+  total_plans: 4
+  completed_plans: 4
 ---
 
 # State: Sightline
@@ -72,6 +72,9 @@ Recent decisions affecting current work:
 - [Phase 02-coding-agent-export P01]: Used Option A (inline content) for export — client sends BriefContent directly, avoids redundant DB fetch
 - [Phase 02-coding-agent-export P01]: SQL DDL rendered as ```sql fenced blocks — Prisma conversion is lossy, DDL immediately usable by coding agents
 - [Phase 02-coding-agent-export P01]: Graceful fallback maps out_of_scope to edge_cases and uses generic file paths if Haiku enrichment fails
+- [Phase 02-coding-agent-export]: Used custom line-by-line markdown parser in ExportPreview — avoids dangerouslySetInnerHTML and react-markdown dependency
+- [Phase 02-coding-agent-export]: Toast notification via local CopyState enum (not react-hot-toast/sonner) — zero new dependencies
+- [Phase 02-coding-agent-export]: ExportPreview replaces BriefDetail panel (not modal/drawer) — panel replacement per CONTEXT.md decision
 
 ### Pending Todos
 

@@ -13,7 +13,7 @@ This milestone closes the gap between "product discovery" and "coding agent hand
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Brief v2** - Upgrade brief generator with evidence-grounded UI Direction and Data Model Hints sections
-- [ ] **Phase 2: Coding Agent Export** - Generate and deliver the 7-section agent handoff package from any v2 brief
+- [x] **Phase 2: Coding Agent Export** - Generate and deliver the 7-section agent handoff package from any v2 brief (completed 2026-02-26)
 - [ ] **Phase 3: Stripe Billing** - Integrate Stripe checkout, webhooks, customer portal, and plan-gated access
 - [ ] **Phase 4: Landing Page** - Ship the marketing landing page with waitlist email capture and pricing
 
@@ -74,6 +74,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Brief v2 | 2/2 | Verifying |  |
-| 2. Coding Agent Export | 0/TBD | Not started | - |
+| 2. Coding Agent Export | 2/2 | Complete   | 2026-02-26 |
 | 3. Stripe Billing | 0/TBD | Not started | - |
 | 4. Landing Page | 0/TBD | Not started | - |
