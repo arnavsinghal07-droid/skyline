@@ -9,10 +9,12 @@ import {
   CheckCircle,
   AlertCircle,
   Inbox,
+  Package,
 } from 'lucide-react'
 import type { BriefContent } from '@/app/api/briefs/generate/route'
 import { UIDirectionSection } from '@/components/briefs/UIDirectionSection'
 import { DataModelSection } from '@/components/briefs/DataModelSection'
+import { ExportPreview } from '@/components/briefs/ExportPreview'
 
 // ---------------------------------------------------------------------------
 // Types
@@ -30,6 +32,16 @@ type BriefRow = {
 }
 
 type DecisionState = 'idle' | 'logging' | 'logged' | 'error'
+type ExportPhase = 'idle' | 'generating' | 'done' | 'error'
+
+function isV2Brief(content: BriefContent): boolean {
+  return !!(
+    content.ui_direction &&
+    content.ui_direction.screens.length > 0 &&
+    content.data_model_hints &&
+    content.data_model_hints.length > 0
+  )
+}
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -117,10 +129,14 @@ function BriefDetail({
   brief,
   decisionState,
   onLogDecision,
+  onExport,
+  exportPhase,
 }: {
   brief: BriefRow
   decisionState: DecisionState
   onLogDecision: () => void
+  onExport: () => void
+  exportPhase: ExportPhase
 }) {
   const { content_json: c } = brief
 
@@ -216,10 +232,31 @@ function BriefDetail({
         )}
       </div>
 
-      {/* Log Decision button */}
-      <div className="pt-6 border-t border-white/[0.06] mt-6">
+      {/* Footer actions */}
+      <div className="pt-6 border-t border-white/[0.06] mt-6 space-y-3">
+        {/* Export button — v2 briefs only */}
+        {isV2Brief(c) && (
+          <button
+            onClick={onExport}
+            disabled={exportPhase === 'generating'}
+            className="flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium transition-all w-full justify-center text-white/60 bg-white/[0.04] border border-white/[0.09] hover:text-white/90 hover:bg-white/[0.08] hover:border-white/[0.16] disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {exportPhase === 'generating' ? (
+              <><Loader2 size={14} className="animate-spin" />Generating export…</>
+            ) : (
+              <><Package size={14} />Export for Coding Agent</>
+            )}
+          </button>
+        )}
+
+        {/* Export error message */}
+        {exportPhase === 'error' && (
+          <p className="text-xs text-red-400/60">Failed to generate export. Try again.</p>
+        )}
+
+        {/* Log Decision button — unchanged */}
         {decisionState === 'error' && (
-          <p className="text-xs text-red-400/60 mb-3">Failed to log decision. Try again.</p>
+          <p className="text-xs text-red-400/60">Failed to log decision. Try again.</p>
         )}
         <button
           onClick={onLogDecision}
@@ -264,6 +301,19 @@ export default function BriefsPage() {
   const [fetchError, setFetchError] = useState('')
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [decisionStates, setDecisionStates] = useState<Record<string, DecisionState>>({})
+  const [exportPhase, setExportPhase] = useState<ExportPhase>('idle')
+  const [exportMarkdown, setExportMarkdown] = useState('')
+  const [exportTitle, setExportTitle] = useState('')
+  const [exportError, setExportError] = useState('')
+
+  // ── Brief selection (resets export state) ────────────────────────────────
+  function handleSelectBrief(id: string) {
+    setSelectedId(id)
+    setExportPhase('idle')
+    setExportMarkdown('')
+    setExportTitle('')
+    setExportError('')
+  }
 
   // ── Fetch briefs ─────────────────────────────────────────────────────────
   useEffect(() => {
@@ -301,6 +351,43 @@ export default function BriefsPage() {
       setDecisionStates(s => ({ ...s, [brief.id]: 'logged' }))
     } catch {
       setDecisionStates(s => ({ ...s, [brief.id]: 'error' }))
+    }
+  }
+
+  // ── Export ────────────────────────────────────────────────────────────────
+  async function handleExport(brief: BriefRow) {
+    setExportPhase('generating')
+    setExportError('')
+
+    const confidence = brief.queries?.response_json?.confidence ?? 'MEDIUM'
+    const queryText = brief.queries?.text ?? ''
+
+    try {
+      const res = await fetch('/api/briefs/export', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          briefId: brief.id,
+          content: brief.content_json,
+          queryText,
+          confidence,
+        }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        setExportError(data.error ?? 'Failed to generate export')
+        setExportPhase('error')
+        return
+      }
+
+      setExportMarkdown(data.markdown)
+      setExportTitle(data.title)
+      setExportPhase('done')
+    } catch {
+      setExportError('Failed to generate export. Please try again.')
+      setExportPhase('error')
     }
   }
 
@@ -369,7 +456,7 @@ export default function BriefsPage() {
                     key={brief.id}
                     brief={brief}
                     selected={brief.id === selectedId}
-                    onClick={() => setSelectedId(brief.id)}
+                    onClick={() => handleSelectBrief(brief.id)}
                   />
                 ))
               )}
@@ -379,12 +466,22 @@ export default function BriefsPage() {
           {/* Right: detail panel */}
           <div className="flex-1 min-w-0">
             {!loading && selectedBrief ? (
-              <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl p-6 sticky top-8">
-                <BriefDetail
-                  brief={selectedBrief}
-                  decisionState={decisionStates[selectedBrief.id] ?? 'idle'}
-                  onLogDecision={() => handleLogDecision(selectedBrief)}
-                />
+              <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl p-6 sticky top-8" style={{ width: 540 }}>
+                {exportPhase === 'done' ? (
+                  <ExportPreview
+                    markdown={exportMarkdown}
+                    title={exportTitle}
+                    onBack={() => setExportPhase('idle')}
+                  />
+                ) : (
+                  <BriefDetail
+                    brief={selectedBrief}
+                    decisionState={decisionStates[selectedBrief.id] ?? 'idle'}
+                    onLogDecision={() => handleLogDecision(selectedBrief)}
+                    onExport={() => handleExport(selectedBrief)}
+                    exportPhase={exportPhase}
+                  />
+                )}
               </div>
             ) : !loading && briefs.length === 0 ? null : !loading ? (
               <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl py-20 flex flex-col items-center sticky top-8">
