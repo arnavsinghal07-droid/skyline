@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: unknown
-last_updated: "2026-02-25T20:46:53.367Z"
+status: in_progress
+last_updated: "2026-02-26T00:36:51Z"
 progress:
-  total_phases: 1
+  total_phases: 4
   completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 6
+  completed_plans: 3
 ---
 
 # State: Sightline
@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** Every product recommendation must be traceable to customer evidence — trust is the product.
-**Current focus:** Phase 1 — Brief v2
+**Current focus:** Phase 2 — Coding Agent Export
 
 ## Current Position
 
-Phase: 1 of 4 (Brief v2)
-Plan: 2 of 2 complete in current phase
-Status: All plans complete — awaiting verification
-Last activity: 2026-02-25 — Plan 02 complete (Brief v2 frontend components + integration)
+Phase: 2 of 4 (Coding Agent Export)
+Plan: 1 of 2 complete in current phase
+Status: Plan 01 complete — Plan 02 (frontend export UI) remaining
+Last activity: 2026-02-26 — Plan 01 complete (Export Route Handler with Claude enrichment)
 
-Progress: [████░░░░░░] 25%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -49,6 +49,7 @@ Progress: [████░░░░░░] 25%
 *Updated after each plan completion*
 | Phase 01-brief-v2 P01 | 2 | 2 tasks | 2 files |
 | Phase 01-brief-v2 P02 | 8 | 3 tasks | 6 files |
+| Phase 02-coding-agent-export P01 | 1 | 1 task | 1 file |
 
 ## Accumulated Context
 
@@ -68,6 +69,9 @@ Recent decisions affecting current work:
 - [Phase 01-brief-v2]: Evidence chip popover opens upward (bottom-full) to avoid scroll container clipping
 - [Phase 01-brief-v2]: Brief panel widened to 540px for DDL readability
 - [Phase 01-brief-v2]: Stagger reveal 200ms + fadeInUp animation for smooth section appearance
+- [Phase 02-coding-agent-export P01]: Used Option A (inline content) for export — client sends BriefContent directly, avoids redundant DB fetch
+- [Phase 02-coding-agent-export P01]: SQL DDL rendered as ```sql fenced blocks — Prisma conversion is lossy, DDL immediately usable by coding agents
+- [Phase 02-coding-agent-export P01]: Graceful fallback maps out_of_scope to edge_cases and uses generic file paths if Haiku enrichment fails
 
 ### Pending Todos
 
@@ -82,6 +86,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-25
-Stopped at: Completed 01-brief-v2-02-PLAN.md (Brief v2 frontend — all plans done, awaiting phase verification)
+Last session: 2026-02-26
+Stopped at: Completed 02-coding-agent-export-01-PLAN.md (Export Route Handler — Plan 02 frontend UI remaining)
 Resume file: None

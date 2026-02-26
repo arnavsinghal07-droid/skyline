@@ -16,7 +16,7 @@ Requirements for milestone v1.0 — Brief v2 + Ship Ready. Each maps to roadmap 
 
 ### Coding Agent Export
 
-- [ ] **EXPORT-01**: User can generate a 7-section coding agent export package from any v2 brief (Context, Feature, Acceptance Criteria, UI Direction, Data Model, Edge Cases, Suggested File Paths)
+- [x] **EXPORT-01**: User can generate a 7-section coding agent export package from any v2 brief (Context, Feature, Acceptance Criteria, UI Direction, Data Model, Edge Cases, Suggested File Paths)
 - [ ] **EXPORT-02**: User can copy the full export package to clipboard with one click
 - [ ] **EXPORT-03**: User can download the export package as a .md file
 
@@ -89,7 +89,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BRIEF-02 | Phase 1 | Complete |
 | BRIEF-03 | Phase 1 | Pending |
 | BRIEF-04 | Phase 1 | Complete |
-| EXPORT-01 | Phase 2 | Pending |
+| EXPORT-01 | Phase 2 | Complete |
 | EXPORT-02 | Phase 2 | Pending |
 | EXPORT-03 | Phase 2 | Pending |
 | BILL-01 | Phase 3 | Pending |
