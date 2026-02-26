@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import type { QueryResult } from '@/app/api/query/route'
+
+const PLAN_BRIEF_LIMITS: Record<string, number> = {
+  free: 0,
+  starter: 10,
+  pro: Infinity,
+}
 
 export interface UIDirectionScreen {
   screen_name: string
@@ -139,6 +146,40 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
   }
 
+  // ── Plan gate: check brief limit before calling Claude ──────────────────
+  const { data: profile } = await supabase
+    .from('users')
+    .select('org_id')
+    .eq('id', user.id)
+    .single()
+
+  if (!profile) {
+    return NextResponse.json({ error: 'No organization found' }, { status: 400 })
+  }
+
+  const { data: org } = await supabase
+    .from('organizations')
+    .select('id, plan, briefs_used_this_period')
+    .eq('id', profile.org_id)
+    .single()
+
+  if (!org) {
+    return NextResponse.json({ error: 'Organization not found' }, { status: 400 })
+  }
+
+  const limit = PLAN_BRIEF_LIMITS[org.plan] ?? 0
+  if (org.briefs_used_this_period >= limit) {
+    return NextResponse.json(
+      {
+        error: 'limit_reached',
+        plan: org.plan,
+        used: org.briefs_used_this_period,
+        limit: limit === Infinity ? null : limit,
+      },
+      { status: 402 }
+    )
+  }
+
   try {
     const message = await anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
@@ -177,6 +218,13 @@ export async function POST(request: NextRequest) {
         }
       }
     }
+
+    // ── Increment usage counter (service role — bypasses RLS) ────────────
+    const admin = createAdminClient()
+    await admin
+      .from('organizations')
+      .update({ briefs_used_this_period: (org.briefs_used_this_period ?? 0) + 1 })
+      .eq('id', org.id)
 
     return NextResponse.json({ brief })
   } catch (err) {
