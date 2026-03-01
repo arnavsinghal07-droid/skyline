@@ -1,9 +1,9 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 export async function sendWelcomeEmail(to: string, plan: string) {
-  if (!to) return // Guard against missing email
+  if (!to || !process.env.RESEND_API_KEY) return
+
+  const resend = new Resend(process.env.RESEND_API_KEY)
 
   const planLabel = plan === 'starter' ? 'Starter' : 'Pro'
   const limit = plan === 'starter' ? '10' : 'unlimited'
