@@ -61,10 +61,10 @@ completed: 2026-02-26
 
 ## Performance
 
-- **Duration:** ~5 min
+- **Duration:** ~5 min (code tasks) + async human-verify checkpoint
 - **Started:** 2026-02-26T04:22:13Z
-- **Completed:** 2026-02-26T04:27:22Z
-- **Tasks:** 3 auto tasks complete, 1 checkpoint:human-verify pending
+- **Completed:** 2026-03-01
+- **Tasks:** 4 (3 auto + 1 human-verify checkpoint — APPROVED)
 - **Files modified:** 8
 
 ## Accomplishments
@@ -73,6 +73,7 @@ completed: 2026-02-26
 - Billing page shows Free/Starter/Pro plan cards, usage bar, success banner with polling, portal link
 - Query page now shows brief count near Generate Brief button and UpgradeGate when limit reached
 - Briefs page header shows brief usage count for subscribed users
+- End-to-end Stripe billing verified: subscribe to Starter, webhook fires, DB updates, usage bar reflects 0/10, Customer Portal opens, Welcome banner appears
 
 ## Task Commits
 
@@ -81,6 +82,7 @@ Each task was committed atomically:
 1. **Task 1: Create billing components** - `147f69c` (feat)
 2. **Task 2: Create settings layout and billing page** - `6b716b2` (feat)
 3. **Task 3: Integrate UpgradeGate and brief count into query and briefs pages** - `7b91ebd` (feat)
+4. **Auto-fix: Stripe API version + lazy-init Resend client (found during UAT)** - `6a92a22` (fix)
 
 ## Files Created/Modified
 - `src/components/billing/PlanCard.tsx` - Plan card with Recommended/Current badges, subscribe button, loading state
@@ -100,10 +102,24 @@ Each task was committed atomically:
 
 ## Deviations from Plan
 
-None — plan executed exactly as written.
+### Auto-fixed Issues
+
+**1. [Rule 1 - Bug] Fixed Stripe API version and lazy-init Resend client**
+- **Found during:** Task 4 (human verification / UAT)
+- **Issue:** Stripe SDK defaulting to an API version not matching the dashboard configuration; Resend client constructor crashed at module load when RESEND_API_KEY was absent in dev
+- **Fix:** Pinned explicit Stripe API version string in stripe.ts singleton; wrapped Resend constructor in a lazy getter so it only initializes when sendEmail() is called
+- **Files modified:** src/lib/stripe.ts, src/lib/email.ts
+- **Verification:** Stripe checkout session created successfully; no cold-start crash in dev environment
+- **Committed in:** `6a92a22`
+
+---
+
+**Total deviations:** 1 auto-fixed (Rule 1 - Bug)
+**Impact on plan:** Fix was necessary for correct Stripe integration and dev-environment stability. No scope creep.
 
 ## Issues Encountered
 - 2 pre-existing TypeScript errors in sources/page.tsx and sources/upload/route.ts — unrelated to billing, deferred per scope boundary rule
+- Stripe API version mismatch and Resend cold-start crash surfaced during UAT — both auto-fixed in commit 6a92a22
 
 ## User Setup Required
 
@@ -114,9 +130,21 @@ External services require manual configuration before the checkpoint verificatio
 4. For local webhooks: `stripe listen --forward-to localhost:3000/api/billing/webhook`
 
 ## Next Phase Readiness
-- All billing code is complete — awaiting human verification of end-to-end Stripe flow (Task 4)
-- After verification, Phase 3 is complete and Phase 4 (landing page) can begin
+- Stripe billing is fully end-to-end verified: subscribe, webhook, plan gate, usage bar, portal all confirmed working
+- Phase 3 is complete — both plans (backend + frontend) verified by user
+- Phase 4 (Landing Page) can begin — billing flow is proven, screenshots and copy are now credible
+- Blocker to monitor before Phase 4: verify RESEND_API_KEY and sender domain are configured for waitlist confirmation emails (currently using onboarding@resend.dev as dev fallback)
+
+## Self-Check: PASSED
+
+- FOUND: .planning/phases/03-stripe-billing/03-02-SUMMARY.md
+- FOUND: .planning/STATE.md
+- FOUND: .planning/ROADMAP.md
+- FOUND commit: 147f69c (Task 1 — billing components)
+- FOUND commit: 6b716b2 (Task 2 — settings layout and billing page)
+- FOUND commit: 7b91ebd (Task 3 — UpgradeGate integration)
+- FOUND commit: 6a92a22 (Auto-fix — Stripe API version + Resend lazy-init)
 
 ---
 *Phase: 03-stripe-billing*
-*Completed: 2026-02-26*
+*Completed: 2026-03-01*

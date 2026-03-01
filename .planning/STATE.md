@@ -22,12 +22,12 @@ See: .planning/PROJECT.md (updated 2026-02-25)
 
 ## Current Position
 
-Phase: 3 of 4 (Stripe Billing) — AWAITING HUMAN VERIFICATION
-Plan: 2 of 2 complete (code tasks done, human-verify checkpoint pending)
-Status: Phase 3 Plan 2 complete (code) — billing frontend built, awaiting end-to-end Stripe verification
-Last activity: 2026-02-26 — Plan 02 complete (billing UI — settings layout, billing page, PlanCard/UsageBar/UpgradeGate, query+briefs integration)
+Phase: 3 of 4 (Stripe Billing) — COMPLETE
+Plan: 2 of 2 complete (all tasks done, human-verify checkpoint approved)
+Status: Phase 3 fully complete — Stripe billing end-to-end verified by user
+Last activity: 2026-03-01 — Plan 02 human verification approved (subscribe, webhook, usage bar, portal all confirmed)
 
-Progress: [████████░░] 75%
+Progress: [██████████] 100% (Phase 3)
 
 ## Performance Metrics
 
@@ -86,6 +86,8 @@ Recent decisions affecting current work:
 - [Phase 03-stripe-billing P02]: Brief counter increments locally after successful generation — avoids redundant /api/billing/status call
 - [Phase 03-stripe-billing P02]: Polling stops after 10s regardless — banner stays visible even if webhook hasn't fired yet
 - [Phase 03-stripe-billing P02]: URL params cleaned 500ms after reading (?success=true&plan=) to avoid stale state on refresh
+- [Phase 03-stripe-billing P02]: Stripe API version pinned explicitly in stripe.ts singleton — prevents version mismatch between SDK default and dashboard (found during UAT)
+- [Phase 03-stripe-billing P02]: Resend client lazy-init in lib/email.ts — prevents cold-start crash when RESEND_API_KEY absent in dev (found during UAT)
 
 ### Pending Todos
 
@@ -100,6 +102,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-26
-Stopped at: Completed 03-02-PLAN.md code tasks — awaiting checkpoint:human-verify (Task 4) for end-to-end Stripe billing verification
+Last session: 2026-03-01
+Stopped at: Completed 03-02-PLAN.md — Phase 3 Stripe Billing fully complete, human verification approved, SUMMARY.md written
 Resume file: None
