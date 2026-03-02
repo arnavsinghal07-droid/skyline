@@ -64,7 +64,9 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Visitor enters their email and submits the waitlist form — receives a confirmation email via Resend and the address is saved in Supabase
   3. Landing page displays at least two product screenshots showing the query interface and brief panel with UI Direction and Data Model Hints sections visible
   4. Landing page shows a pricing section with Starter and Pro tier feature comparison — each tier has a CTA that links to the corresponding Stripe checkout flow
-**Plans**: TBD
+**Plans**: 2 plans
+  - [ ] 04-01-PLAN.md — Backend: waitlist table migration, POST /api/waitlist endpoint, sendWaitlistConfirmationEmail in email.ts
+  - [ ] 04-02-PLAN.md — Frontend: marketing landing page (page.tsx), WaitlistForm + ScreenshotTabs client islands, placeholder screenshots, human verification
 
 ## Progress
 
@@ -76,4 +78,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Brief v2 | 2/2 | Complete | 2026-02-25 |
 | 2. Coding Agent Export | 2/2 | Complete   | 2026-02-26 |
 | 3. Stripe Billing | 2/2 | Complete   | 2026-03-01 |
-| 4. Landing Page | 0/TBD | Not started | - |
+| 4. Landing Page | 0/2 | Not started | - |
