@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-03-01T05:51:36.891Z"
+last_updated: "2026-03-02T19:28:37Z"
 progress:
-  total_phases: 3
+  total_phases: 4
   completed_phases: 3
-  total_plans: 6
-  completed_plans: 6
+  total_plans: 7
+  completed_plans: 7
 ---
 
 # State: Sightline
@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** Every product recommendation must be traceable to customer evidence — trust is the product.
-**Current focus:** Phase 3 — Stripe Billing
+**Current focus:** Phase 4 — Landing Page
 
 ## Current Position
 
-Phase: 3 of 4 (Stripe Billing) — COMPLETE
-Plan: 2 of 2 complete (all tasks done, human-verify checkpoint approved)
-Status: Phase 3 fully complete — Stripe billing end-to-end verified by user
-Last activity: 2026-03-01 — Plan 02 human verification approved (subscribe, webhook, usage bar, portal all confirmed)
+Phase: 4 of 4 (Landing Page) — IN PROGRESS
+Plan: 1 of ? complete — waitlist backend (migration, API route, confirmation email)
+Status: Phase 4 Plan 01 complete — waitlist backend ready for landing page frontend
+Last activity: 2026-03-02 — Plan 01 complete (003_waitlist.sql, POST /api/waitlist, sendWaitlistConfirmationEmail)
 
-Progress: [██████████] 100% (Phase 3)
+Progress: [██████████] 100% (Phase 3 complete) | Phase 4: Plan 01 done
 
 ## Performance Metrics
 
@@ -52,6 +52,7 @@ Progress: [██████████] 100% (Phase 3)
 | Phase 02-coding-agent-export P01 | 1 | 1 task | 1 file |
 | Phase 03-stripe-billing P01 | 225s | 4 tasks | 8 files |
 | Phase 03-stripe-billing P02 | 309s | 3 tasks | 8 files |
+| Phase 04-landing-page P01 | 123s | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -88,6 +89,10 @@ Recent decisions affecting current work:
 - [Phase 03-stripe-billing P02]: URL params cleaned 500ms after reading (?success=true&plan=) to avoid stale state on refresh
 - [Phase 03-stripe-billing P02]: Stripe API version pinned explicitly in stripe.ts singleton — prevents version mismatch between SDK default and dashboard (found during UAT)
 - [Phase 03-stripe-billing P02]: Resend client lazy-init in lib/email.ts — prevents cold-start crash when RESEND_API_KEY absent in dev (found during UAT)
+- [Phase 04-landing-page P01]: Admin client (service role) used for waitlist writes — anon client blocked by RLS, this is unauthenticated traffic
+- [Phase 04-landing-page P01]: 23505 unique_violation returns 200 success — idempotent by design, visitor should not see error for re-submitting
+- [Phase 04-landing-page P01]: Email sent fire-and-forget — email failure must not block the 200 response back to the visitor
+- [Phase 04-landing-page P01]: onboarding@resend.dev sender retained with TODO comment — custom domain not yet verified
 
 ### Pending Todos
 
@@ -102,6 +107,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-01
-Stopped at: Completed 03-02-PLAN.md — Phase 3 Stripe Billing fully complete, human verification approved, SUMMARY.md written
+Last session: 2026-03-02
+Stopped at: Completed 04-01-PLAN.md — waitlist backend complete (migration, API route, confirmation email)
 Resume file: None

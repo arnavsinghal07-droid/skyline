@@ -32,7 +32,7 @@ Requirements for milestone v1.0 — Brief v2 + Ship Ready. Each maps to roadmap 
 ### Landing Page
 
 - [ ] **LAND-01**: Visitor sees a marketing landing page with hero section, value proposition, and primary CTA
-- [ ] **LAND-02**: Visitor can submit email to join the waitlist (saved to Supabase, confirmation via Resend)
+- [x] **LAND-02**: Visitor can submit email to join the waitlist (saved to Supabase, confirmation via Resend)
 - [ ] **LAND-03**: Landing page displays product screenshots of query interface and brief panel
 - [ ] **LAND-04**: Landing page shows pricing section with Starter and Pro tier feature comparison
 
@@ -99,7 +99,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BILL-05 | Phase 3 | Complete |
 | BILL-06 | Phase 3 | Complete |
 | LAND-01 | Phase 4 | Pending |
-| LAND-02 | Phase 4 | Pending |
+| LAND-02 | Phase 4 | Complete |
 | LAND-03 | Phase 4 | Pending |
 | LAND-04 | Phase 4 | Pending |
 

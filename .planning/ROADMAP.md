@@ -78,4 +78,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Brief v2 | 2/2 | Complete | 2026-02-25 |
 | 2. Coding Agent Export | 2/2 | Complete   | 2026-02-26 |
 | 3. Stripe Billing | 2/2 | Complete   | 2026-03-01 |
-| 4. Landing Page | 0/2 | Not started | - |
+| 4. Landing Page | 1/2 | In Progress|  |
