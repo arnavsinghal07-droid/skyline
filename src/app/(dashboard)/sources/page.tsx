@@ -134,36 +134,36 @@ export default function SourcesPage() {
     <div className="p-8 max-w-4xl w-full">
 
       {/* Header */}
-      <p className="text-xs text-white/30 uppercase tracking-widest mb-2">Sources</p>
+      <p className="text-xs text-[#aaa] uppercase tracking-widest mb-2">Sources</p>
       <h1
         style={{ fontFamily: 'var(--font-syne)' }}
-        className="text-2xl font-bold text-white"
+        className="text-2xl font-bold text-[#111]"
       >
         Upload Signals
       </h1>
-      <p className="text-sm text-white/35 mt-1 mb-8">
+      <p className="text-sm text-[#999] mt-1 mb-8">
         Import customer feedback from a CSV file
       </p>
-      <div className="border-b border-white/[0.06] mb-8" />
+      <div className="border-b border-[#e8e8ec] mb-8" />
 
       {/* ------------------------------------------------------------------ */}
       {/* SUCCESS STATE                                                        */}
       {/* ------------------------------------------------------------------ */}
       {state === 'success' && (
-        <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl p-10 flex flex-col items-center text-center">
-          <CheckCircle size={32} className="text-white/50 mb-4" />
+        <div className="bg-white border border-[#e8e8ec] rounded-xl p-10 flex flex-col items-center text-center">
+          <CheckCircle size={32} className="text-[#777] mb-4" />
           <p
             style={{ fontFamily: 'var(--font-syne)' }}
-            className="text-lg font-bold text-white mb-1.5"
+            className="text-lg font-bold text-[#111] mb-1.5"
           >
             {savedCount} signal{savedCount !== 1 ? 's' : ''} imported
           </p>
-          <p className="text-sm text-white/35 mb-7">
+          <p className="text-sm text-[#999] mb-7">
             Your documents are queued for processing and will appear in your workspace shortly.
           </p>
           <button
             onClick={reset}
-            className="flex items-center gap-1.5 bg-white text-[#09090e] rounded-lg py-2 px-4 text-xs font-semibold hover:bg-white/90 transition-all"
+            className="flex items-center gap-1.5 bg-[#111] text-white rounded-lg py-2 px-4 text-xs font-semibold hover:bg-[#222] transition-all"
           >
             Upload another file
           </button>
@@ -183,21 +183,21 @@ export default function SourcesPage() {
             className={[
               'relative flex flex-col items-center justify-center rounded-xl border border-dashed cursor-pointer transition-all duration-150 py-16 px-8',
               dragging
-                ? 'border-white/[0.25] bg-white/[0.04]'
-                : 'border-white/[0.10] bg-[#0d0d15] hover:border-white/[0.18] hover:bg-white/[0.02]',
+                ? 'border-[#999] bg-[#f5f5f7]'
+                : 'border-[#ddd] bg-white hover:border-[#bbb] hover:bg-[#fafafa]',
             ].join(' ')}
           >
-            <div className="w-11 h-11 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center mb-4">
-              <Upload size={18} className="text-white/40" />
+            <div className="w-11 h-11 rounded-xl bg-[#f0f0f3] border border-[#e0e0e5] flex items-center justify-center mb-4">
+              <Upload size={18} className="text-[#999]" />
             </div>
             <p
               style={{ fontFamily: 'var(--font-syne)' }}
-              className="text-sm font-semibold text-white/60 mb-1"
+              className="text-sm font-semibold text-[#555] mb-1"
             >
               Drop your CSV here
             </p>
-            <p className="text-xs text-white/25">or click to browse</p>
-            <p className="text-[10px] text-white/15 mt-3 uppercase tracking-wider">
+            <p className="text-xs text-[#bbb]">or click to browse</p>
+            <p className="text-[10px] text-[#ddd] mt-3 uppercase tracking-wider">
               Columns: date · customer_name · source_type · content
             </p>
           </div>
@@ -225,12 +225,12 @@ export default function SourcesPage() {
           {/* File badge */}
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-white/[0.05] border border-white/[0.08] flex items-center justify-center">
-                <FileText size={14} className="text-white/40" />
+              <div className="w-8 h-8 rounded-lg bg-[#f0f0f3] border border-[#e0e0e5] flex items-center justify-center">
+                <FileText size={14} className="text-[#999]" />
               </div>
               <div>
-                <p className="text-sm text-white/70 font-medium">{fileName}</p>
-                <p className="text-xs text-white/30">
+                <p className="text-sm text-[#444] font-medium">{fileName}</p>
+                <p className="text-xs text-[#aaa]">
                   {parsed.rows.length} row{parsed.rows.length !== 1 ? 's' : ''} detected
                 </p>
               </div>
@@ -238,19 +238,19 @@ export default function SourcesPage() {
             <button
               onClick={reset}
               disabled={state === 'processing'}
-              className="text-white/25 hover:text-white/50 transition-colors disabled:opacity-30"
+              className="text-[#bbb] hover:text-[#777] transition-colors disabled:opacity-30"
             >
               <X size={16} />
             </button>
           </div>
 
           {/* Preview table */}
-          <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl overflow-hidden mb-6">
-            <div className="px-5 py-3 border-b border-white/[0.06] flex items-center justify-between">
-              <p className="text-xs text-white/30 uppercase tracking-wider">
+          <div className="bg-white border border-[#e8e8ec] rounded-xl overflow-hidden mb-6">
+            <div className="px-5 py-3 border-b border-[#e8e8ec] flex items-center justify-between">
+              <p className="text-xs text-[#aaa] uppercase tracking-wider">
                 Preview — first {Math.min(5, parsed.rows.length)} rows
               </p>
-              <p className="text-xs text-white/20">
+              <p className="text-xs text-[#ccc]">
                 {parsed.headers.length} column{parsed.headers.length !== 1 ? 's' : ''}
               </p>
             </div>
@@ -258,11 +258,11 @@ export default function SourcesPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="border-b border-white/[0.05]">
+                  <tr className="border-b border-[#ebebef]">
                     {parsed.headers.map(h => (
                       <th
                         key={h}
-                        className="px-4 py-2.5 text-left text-white/30 font-medium uppercase tracking-wider whitespace-nowrap bg-white/[0.02]"
+                        className="px-4 py-2.5 text-left text-[#aaa] font-medium uppercase tracking-wider whitespace-nowrap bg-[#fafafa]"
                       >
                         {h}
                       </th>
@@ -273,15 +273,15 @@ export default function SourcesPage() {
                   {previewRows.map((row, i) => (
                     <tr
                       key={i}
-                      className="border-b border-white/[0.04] last:border-0 hover:bg-white/[0.015] transition-colors"
+                      className="border-b border-[#ebebef] last:border-0 hover:bg-[#fafafa] transition-colors"
                     >
                       {parsed.headers.map(h => (
                         <td
                           key={h}
-                          className="px-4 py-2.5 text-white/50 whitespace-nowrap max-w-[220px] truncate"
+                          className="px-4 py-2.5 text-[#777] whitespace-nowrap max-w-[220px] truncate"
                           title={row[h]}
                         >
-                          {row[h] || <span className="text-white/15 italic">—</span>}
+                          {row[h] || <span className="text-[#ddd] italic">—</span>}
                         </td>
                       ))}
                     </tr>
@@ -291,7 +291,7 @@ export default function SourcesPage() {
             </div>
 
             {extraRows > 0 && (
-              <div className="px-5 py-3 border-t border-white/[0.05] text-xs text-white/20">
+              <div className="px-5 py-3 border-t border-[#ebebef] text-xs text-[#ccc]">
                 + {extraRows} more row{extraRows !== 1 ? 's' : ''} not shown
               </div>
             )}
@@ -308,14 +308,14 @@ export default function SourcesPage() {
             <button
               onClick={handleProcess}
               disabled={state === 'processing'}
-              className="flex items-center gap-2 bg-white text-[#09090e] rounded-lg py-2.5 px-5 text-sm font-semibold hover:bg-white/90 active:bg-white/80 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 bg-[#111] text-white rounded-lg py-2.5 px-5 text-sm font-semibold hover:bg-[#222] active:bg-[#333] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {state === 'processing'
                 ? <><Loader2 size={14} className="animate-spin" /> Processing…</>
                 : 'Process Signals'
               }
             </button>
-            <p className="text-xs text-white/20">
+            <p className="text-xs text-[#ccc]">
               {parsed.rows.length} signal{parsed.rows.length !== 1 ? 's' : ''} will be saved
             </p>
           </div>

@@ -82,12 +82,12 @@ function ConfidenceBadge({ confidence }: { confidence: Confidence }) {
 
 function SkeletonCard() {
   return (
-    <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl p-5 animate-pulse">
-      <div className="h-3 bg-white/[0.06] rounded mb-2.5 w-full" />
-      <div className="h-3 bg-white/[0.06] rounded mb-5 w-3/4" />
+    <div className="bg-white border border-[#e8e8ec] rounded-xl p-5 animate-pulse">
+      <div className="h-3 bg-[#f0f0f3] rounded mb-2.5 w-full" />
+      <div className="h-3 bg-[#f0f0f3] rounded mb-5 w-3/4" />
       <div className="flex items-center justify-between">
-        <div className="h-2.5 bg-white/[0.04] rounded w-20" />
-        <div className="h-5 bg-white/[0.04] rounded-full w-24" />
+        <div className="h-2.5 bg-[#f5f5f7] rounded w-20" />
+        <div className="h-5 bg-[#f5f5f7] rounded-full w-24" />
       </div>
     </div>
   )
@@ -108,17 +108,17 @@ function BriefCard({
     <button
       onClick={onClick}
       className={[
-        'w-full text-left bg-[#0d0d15] border rounded-xl p-5 transition-all',
+        'w-full text-left bg-white border rounded-xl p-5 transition-all',
         selected
-          ? 'border-white/[0.18] bg-white/[0.02]'
-          : 'border-white/[0.07] hover:border-white/[0.12] hover:bg-white/[0.01]',
+          ? 'border-[#bbb] bg-[#fafafa]'
+          : 'border-[#e8e8ec] hover:border-[#ccc] hover:bg-white/[0.01]',
       ].join(' ')}
     >
-      <p className="text-sm text-white/70 leading-relaxed mb-4 line-clamp-2">
+      <p className="text-sm text-[#444] leading-relaxed mb-4 line-clamp-2">
         {brief.content_json.problem_statement}
       </p>
       <div className="flex items-center justify-between gap-2 flex-wrap">
-        <span className="text-[10px] text-white/25">{formatDate(brief.created_at)}</span>
+        <span className="text-[10px] text-[#bbb]">{formatDate(brief.created_at)}</span>
         {confidence && <ConfidenceBadge confidence={confidence} />}
       </div>
     </button>
@@ -145,10 +145,10 @@ function BriefDetail({
       {/* Header */}
       <div className="flex items-start justify-between gap-4 mb-6">
         <div>
-          <p className="text-[10px] text-white/25 uppercase tracking-widest mb-1">
+          <p className="text-[10px] text-[#bbb] uppercase tracking-widest mb-1">
             {brief.queries?.text ?? 'Feature Brief'}
           </p>
-          <p className="text-xs text-white/20">{formatDate(brief.created_at)}</p>
+          <p className="text-xs text-[#ccc]">{formatDate(brief.created_at)}</p>
         </div>
         {getConfidence(brief) && (
           <ConfidenceBadge confidence={getConfidence(brief)!} />
@@ -159,11 +159,11 @@ function BriefDetail({
       <div className="flex-1 overflow-y-auto space-y-7 pr-1">
 
         <DetailSection label="Problem Statement">
-          <p className="text-sm text-white/65 leading-relaxed">{c.problem_statement}</p>
+          <p className="text-sm text-[#555] leading-relaxed">{c.problem_statement}</p>
         </DetailSection>
 
         <DetailSection label="Proposed Solution">
-          <p className="text-sm text-white/65 leading-relaxed">{c.proposed_solution}</p>
+          <p className="text-sm text-[#555] leading-relaxed">{c.proposed_solution}</p>
         </DetailSection>
 
         <DetailSection label="User Stories">
@@ -171,16 +171,16 @@ function BriefDetail({
             {c.user_stories.map((story, i) => (
               <div
                 key={i}
-                className="bg-[#0a0a12] border border-white/[0.06] rounded-lg px-4 py-3"
+                className="bg-[#fafafa] border border-[#e8e8ec] rounded-lg px-4 py-3"
               >
-                <p className="text-xs text-white/55 leading-relaxed">
-                  <span className="text-white/25">As a </span>
-                  <span className="text-white/70 font-medium">{story.role}</span>
-                  <span className="text-white/25">, I want </span>
-                  <span className="text-white/70">{story.action}</span>
-                  <span className="text-white/25"> so that </span>
-                  <span className="text-white/70">{story.outcome}</span>
-                  <span className="text-white/25">.</span>
+                <p className="text-xs text-[#666] leading-relaxed">
+                  <span className="text-[#bbb]">As a </span>
+                  <span className="text-[#444] font-medium">{story.role}</span>
+                  <span className="text-[#bbb]">, I want </span>
+                  <span className="text-[#444]">{story.action}</span>
+                  <span className="text-[#bbb]"> so that </span>
+                  <span className="text-[#444]">{story.outcome}</span>
+                  <span className="text-[#bbb]">.</span>
                 </p>
               </div>
             ))}
@@ -191,8 +191,8 @@ function BriefDetail({
           <ul className="space-y-2">
             {c.success_metrics.map((metric, i) => (
               <li key={i} className="flex items-start gap-2">
-                <ChevronRight size={12} className="text-white/20 shrink-0 mt-0.5" />
-                <span className="text-xs text-white/55 leading-relaxed">{metric}</span>
+                <ChevronRight size={12} className="text-[#ccc] shrink-0 mt-0.5" />
+                <span className="text-xs text-[#666] leading-relaxed">{metric}</span>
               </li>
             ))}
           </ul>
@@ -202,8 +202,8 @@ function BriefDetail({
           <ul className="space-y-2">
             {c.out_of_scope.map((item, i) => (
               <li key={i} className="flex items-start gap-2">
-                <span className="text-white/15 shrink-0 text-xs leading-relaxed mt-0.5">—</span>
-                <span className="text-xs text-white/35 leading-relaxed">{item}</span>
+                <span className="text-[#ddd] shrink-0 text-xs leading-relaxed mt-0.5">—</span>
+                <span className="text-xs text-[#999] leading-relaxed">{item}</span>
               </li>
             ))}
           </ul>
@@ -216,7 +216,7 @@ function BriefDetail({
           </DetailSection>
         ) : (
           <DetailSection label="UI Direction">
-            <p className="text-xs text-white/25 italic">Not available — generated before v2</p>
+            <p className="text-xs text-[#bbb] italic">Not available — generated before v2</p>
           </DetailSection>
         )}
 
@@ -227,19 +227,19 @@ function BriefDetail({
           </DetailSection>
         ) : (
           <DetailSection label="Data Model Hints">
-            <p className="text-xs text-white/25 italic">Not available — generated before v2</p>
+            <p className="text-xs text-[#bbb] italic">Not available — generated before v2</p>
           </DetailSection>
         )}
       </div>
 
       {/* Footer actions */}
-      <div className="pt-6 border-t border-white/[0.06] mt-6 space-y-3">
+      <div className="pt-6 border-t border-[#e8e8ec] mt-6 space-y-3">
         {/* Export button — v2 briefs only */}
         {isV2Brief(c) && (
           <button
             onClick={onExport}
             disabled={exportPhase === 'generating'}
-            className="flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium transition-all w-full justify-center text-white/60 bg-white/[0.04] border border-white/[0.09] hover:text-white/90 hover:bg-white/[0.08] hover:border-white/[0.16] disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium transition-all w-full justify-center text-[#555] bg-[#f5f5f7] border border-[#ddd] hover:text-[#222] hover:bg-[#e8e8ec] hover:border-[#aaa] disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {exportPhase === 'generating' ? (
               <><Loader2 size={14} className="animate-spin" />Generating export…</>
@@ -267,7 +267,7 @@ function BriefDetail({
               ? 'text-emerald-400 bg-emerald-400/[0.08] border border-emerald-400/20 cursor-default'
               : decisionState === 'error'
               ? 'text-red-400/70 bg-red-400/[0.06] border border-red-400/15 hover:bg-red-400/[0.1]'
-              : 'text-white/60 bg-white/[0.04] border border-white/[0.09] hover:text-white/90 hover:bg-white/[0.08] hover:border-white/[0.16] disabled:opacity-40 disabled:cursor-not-allowed',
+              : 'text-[#555] bg-[#f5f5f7] border border-[#ddd] hover:text-[#222] hover:bg-[#e8e8ec] hover:border-[#aaa] disabled:opacity-40 disabled:cursor-not-allowed',
           ].join(' ')}
         >
           {decisionState === 'logging' ? (
@@ -286,7 +286,7 @@ function BriefDetail({
 function DetailSection({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <p className="text-[10px] text-white/25 uppercase tracking-widest mb-2.5">{label}</p>
+      <p className="text-[10px] text-[#bbb] uppercase tracking-widest mb-2.5">{label}</p>
       {children}
     </div>
   )
@@ -414,25 +414,25 @@ export default function BriefsPage() {
     <div className="p-8 max-w-6xl w-full">
 
       {/* Header */}
-      <p className="text-xs text-white/30 uppercase tracking-widest mb-2">Briefs</p>
+      <p className="text-xs text-[#aaa] uppercase tracking-widest mb-2">Briefs</p>
       <h1
         style={{ fontFamily: 'var(--font-syne)' }}
-        className="text-2xl font-bold text-white mb-1"
+        className="text-2xl font-bold text-[#111] mb-1"
       >
         Feature Briefs
       </h1>
-      <p className="text-sm text-white/35 mb-2">
+      <p className="text-sm text-[#999] mb-2">
         Saved briefs generated from your customer signal analysis
       </p>
       {/* Brief count indicator */}
       {billingPlan !== 'free' && (
-        <p className="text-[10px] text-white/25 mb-6">
+        <p className="text-[10px] text-[#bbb] mb-6">
           {briefsLimit === null
             ? `${briefsUsed} briefs generated — Unlimited (Pro)`
             : `${briefsUsed}/${briefsLimit} briefs used this month`}
         </p>
       )}
-      <div className="border-b border-white/[0.06] mb-8" />
+      <div className="border-b border-[#e8e8ec] mb-8" />
 
       {/* ── Error ─────────────────────────────────────────────────────────── */}
       {fetchError && (
@@ -451,7 +451,7 @@ export default function BriefsPage() {
 
             {/* List header */}
             <div className="flex items-center justify-between mb-3 px-1">
-              <p className="text-xs text-white/25 uppercase tracking-widest">
+              <p className="text-xs text-[#bbb] uppercase tracking-widest">
                 {loading ? 'Loading…' : `${briefs.length} brief${briefs.length !== 1 ? 's' : ''}`}
               </p>
             </div>
@@ -464,15 +464,15 @@ export default function BriefsPage() {
                   <SkeletonCard />
                 </>
               ) : briefs.length === 0 ? (
-                <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl py-12 flex flex-col items-center">
-                  <Inbox size={24} className="text-white/15 mb-3" />
+                <div className="bg-white border border-[#e8e8ec] rounded-xl py-12 flex flex-col items-center">
+                  <Inbox size={24} className="text-[#ddd] mb-3" />
                   <p
                     style={{ fontFamily: 'var(--font-syne)' }}
-                    className="text-sm font-semibold text-white/30 mb-1"
+                    className="text-sm font-semibold text-[#aaa] mb-1"
                   >
                     No briefs yet
                   </p>
-                  <p className="text-xs text-white/20 text-center px-4">
+                  <p className="text-xs text-[#ccc] text-center px-4">
                     Run a query and click &ldquo;Generate Feature Brief&rdquo; to create one
                   </p>
                 </div>
@@ -492,7 +492,7 @@ export default function BriefsPage() {
           {/* Right: detail panel */}
           <div className="flex-1 min-w-0">
             {!loading && selectedBrief ? (
-              <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl p-6 sticky top-8" style={{ width: 540 }}>
+              <div className="bg-white border border-[#e8e8ec] rounded-xl p-6 sticky top-8" style={{ width: 540 }}>
                 {exportPhase === 'done' ? (
                   <ExportPreview
                     markdown={exportMarkdown}
@@ -510,20 +510,20 @@ export default function BriefsPage() {
                 )}
               </div>
             ) : !loading && briefs.length === 0 ? null : !loading ? (
-              <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl py-20 flex flex-col items-center sticky top-8">
-                <FileText size={24} className="text-white/10 mb-3" />
-                <p className="text-sm text-white/20">Select a brief to view details</p>
+              <div className="bg-white border border-[#e8e8ec] rounded-xl py-20 flex flex-col items-center sticky top-8">
+                <FileText size={24} className="text-[#ddd] mb-3" />
+                <p className="text-sm text-[#ccc]">Select a brief to view details</p>
               </div>
             ) : (
               /* Skeleton for detail panel */
-              <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl p-6 animate-pulse sticky top-8">
-                <div className="h-3 bg-white/[0.06] rounded w-1/2 mb-2" />
-                <div className="h-2.5 bg-white/[0.04] rounded w-1/3 mb-8" />
+              <div className="bg-white border border-[#e8e8ec] rounded-xl p-6 animate-pulse sticky top-8">
+                <div className="h-3 bg-[#f0f0f3] rounded w-1/2 mb-2" />
+                <div className="h-2.5 bg-[#f5f5f7] rounded w-1/3 mb-8" />
                 {[...Array(4)].map((_, i) => (
                   <div key={i} className="mb-6">
-                    <div className="h-2.5 bg-white/[0.04] rounded w-24 mb-3" />
-                    <div className="h-3 bg-white/[0.06] rounded w-full mb-2" />
-                    <div className="h-3 bg-white/[0.06] rounded w-4/5" />
+                    <div className="h-2.5 bg-[#f5f5f7] rounded w-24 mb-3" />
+                    <div className="h-3 bg-[#f0f0f3] rounded w-full mb-2" />
+                    <div className="h-3 bg-[#f0f0f3] rounded w-4/5" />
                   </div>
                 ))}
               </div>

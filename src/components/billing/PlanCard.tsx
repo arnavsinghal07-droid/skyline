@@ -31,16 +31,16 @@ export function PlanCard({
       className={[
         'relative flex flex-col rounded-xl border p-6 transition-all',
         isRecommended
-          ? 'border-white/[0.25] bg-white/[0.03]'
+          ? 'border-[#999] bg-[#f8f8fa]'
           : isFreeTier
-          ? 'border-white/[0.05] bg-[#0a0a12] opacity-70'
-          : 'border-white/[0.08] bg-[#0d0d15]',
+          ? 'border-[#ebebef] bg-[#fafafa] opacity-70'
+          : 'border-[#e0e0e5] bg-white',
       ].join(' ')}
     >
       {/* Recommended badge */}
       {isRecommended && (
         <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
-          <span className="inline-flex items-center gap-1 bg-white text-[#09090e] text-[10px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full">
+          <span className="inline-flex items-center gap-1 bg-[#111] text-white text-[10px] font-bold uppercase tracking-wider px-3 py-0.5 rounded-full">
             <Sparkles size={10} />
             Recommended
           </span>
@@ -60,18 +60,18 @@ export function PlanCard({
       {/* Plan name */}
       <p
         style={{ fontFamily: 'var(--font-syne)' }}
-        className="text-base font-bold text-white mb-1 mt-2"
+        className="text-base font-bold text-[#111] mb-1 mt-2"
       >
         {name}
       </p>
 
       {/* Price */}
-      <p className="text-2xl font-bold text-white mb-1">
+      <p className="text-2xl font-bold text-[#111] mb-1">
         {price}
       </p>
 
       {/* Brief limit — headline differentiator */}
-      <p className="text-sm text-white/50 mb-5">
+      <p className="text-sm text-[#777] mb-5">
         {briefLimit}
       </p>
 
@@ -79,15 +79,15 @@ export function PlanCard({
       <ul className="space-y-2 mb-6 flex-1">
         {features.map((feature, i) => (
           <li key={i} className="flex items-start gap-2">
-            <Check size={12} className="text-white/30 shrink-0 mt-0.5" />
-            <span className="text-xs text-white/50 leading-relaxed">{feature}</span>
+            <Check size={12} className="text-[#aaa] shrink-0 mt-0.5" />
+            <span className="text-xs text-[#777] leading-relaxed">{feature}</span>
           </li>
         ))}
       </ul>
 
       {/* Action button */}
       {isCurrent ? (
-        <div className="text-center py-2.5 text-xs text-white/25 font-medium">
+        <div className="text-center py-2.5 text-xs text-[#bbb] font-medium">
           Current plan
         </div>
       ) : onSubscribe ? (
@@ -97,8 +97,8 @@ export function PlanCard({
           className={[
             'w-full rounded-xl px-4 py-2.5 text-sm font-medium transition-all flex items-center justify-center gap-2',
             isRecommended
-              ? 'bg-white text-[#09090e] hover:bg-white/90 active:bg-white/80'
-              : 'bg-white/[0.06] border border-white/[0.09] text-white/70 hover:bg-white/[0.10] hover:text-white/90 hover:border-white/[0.16]',
+              ? 'bg-[#111] text-white hover:bg-[#222] active:bg-[#333]'
+              : 'bg-[#f0f0f3] border border-[#ddd] text-[#444] hover:bg-[#e0e0e5] hover:text-[#222] hover:border-[#aaa]',
             loading ? 'opacity-50 cursor-not-allowed' : '',
           ].join(' ')}
         >

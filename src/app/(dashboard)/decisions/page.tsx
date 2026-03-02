@@ -91,24 +91,24 @@ function SkeletonEntry({ last }: { last?: boolean }) {
     <div className="flex gap-5">
       {/* Timeline spine */}
       <div className="flex flex-col items-center shrink-0 w-5">
-        <div className="w-2.5 h-2.5 rounded-full bg-white/[0.08] mt-1 animate-pulse" />
-        {!last && <div className="w-px flex-1 bg-white/[0.05] mt-2" />}
+        <div className="w-2.5 h-2.5 rounded-full bg-[#e8e8ec] mt-1 animate-pulse" />
+        {!last && <div className="w-px flex-1 bg-[#f0f0f3] mt-2" />}
       </div>
       {/* Card */}
       <div className="flex-1 pb-10 animate-pulse">
-        <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl p-5">
+        <div className="bg-white border border-[#e8e8ec] rounded-xl p-5">
           <div className="flex items-start justify-between gap-4 mb-4">
             <div className="flex-1">
-              <div className="h-3.5 bg-white/[0.08] rounded w-2/3 mb-2" />
-              <div className="h-3 bg-white/[0.05] rounded w-1/2" />
+              <div className="h-3.5 bg-[#e8e8ec] rounded w-2/3 mb-2" />
+              <div className="h-3 bg-[#f0f0f3] rounded w-1/2" />
             </div>
-            <div className="h-5 w-16 bg-white/[0.06] rounded-full shrink-0" />
+            <div className="h-5 w-16 bg-[#f0f0f3] rounded-full shrink-0" />
           </div>
           <div className="flex items-center gap-3 mt-4">
-            <div className="h-5 w-5 rounded-full bg-white/[0.06]" />
-            <div className="h-2.5 bg-white/[0.05] rounded w-32" />
-            <div className="w-px h-3 bg-white/[0.06]" />
-            <div className="h-2.5 bg-white/[0.04] rounded w-20" />
+            <div className="h-5 w-5 rounded-full bg-[#f0f0f3]" />
+            <div className="h-2.5 bg-[#f0f0f3] rounded w-32" />
+            <div className="w-px h-3 bg-[#f0f0f3]" />
+            <div className="h-2.5 bg-[#f5f5f7] rounded w-20" />
           </div>
         </div>
       </div>
@@ -167,21 +167,21 @@ function OutcomeEditor({
   // ── Already has an outcome ─────────────────────────────────────────────
   if (existingOutcome && !editing) {
     return (
-      <div className="mt-4 pt-4 border-t border-white/[0.05]">
+      <div className="mt-4 pt-4 border-t border-[#ebebef]">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-2.5 flex-1 min-w-0">
             <CheckCircle2 size={13} className="text-emerald-400/70 shrink-0 mt-0.5" />
             <div className="min-w-0">
-              <p className="text-[10px] text-white/25 uppercase tracking-wider mb-1">Outcome</p>
-              <p className="text-xs text-white/55 leading-relaxed">{existingOutcome}</p>
+              <p className="text-[10px] text-[#bbb] uppercase tracking-wider mb-1">Outcome</p>
+              <p className="text-xs text-[#666] leading-relaxed">{existingOutcome}</p>
               {outcomeDate && (
-                <p className="text-[10px] text-white/20 mt-1.5">{formatDate(outcomeDate)}</p>
+                <p className="text-[10px] text-[#ccc] mt-1.5">{formatDate(outcomeDate)}</p>
               )}
             </div>
           </div>
           <button
             onClick={openEditor}
-            className="shrink-0 p-1.5 rounded-lg text-white/20 hover:text-white/50 hover:bg-white/[0.04] transition-colors"
+            className="shrink-0 p-1.5 rounded-lg text-[#ccc] hover:text-[#777] hover:bg-[#f5f5f7] transition-colors"
             title="Edit outcome"
           >
             <PenLine size={11} />
@@ -194,8 +194,8 @@ function OutcomeEditor({
   // ── Editing state ──────────────────────────────────────────────────────
   if (editing) {
     return (
-      <div className="mt-4 pt-4 border-t border-white/[0.05]">
-        <p className="text-[10px] text-white/25 uppercase tracking-wider mb-2">
+      <div className="mt-4 pt-4 border-t border-[#ebebef]">
+        <p className="text-[10px] text-[#bbb] uppercase tracking-wider mb-2">
           {existingOutcome ? 'Edit Outcome' : 'Add Outcome'}
         </p>
         <textarea
@@ -204,7 +204,7 @@ function OutcomeEditor({
           onChange={e => setDraft(e.target.value)}
           placeholder="What actually happened? How did this decision play out?"
           rows={3}
-          className="w-full bg-[#0a0a12] border border-white/[0.09] rounded-lg px-3.5 py-2.5 text-xs text-white/70 placeholder:text-white/20 leading-relaxed resize-none focus:outline-none focus:border-white/[0.2] transition-colors"
+          className="w-full bg-[#fafafa] border border-[#ddd] rounded-lg px-3.5 py-2.5 text-xs text-[#444] placeholder:text-[#ccc] leading-relaxed resize-none focus:outline-none focus:border-[#bbb] transition-colors"
         />
         {saveState === 'error' && (
           <p className="text-[10px] text-red-400/60 mt-1.5">Failed to save. Try again.</p>
@@ -213,7 +213,7 @@ function OutcomeEditor({
           <button
             onClick={saveOutcome}
             disabled={saveState === 'saving' || !draft.trim()}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-white/[0.07] border border-white/[0.12] text-xs text-white/70 font-medium hover:text-white/90 hover:bg-white/[0.1] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#eee] border border-[#ccc] text-xs text-[#444] font-medium hover:text-[#222] hover:bg-[#e0e0e5] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {saveState === 'saving'
               ? <><Loader2 size={11} className="animate-spin" />Saving…</>
@@ -223,7 +223,7 @@ function OutcomeEditor({
           <button
             onClick={cancelEdit}
             disabled={saveState === 'saving'}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs text-white/30 hover:text-white/55 transition-colors"
+            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs text-[#aaa] hover:text-[#666] transition-colors"
           >
             <X size={11} />
             Cancel
@@ -235,10 +235,10 @@ function OutcomeEditor({
 
   // ── No outcome yet ─────────────────────────────────────────────────────
   return (
-    <div className="mt-4 pt-4 border-t border-white/[0.05]">
+    <div className="mt-4 pt-4 border-t border-[#ebebef]">
       <button
         onClick={openEditor}
-        className="flex items-center gap-2 text-xs text-white/25 hover:text-white/55 border border-dashed border-white/[0.1] hover:border-white/[0.2] rounded-lg px-3.5 py-2 transition-all w-full"
+        className="flex items-center gap-2 text-xs text-[#bbb] hover:text-[#666] border border-dashed border-[#ddd] hover:border-[#bbb] rounded-lg px-3.5 py-2 transition-all w-full"
       >
         <Clock size={11} className="shrink-0" />
         <span>Add outcome — what actually happened?</span>
@@ -264,16 +264,16 @@ function DecisionEntry({
       {/* Timeline spine */}
       <div className="flex flex-col items-center shrink-0 w-5">
         <div className={`w-2.5 h-2.5 rounded-full mt-1 shrink-0 ${dot}`} />
-        {!isLast && <div className="w-px flex-1 bg-white/[0.07] mt-2" />}
+        {!isLast && <div className="w-px flex-1 bg-[#eee] mt-2" />}
       </div>
 
       {/* Card */}
       <div className={`flex-1 ${isLast ? 'pb-2' : 'pb-10'}`}>
-        <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl p-5 hover:border-white/[0.11] transition-colors">
+        <div className="bg-white border border-[#e8e8ec] rounded-xl p-5 hover:border-[#ccc] transition-colors">
 
           {/* Title + badge */}
           <div className="flex items-start justify-between gap-4">
-            <p className="text-sm font-medium text-white/85 leading-snug flex-1 min-w-0">
+            <p className="text-sm font-medium text-[#222] leading-snug flex-1 min-w-0">
               {decision.title}
             </p>
             <ConfidenceBadge confidence={confidence} />
@@ -281,7 +281,7 @@ function DecisionEntry({
 
           {/* Rationale */}
           {decision.rationale && (
-            <p className="text-xs text-white/40 leading-relaxed mt-2.5">
+            <p className="text-xs text-[#999] leading-relaxed mt-2.5">
               {decision.rationale}
             </p>
           )}
@@ -290,14 +290,14 @@ function DecisionEntry({
           <div className="flex items-center gap-2.5 mt-3.5 flex-wrap">
             {decision.users?.email && (
               <>
-                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-white/[0.08] text-[9px] font-semibold text-white/50 shrink-0">
+                <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#e8e8ec] text-[9px] font-semibold text-[#777] shrink-0">
                   {initials(decision.users.email)}
                 </span>
-                <span className="text-[11px] text-white/30">{decision.users.email}</span>
+                <span className="text-[11px] text-[#aaa]">{decision.users.email}</span>
                 <span className="w-px h-3 bg-white/[0.1]" />
               </>
             )}
-            <span className="text-[11px] text-white/20">{formatDate(decision.created_at)}</span>
+            <span className="text-[11px] text-[#ccc]">{formatDate(decision.created_at)}</span>
           </div>
 
           {/* Outcome */}
@@ -343,17 +343,17 @@ export default function DecisionsPage() {
     <div className="p-8 max-w-3xl w-full">
 
       {/* Header */}
-      <p className="text-xs text-white/30 uppercase tracking-widest mb-2">Decisions</p>
+      <p className="text-xs text-[#aaa] uppercase tracking-widest mb-2">Decisions</p>
       <h1
         style={{ fontFamily: 'var(--font-syne)' }}
-        className="text-2xl font-bold text-white mb-1"
+        className="text-2xl font-bold text-[#111] mb-1"
       >
         Decision Log
       </h1>
-      <p className="text-sm text-white/35 mb-8">
+      <p className="text-sm text-[#999] mb-8">
         An audit trail of every product decision, its evidence, and what actually happened
       </p>
-      <div className="border-b border-white/[0.06] mb-8" />
+      <div className="border-b border-[#e8e8ec] mb-8" />
 
       {/* Error */}
       {fetchError && (
@@ -374,22 +374,22 @@ export default function DecisionsPage() {
 
       {/* Empty state */}
       {!loading && !fetchError && decisions.length === 0 && (
-        <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl py-16 flex flex-col items-center px-6 text-center">
-          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center mb-4">
-            <BookOpen size={18} className="text-white/20" />
+        <div className="bg-white border border-[#e8e8ec] rounded-xl py-16 flex flex-col items-center px-6 text-center">
+          <div className="w-10 h-10 rounded-xl bg-[#f5f5f7] border border-[#e8e8ec] flex items-center justify-center mb-4">
+            <BookOpen size={18} className="text-[#ccc]" />
           </div>
           <p
             style={{ fontFamily: 'var(--font-syne)' }}
-            className="text-sm font-semibold text-white/35 mb-2"
+            className="text-sm font-semibold text-[#999] mb-2"
           >
             No decisions logged yet
           </p>
-          <p className="text-xs text-white/20 max-w-xs leading-relaxed mb-6">
+          <p className="text-xs text-[#ccc] max-w-xs leading-relaxed mb-6">
             Generate a brief and log your first decision to start building an audit trail
           </p>
           <Link
             href="/briefs"
-            className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white/70 border border-white/[0.1] hover:border-white/[0.2] rounded-lg px-4 py-2 transition-all"
+            className="flex items-center gap-1.5 text-xs text-[#999] hover:text-[#444] border border-[#ddd] hover:border-[#bbb] rounded-lg px-4 py-2 transition-all"
           >
             Go to Briefs
             <ArrowRight size={12} />
@@ -401,7 +401,7 @@ export default function DecisionsPage() {
       {!loading && !fetchError && decisions.length > 0 && (
         <div>
           {/* Count */}
-          <p className="text-xs text-white/20 uppercase tracking-widest mb-6 px-0.5">
+          <p className="text-xs text-[#ccc] uppercase tracking-widest mb-6 px-0.5">
             {decisions.length} decision{decisions.length !== 1 ? 's' : ''} logged
           </p>
 
@@ -420,8 +420,8 @@ export default function DecisionsPage() {
               <div className="w-1.5 h-1.5 rounded-full bg-white/[0.1] mt-0.5" />
             </div>
             <div className="flex items-center gap-2 pb-2">
-              <GitMerge size={11} className="text-white/15" />
-              <span className="text-[10px] text-white/15 uppercase tracking-wider">
+              <GitMerge size={11} className="text-[#ddd]" />
+              <span className="text-[10px] text-[#ddd] uppercase tracking-wider">
                 Start of log
               </span>
             </div>

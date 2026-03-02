@@ -91,20 +91,20 @@ function EvidenceCard({ item, index }: {
   index: number
 }) {
   return (
-    <div className="bg-[#0a0a12] border border-white/[0.07] rounded-xl p-5 flex gap-4">
+    <div className="bg-[#fafafa] border border-[#e8e8ec] rounded-xl p-5 flex gap-4">
       <div className="shrink-0 mt-0.5">
-        <Quote size={13} className="text-white/20" />
+        <Quote size={13} className="text-[#ccc]" />
       </div>
       <div className="min-w-0">
-        <p className="text-sm text-white/70 leading-relaxed mb-3 italic">
+        <p className="text-sm text-[#444] leading-relaxed mb-3 italic">
           &ldquo;{item.quote}&rdquo;
         </p>
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-medium text-white/50">{item.customer_name}</span>
-          <span className="text-white/15">·</span>
-          <span className="text-[10px] text-white/25 uppercase tracking-wider">{item.source_type}</span>
-          <span className="text-white/15">·</span>
-          <span className="text-[10px] text-white/20">Evidence {index + 1}</span>
+          <span className="text-xs font-medium text-[#777]">{item.customer_name}</span>
+          <span className="text-[#ddd]">·</span>
+          <span className="text-[10px] text-[#bbb] uppercase tracking-wider">{item.source_type}</span>
+          <span className="text-[#ddd]">·</span>
+          <span className="text-[10px] text-[#ccc]">Evidence {index + 1}</span>
         </div>
       </div>
     </div>
@@ -114,8 +114,8 @@ function EvidenceCard({ item, index }: {
 function PulsingDot() {
   return (
     <span className="relative inline-flex h-2 w-2 ml-1 align-middle">
-      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white/40 opacity-75" />
-      <span className="relative inline-flex rounded-full h-2 w-2 bg-white/60" />
+      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#7c3aed]/40 opacity-75" />
+      <span className="relative inline-flex rounded-full h-2 w-2 bg-[#7c3aed]/60" />
     </span>
   )
 }
@@ -136,11 +136,11 @@ function SectionWithRegen({
   return (
     <div>
       <div className="flex items-center justify-between mb-2.5">
-        <p className="text-[10px] text-white/25 uppercase tracking-widest">{label}</p>
+        <p className="text-[10px] text-[#bbb] uppercase tracking-widest">{label}</p>
         <button
           onClick={() => onRegenerate(section)}
           disabled={isRegenerating}
-          className="text-white/15 hover:text-white/40 transition-colors disabled:cursor-not-allowed"
+          className="text-[#ddd] hover:text-[#999] transition-colors disabled:cursor-not-allowed"
           title={`Regenerate ${label}`}
         >
           <RefreshCw size={11} className={isRegenerating ? 'animate-spin' : ''} />
@@ -218,16 +218,16 @@ function BriefPanel({
   }
 
   return (
-    <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl flex flex-col">
+    <div className="bg-white border border-[#e8e8ec] rounded-xl flex flex-col">
       {/* Panel header */}
-      <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-[#e8e8ec]">
         <div className="flex items-center gap-2">
-          <FileText size={13} className="text-white/25" />
-          <p className="text-xs text-white/30 uppercase tracking-widest">Feature Brief</p>
+          <FileText size={13} className="text-[#bbb]" />
+          <p className="text-xs text-[#aaa] uppercase tracking-widest">Feature Brief</p>
         </div>
         <div className="flex items-center gap-2">
           {phase === 'generating' && (
-            <Loader2 size={12} className="animate-spin text-white/20" />
+            <Loader2 size={12} className="animate-spin text-[#ccc]" />
           )}
           {phase === 'done' && brief && (
             <button
@@ -239,7 +239,7 @@ function BriefPanel({
                   ? 'text-emerald-400 bg-emerald-400/[0.08] border border-emerald-400/20 cursor-default'
                   : saveState === 'error'
                   ? 'text-red-400/70 bg-red-400/[0.06] border border-red-400/15'
-                  : 'text-white/50 bg-white/[0.04] border border-white/[0.08] hover:text-white/80 hover:bg-white/[0.07] disabled:opacity-40 disabled:cursor-not-allowed',
+                  : 'text-[#777] bg-[#f5f5f7] border border-[#e0e0e5] hover:text-[#333] hover:bg-[#eee] disabled:opacity-40 disabled:cursor-not-allowed',
               ].join(' ')}
             >
               {saveState === 'saving' ? (
@@ -261,8 +261,8 @@ function BriefPanel({
           <div className="space-y-6">
             {Array.from({ length: 7 }).map((_, i) => (
               <div key={i} className="space-y-2">
-                <div className="h-2.5 w-24 bg-white/[0.06] rounded animate-pulse" />
-                <div className="h-12 bg-white/[0.04] rounded-lg animate-pulse" />
+                <div className="h-2.5 w-24 bg-[#f0f0f3] rounded animate-pulse" />
+                <div className="h-12 bg-[#f5f5f7] rounded-lg animate-pulse" />
               </div>
             ))}
           </div>
@@ -286,7 +286,7 @@ function BriefPanel({
                   onRegenerate={handleRegenerate}
                   isRegenerating={!!regenerating.problem_statement}
                 >
-                  <p className="text-sm text-white/65 leading-relaxed">
+                  <p className="text-sm text-[#555] leading-relaxed">
                     {brief.problem_statement}
                   </p>
                 </SectionWithRegen>
@@ -302,7 +302,7 @@ function BriefPanel({
                   onRegenerate={handleRegenerate}
                   isRegenerating={!!regenerating.proposed_solution}
                 >
-                  <p className="text-sm text-white/65 leading-relaxed">
+                  <p className="text-sm text-[#555] leading-relaxed">
                     {brief.proposed_solution}
                   </p>
                 </SectionWithRegen>
@@ -322,16 +322,16 @@ function BriefPanel({
                     {brief.user_stories.map((story, i) => (
                       <div
                         key={i}
-                        className="bg-[#0a0a12] border border-white/[0.06] rounded-lg px-4 py-3"
+                        className="bg-[#fafafa] border border-[#e8e8ec] rounded-lg px-4 py-3"
                       >
-                        <p className="text-xs text-white/55 leading-relaxed">
-                          <span className="text-white/25">As a </span>
-                          <span className="text-white/70 font-medium">{story.role}</span>
-                          <span className="text-white/25">, I want </span>
-                          <span className="text-white/70">{story.action}</span>
-                          <span className="text-white/25"> so that </span>
-                          <span className="text-white/70">{story.outcome}</span>
-                          <span className="text-white/25">.</span>
+                        <p className="text-xs text-[#666] leading-relaxed">
+                          <span className="text-[#bbb]">As a </span>
+                          <span className="text-[#444] font-medium">{story.role}</span>
+                          <span className="text-[#bbb]">, I want </span>
+                          <span className="text-[#444]">{story.action}</span>
+                          <span className="text-[#bbb]"> so that </span>
+                          <span className="text-[#444]">{story.outcome}</span>
+                          <span className="text-[#bbb]">.</span>
                         </p>
                       </div>
                     ))}
@@ -352,8 +352,8 @@ function BriefPanel({
                   <ul className="space-y-2">
                     {brief.success_metrics.map((metric, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <ChevronRight size={12} className="text-white/20 shrink-0 mt-0.5" />
-                        <span className="text-xs text-white/55 leading-relaxed">{metric}</span>
+                        <ChevronRight size={12} className="text-[#ccc] shrink-0 mt-0.5" />
+                        <span className="text-xs text-[#666] leading-relaxed">{metric}</span>
                       </li>
                     ))}
                   </ul>
@@ -373,8 +373,8 @@ function BriefPanel({
                   <ul className="space-y-2">
                     {brief.out_of_scope.map((item, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <span className="text-white/15 shrink-0 mt-0.5 text-xs leading-relaxed">—</span>
-                        <span className="text-xs text-white/35 leading-relaxed">{item}</span>
+                        <span className="text-[#ddd] shrink-0 mt-0.5 text-xs leading-relaxed">—</span>
+                        <span className="text-xs text-[#999] leading-relaxed">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -397,7 +397,7 @@ function BriefPanel({
                       evidence={queryResult?.evidence}
                     />
                   ) : (
-                    <p className="text-xs text-white/25 italic">Not available — generated before v2</p>
+                    <p className="text-xs text-[#bbb] italic">Not available — generated before v2</p>
                   )}
                 </SectionWithRegen>
               </div>
@@ -415,7 +415,7 @@ function BriefPanel({
                   {brief.data_model_hints && brief.data_model_hints.length > 0 ? (
                     <DataModelSection hints={brief.data_model_hints} />
                   ) : (
-                    <p className="text-xs text-white/25 italic">Not available — generated before v2</p>
+                    <p className="text-xs text-[#bbb] italic">Not available — generated before v2</p>
                   )}
                 </SectionWithRegen>
               </div>
@@ -620,20 +620,20 @@ export default function QueryPage() {
     <div className={`p-8 w-full ${showBriefPanel ? 'max-w-[1200px]' : 'max-w-3xl'}`}>
 
       {/* Page header */}
-      <p className="text-xs text-white/30 uppercase tracking-widest mb-2">Query</p>
+      <p className="text-xs text-[#aaa] uppercase tracking-widest mb-2">Query</p>
       <h1
         style={{ fontFamily: 'var(--font-syne)' }}
-        className="text-2xl font-bold text-white mb-1"
+        className="text-2xl font-bold text-[#111] mb-1"
       >
         Ask your signals
       </h1>
-      <p className="text-sm text-white/35 mb-8">
+      <p className="text-sm text-[#999] mb-8">
         Ask a natural language question — Sightline finds the answer in your customer data
       </p>
-      <div className="border-b border-white/[0.06] mb-8" />
+      <div className="border-b border-[#e8e8ec] mb-8" />
 
       {/* ── Query bar ───────────────────────────────────────────────────────── */}
-      <div className="bg-[#0d0d15] border border-white/[0.09] rounded-xl p-1.5 flex items-center gap-2 mb-2 focus-within:border-white/[0.18] transition-colors">
+      <div className="bg-white border border-[#ddd] rounded-xl p-1.5 flex items-center gap-2 mb-2 focus-within:border-[#bbb] transition-colors">
         <input
           ref={inputRef}
           type="text"
@@ -642,13 +642,13 @@ export default function QueryPage() {
           onKeyDown={e => e.key === 'Enter' && handleSubmit()}
           placeholder="What do customers struggle with most?"
           disabled={phase === 'querying'}
-          className="flex-1 bg-transparent px-3 py-2.5 text-sm text-white placeholder:text-white/20 outline-none disabled:opacity-50"
+          className="flex-1 bg-transparent px-3 py-2.5 text-sm text-[#111] placeholder:text-[#ccc] outline-none disabled:opacity-50"
           autoFocus
         />
         <button
           onClick={handleSubmit}
           disabled={!canSubmit}
-          className="flex items-center gap-1.5 bg-white text-[#09090e] rounded-lg px-4 py-2.5 text-xs font-semibold hover:bg-white/90 active:bg-white/80 transition-all shrink-0 disabled:opacity-25 disabled:cursor-not-allowed"
+          className="flex items-center gap-1.5 bg-[#111] text-white rounded-lg px-4 py-2.5 text-xs font-semibold hover:bg-[#222] active:bg-[#333] transition-all shrink-0 disabled:opacity-25 disabled:cursor-not-allowed"
         >
           {phase === 'querying'
             ? <Loader2 size={13} className="animate-spin" />
@@ -665,7 +665,7 @@ export default function QueryPage() {
             <button
               key={q}
               onClick={() => { setInput(q); inputRef.current?.focus() }}
-              className="text-xs text-white/25 border border-white/[0.07] rounded-lg px-3 py-1.5 hover:text-white/45 hover:border-white/[0.13] transition-colors"
+              className="text-xs text-[#bbb] border border-[#e8e8ec] rounded-lg px-3 py-1.5 hover:text-[#888] hover:border-[#bbb] transition-colors"
             >
               {q}
             </button>
@@ -677,20 +677,20 @@ export default function QueryPage() {
       {phase === 'querying' && (
         <div className="mt-8">
           <div className="flex items-start gap-3 mb-7">
-            <div className="w-5 h-5 rounded-full bg-white/[0.06] border border-white/[0.08] shrink-0 mt-0.5 flex items-center justify-center">
-              <TrendingUp size={10} className="text-white/30" />
+            <div className="w-5 h-5 rounded-full bg-[#f0f0f3] border border-[#e0e0e5] shrink-0 mt-0.5 flex items-center justify-center">
+              <TrendingUp size={10} className="text-[#aaa]" />
             </div>
             <p
               style={{ fontFamily: 'var(--font-syne)' }}
-              className="text-sm font-semibold text-white/60 leading-snug"
+              className="text-sm font-semibold text-[#555] leading-snug"
             >
               {activeQuery}
             </p>
           </div>
 
-          <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl p-6">
-            <p className="text-xs text-white/30 uppercase tracking-widest mb-3">Status</p>
-            <p className="text-sm text-white/55 flex items-center gap-1">
+          <div className="bg-white border border-[#e8e8ec] rounded-xl p-6">
+            <p className="text-xs text-[#aaa] uppercase tracking-widest mb-3">Status</p>
+            <p className="text-sm text-[#666] flex items-center gap-1">
               {status}
               <PulsingDot />
             </p>
@@ -700,20 +700,20 @@ export default function QueryPage() {
 
       {/* ── Error state ──────────────────────────────────────────────────────── */}
       {phase === 'error' && (
-        <div className="mt-8 bg-[#0d0d15] border border-red-400/20 rounded-xl p-6">
+        <div className="mt-8 bg-white border border-red-400/20 rounded-xl p-6">
           <div className="flex items-start gap-3">
             <AlertCircle size={16} className="text-red-400/70 shrink-0 mt-0.5" />
             <div>
               <p
                 style={{ fontFamily: 'var(--font-syne)' }}
-                className="text-sm font-semibold text-white/60 mb-1"
+                className="text-sm font-semibold text-[#555] mb-1"
               >
                 Query failed
               </p>
               <p className="text-xs text-red-400/70 mb-4">{errorMsg}</p>
               <button
                 onClick={handleReset}
-                className="flex items-center gap-1.5 text-xs text-white/35 hover:text-white/55 transition-colors"
+                className="flex items-center gap-1.5 text-xs text-[#999] hover:text-[#666] transition-colors"
               >
                 <RotateCcw size={12} />
                 Try again
@@ -733,19 +733,19 @@ export default function QueryPage() {
             {/* Active query echo + reset */}
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-start gap-3">
-                <div className="w-5 h-5 rounded-full bg-white/[0.06] border border-white/[0.08] shrink-0 mt-0.5 flex items-center justify-center">
-                  <TrendingUp size={10} className="text-white/30" />
+                <div className="w-5 h-5 rounded-full bg-[#f0f0f3] border border-[#e0e0e5] shrink-0 mt-0.5 flex items-center justify-center">
+                  <TrendingUp size={10} className="text-[#aaa]" />
                 </div>
                 <p
                   style={{ fontFamily: 'var(--font-syne)' }}
-                  className="text-sm font-semibold text-white/60 leading-snug"
+                  className="text-sm font-semibold text-[#555] leading-snug"
                 >
                   {activeQuery}
                 </p>
               </div>
               <button
                 onClick={handleReset}
-                className="shrink-0 flex items-center gap-1.5 text-xs text-white/20 hover:text-white/45 transition-colors"
+                className="shrink-0 flex items-center gap-1.5 text-xs text-[#ccc] hover:text-[#888] transition-colors"
               >
                 <RotateCcw size={12} />
                 New query
@@ -753,21 +753,21 @@ export default function QueryPage() {
             </div>
 
             {/* Recommendation card */}
-            <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl p-6">
+            <div className="bg-white border border-[#e8e8ec] rounded-xl p-6">
               <div className="flex items-start justify-between gap-4 mb-4">
-                <p className="text-xs text-white/30 uppercase tracking-widest">Recommendation</p>
+                <p className="text-xs text-[#aaa] uppercase tracking-widest">Recommendation</p>
                 <ConfidenceBadge confidence={result.confidence} />
               </div>
 
               <p
                 style={{ fontFamily: 'var(--font-syne)' }}
-                className="text-[17px] font-semibold text-white leading-relaxed mb-4"
+                className="text-[17px] font-semibold text-[#111] leading-relaxed mb-4"
               >
                 {result.recommendation}
               </p>
 
               {result.reasoning && (
-                <p className="text-xs text-white/30 border-t border-white/[0.05] pt-4 leading-relaxed">
+                <p className="text-xs text-[#aaa] border-t border-[#ebebef] pt-4 leading-relaxed">
                   {result.reasoning}
                 </p>
               )}
@@ -776,7 +776,7 @@ export default function QueryPage() {
             {/* Evidence panel */}
             {result.evidence?.length > 0 && (
               <div>
-                <p className="text-xs text-white/25 uppercase tracking-widest mb-3 px-1">
+                <p className="text-xs text-[#bbb] uppercase tracking-widest mb-3 px-1">
                   Supporting evidence
                 </p>
                 <div className="space-y-2.5">
@@ -800,19 +800,19 @@ export default function QueryPage() {
                   <div className="space-y-2">
                     <button
                       onClick={handleGenerateBrief}
-                      className="flex items-center gap-2 bg-white/[0.04] border border-white/[0.08] text-white/50 hover:text-white/80 hover:bg-white/[0.08] hover:border-white/[0.15] rounded-xl px-5 py-3 text-sm font-medium transition-all"
+                      className="flex items-center gap-2 bg-[#f5f5f7] border border-[#e0e0e5] text-[#777] hover:text-[#333] hover:bg-[#e8e8ec] hover:border-[#bbb] rounded-xl px-5 py-3 text-sm font-medium transition-all"
                     >
                       <FileText size={14} />
                       Generate Feature Brief
                     </button>
                     {/* Always-visible brief count */}
                     {briefsLimit !== null && (
-                      <p className="text-[10px] text-white/25 px-1">
+                      <p className="text-[10px] text-[#bbb] px-1">
                         {Math.max((briefsLimit ?? 0) - briefsUsed, 0)}/{briefsLimit} briefs remaining
                       </p>
                     )}
                     {billingPlan === 'pro' && (
-                      <p className="text-[10px] text-white/25 px-1">
+                      <p className="text-[10px] text-[#bbb] px-1">
                         Unlimited briefs — Pro plan
                       </p>
                     )}
@@ -843,17 +843,17 @@ export default function QueryPage() {
 
       {/* ── Empty state (idle, below examples) ──────────────────────────────── */}
       {phase === 'idle' && (
-        <div className="bg-[#0d0d15] border border-white/[0.07] rounded-xl py-14 flex flex-col items-center">
-          <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.07] flex items-center justify-center mb-4">
-            <TrendingUp size={17} className="text-white/20" />
+        <div className="bg-white border border-[#e8e8ec] rounded-xl py-14 flex flex-col items-center">
+          <div className="w-10 h-10 rounded-xl bg-[#f5f5f7] border border-[#e8e8ec] flex items-center justify-center mb-4">
+            <TrendingUp size={17} className="text-[#ccc]" />
           </div>
           <p
             style={{ fontFamily: 'var(--font-syne)' }}
-            className="text-sm font-semibold text-white/30 mb-1"
+            className="text-sm font-semibold text-[#aaa] mb-1"
           >
             No queries yet
           </p>
-          <p className="text-xs text-white/20">
+          <p className="text-xs text-[#ccc]">
             Ask your first question above to analyse your signals
           </p>
         </div>

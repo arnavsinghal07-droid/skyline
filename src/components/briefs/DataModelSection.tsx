@@ -24,7 +24,7 @@ function highlightDDL(ddl: string): ReactNode[] {
     const trimmed = line.trimStart()
     if (trimmed.startsWith('--')) {
       result.push(
-        <span key={`line-${lineIdx}`} className="text-white/35 italic">
+        <span key={`line-${lineIdx}`} className="text-[#999] italic">
           {line}
         </span>
       )
@@ -116,19 +116,19 @@ function highlightDDL(ddl: string): ReactNode[] {
     const rendered: ReactNode[] = tokens.map((tok, tokIdx) => {
       const key = `line-${lineIdx}-tok-${tokIdx}`
       if (tok.type === 'keyword') {
-        return <span key={key} className="text-blue-400 font-medium">{tok.text}</span>
+        return <span key={key} className="text-blue-600 font-medium">{tok.text}</span>
       } else if (tok.type === 'type') {
-        return <span key={key} className="text-amber-300">{tok.text}</span>
+        return <span key={key} className="text-amber-600">{tok.text}</span>
       } else if (tok.type === 'function') {
-        return <span key={key} className="text-purple-400">{tok.text}</span>
+        return <span key={key} className="text-purple-600">{tok.text}</span>
       } else {
-        return <span key={key} className="text-white/60">{tok.text}</span>
+        return <span key={key} className="text-[#555]">{tok.text}</span>
       }
     })
 
     if (commentPart) {
       rendered.push(
-        <span key={`line-${lineIdx}-comment`} className="text-white/35 italic">
+        <span key={`line-${lineIdx}-comment`} className="text-[#999] italic">
           {commentPart}
         </span>
       )
@@ -157,9 +157,9 @@ export function DataModelSection({ hints }: DataModelSectionProps) {
         return (
           <div
             key={i}
-            className="bg-[#0a0a12] border border-white/[0.06] rounded-lg overflow-hidden"
+            className="bg-[#fafafa] border border-[#e8e8ec] rounded-lg overflow-hidden"
           >
-            <p className="text-xs font-medium text-white/60 px-4 py-2.5 border-b border-white/[0.04]">
+            <p className="text-xs font-medium text-[#555] px-4 py-2.5 border-b border-[#ebebef]">
               {hint.feature_group}
             </p>
             <pre className="px-4 py-3 overflow-x-auto text-xs leading-relaxed bg-transparent">

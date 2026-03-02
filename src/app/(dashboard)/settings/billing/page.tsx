@@ -174,7 +174,7 @@ export default function BillingPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 size={20} className="animate-spin text-white/20" />
+        <Loader2 size={20} className="animate-spin text-[#ccc]" />
       </div>
     )
   }
@@ -212,10 +212,10 @@ export default function BillingPage() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] text-white/25 uppercase tracking-widest mb-1">Current plan</p>
+              <p className="text-[10px] text-[#bbb] uppercase tracking-widest mb-1">Current plan</p>
               <p
                 style={{ fontFamily: 'var(--font-syne)' }}
-                className="text-lg font-bold text-white"
+                className="text-lg font-bold text-[#111]"
               >
                 {currentPlan === 'pro' ? 'Pro' : 'Starter'}
               </p>
@@ -223,7 +223,7 @@ export default function BillingPage() {
             <button
               onClick={handlePortal}
               disabled={portalLoading}
-              className="flex items-center gap-2 text-xs text-white/40 hover:text-white/70 transition-colors disabled:opacity-40"
+              className="flex items-center gap-2 text-xs text-[#999] hover:text-[#444] transition-colors disabled:opacity-40"
             >
               {portalLoading ? (
                 <Loader2 size={12} className="animate-spin" />
@@ -239,7 +239,7 @@ export default function BillingPage() {
 
       {/* Plan cards */}
       <div>
-        <p className="text-[10px] text-white/25 uppercase tracking-widest mb-4">
+        <p className="text-[10px] text-[#bbb] uppercase tracking-widest mb-4">
           {hasSubscription ? 'Change plan' : 'Choose a plan'}
         </p>
         <div className="grid grid-cols-3 gap-4">
@@ -267,12 +267,12 @@ export default function BillingPage() {
       {/* Portal link for subscribed users (secondary placement) */}
       {hasSubscription && (
         <div className="text-center">
-          <p className="text-[10px] text-white/20">
+          <p className="text-[10px] text-[#ccc]">
             View invoices, update payment method, or cancel via{' '}
             <button
               onClick={handlePortal}
               disabled={portalLoading}
-              className="text-white/35 underline underline-offset-2 hover:text-white/55 transition-colors"
+              className="text-[#999] underline underline-offset-2 hover:text-[#666] transition-colors"
             >
               Stripe Customer Portal
             </button>

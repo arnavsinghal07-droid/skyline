@@ -42,22 +42,22 @@ export default function Sidebar() {
   return (
     <aside
       className="fixed left-0 top-0 h-screen w-[240px] flex flex-col"
-      style={{ background: '#0a0a11', borderRight: '1px solid rgba(255,255,255,0.06)' }}
+      style={{ background: '#ffffff', borderRight: '1px solid #e8e8ec' }}
     >
       {/* Wordmark */}
       <div className="px-5 pt-6 pb-5">
         <div className="flex items-center gap-2.5">
-          <div className="w-[7px] h-[7px] bg-white rotate-45 shrink-0" />
+          <div className="w-[7px] h-[7px] bg-[#111] rotate-45 shrink-0" />
           <span
             style={{ fontFamily: 'var(--font-syne)', letterSpacing: '0.22em' }}
-            className="text-[11px] font-extrabold text-white uppercase"
+            className="text-[11px] font-extrabold text-[#111] uppercase"
           >
             Sightline
           </span>
         </div>
       </div>
 
-      <div className="h-px bg-white/[0.05] mx-0" />
+      <div className="h-px bg-[#e8e8ec] mx-0" />
 
       {/* Nav */}
       <nav className="flex-1 py-4 px-3 space-y-0.5">
@@ -68,8 +68,8 @@ export default function Sidebar() {
             className={[
               'flex items-center gap-3 w-full rounded-lg px-3 py-2 text-sm transition-colors duration-100',
               isActive(href)
-                ? 'text-white bg-white/[0.06]'
-                : 'text-white/35 hover:text-white/60 hover:bg-white/[0.04]',
+                ? 'text-[#111] bg-[#f0f0f3]'
+                : 'text-[#999] hover:text-[#555] hover:bg-[#f5f5f7]',
             ].join(' ')}
           >
             <Icon size={15} />
@@ -80,11 +80,11 @@ export default function Sidebar() {
 
       {/* Sign out */}
       <div className="px-3 pb-5">
-        <div className="h-px bg-white/[0.05] mb-4" />
+        <div className="h-px bg-[#e8e8ec] mb-4" />
         <button
           onClick={handleSignOut}
           disabled={signingOut}
-          className="flex items-center gap-3 w-full rounded-lg px-3 py-2 text-sm text-white/35 hover:text-white/60 hover:bg-white/[0.04] transition-colors duration-100 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex items-center gap-3 w-full rounded-lg px-3 py-2 text-sm text-[#999] hover:text-[#555] hover:bg-[#f5f5f7] transition-colors duration-100 disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {signingOut
             ? <Loader2 size={15} className="animate-spin" />
