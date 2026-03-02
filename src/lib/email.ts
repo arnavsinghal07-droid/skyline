@@ -35,3 +35,34 @@ export async function sendWelcomeEmail(to: string, plan: string) {
     console.error('[Sightline] Failed to send welcome email:', err)
   }
 }
+
+export async function sendWaitlistConfirmationEmail(to: string) {
+  if (!to || !process.env.RESEND_API_KEY) return
+
+  const resend = new Resend(process.env.RESEND_API_KEY)
+
+  try {
+    await resend.emails.send({
+      from: 'Sightline <onboarding@resend.dev>', // TODO: update from address when custom domain verified
+      to,
+      subject: "You're on the Sightline waitlist",
+      html: `
+        <div style="font-family: system-ui, sans-serif; max-width: 480px; margin: 0 auto;">
+          <h2 style="color: #111;">You're on the list.</h2>
+          <p style="color: #444; line-height: 1.6;">
+            Thanks for your interest in Sightline. We'll be in touch when your spot opens up.
+          </p>
+          <p style="color: #444; line-height: 1.6;">
+            Sightline is an AI-native product discovery platform — think Cursor, but for product managers.
+          </p>
+          <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;" />
+          <p style="color: #999; font-size: 12px;">
+            You received this because you joined the Sightline waitlist.
+          </p>
+        </div>
+      `,
+    })
+  } catch (err) {
+    console.error('[Sightline] Failed to send waitlist email:', err)
+  }
+}
