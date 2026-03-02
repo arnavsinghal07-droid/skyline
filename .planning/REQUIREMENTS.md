@@ -11,7 +11,7 @@ Requirements for milestone v1.0 — Brief v2 + Ship Ready. Each maps to roadmap 
 
 - [x] **BRIEF-01**: User can generate a brief with UI Direction section showing screen-by-screen component changes grounded in customer evidence
 - [x] **BRIEF-02**: User can generate a brief with Data Model Hints section showing typed table/field suggestions with rationale
-- [ ] **BRIEF-03**: User can view existing v1 briefs without errors after the v2 upgrade (backward compatibility)
+- [x] **BRIEF-03**: User can view existing v1 briefs without errors after the v2 upgrade (backward compatibility)
 - [x] **BRIEF-04**: Brief generation handles token limits gracefully — returns structured error instead of truncated JSON
 
 ### Coding Agent Export
