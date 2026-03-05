@@ -1,11 +1,9 @@
 # Requirements: Sightline
 
-**Defined:** 2026-02-25
+**Defined:** 2026-02-25 (v1.0) | **Updated:** 2026-03-04 (v2.0)
 **Core Value:** Every product recommendation must be traceable to customer evidence — trust is the product.
 
-## v1.0 Requirements
-
-Requirements for milestone v1.0 — Brief v2 + Ship Ready. Each maps to roadmap phases.
+## v1.0 Requirements (Complete)
 
 ### Brief v2
 
@@ -36,78 +34,92 @@ Requirements for milestone v1.0 — Brief v2 + Ship Ready. Each maps to roadmap 
 - [ ] **LAND-03**: Landing page displays product screenshots of query interface and brief panel
 - [ ] **LAND-04**: Landing page shows pricing section with Starter and Pro tier feature comparison
 
-## v2 Requirements
+## v2.0 Requirements
 
-Deferred to future release. Tracked but not in current roadmap.
+Requirements for milestone v2.0 — Competitive Intelligence + Deck Generator.
+
+### Competitive Intelligence
+
+- [ ] **COMP-01**: User can trigger competitor mention extraction from existing customer call signals during enrichment
+- [ ] **COMP-02**: User can add competitors to track (name, G2 slug, Capterra slug) and trigger external review scraping
+- [ ] **COMP-03**: System extracts structured signals (pain points, switching reasons, feature requests) from scraped reviews via Haiku
+- [ ] **COMP-04**: User can view gap scoring that cross-references competitor weaknesses against their feature backlog
+- [ ] **COMP-05**: User receives a weekly competitive digest email summarizing new competitive signals and gaps
+- [ ] **COMP-06**: Competitive signals are stored in a separate Qdrant collection and clearly labeled in the evidence panel
+
+### Deck Generator v1
+
+- [ ] **DECK-01**: User can generate a deck from any Sightline artifact (brief, query result, decision, competitive digest) with one click
+- [ ] **DECK-02**: Generated deck includes multiple slide types (title, insight, data_viz, comparison, competitive_matrix, timeline, decision)
+- [ ] **DECK-03**: Every data claim on every slide is traceable to a source chunk or signal (evidence tracing)
+- [ ] **DECK-04**: User can download the generated deck as PPTX
+- [ ] **DECK-05**: User can download the generated deck as PDF
+- [ ] **DECK-06**: User can choose from 3 deck themes (Clean, Executive, Brand)
+
+### Deck Generator v2
+
+- [ ] **DECK-07**: User can share a deck via web link with interactive evidence drill-down (clicking a claim shows the source)
+- [ ] **DECK-08**: Deck owner can choose public or authenticated access when sharing
+- [ ] **DECK-09**: User can build custom decks by composing slides from briefs, queries, decisions, and competitive digests
+- [ ] **DECK-10**: User can reorder slides via drag-and-drop and edit slide content inline
+- [ ] **DECK-11**: User can export a deck to Google Slides
+
+## Future Requirements
+
+Deferred to future milestones.
 
 ### Signal Loop
-
 - **LOOP-01**: System monitors pain area signals 30/60/90 days after feature ships
 - **LOOP-02**: Decision log entry auto-updated with signal loop check results
 
 ### Usage Data
-
 - **USAGE-01**: User can ingest Mixpanel/Amplitude event data
 - **USAGE-02**: Usage signals appear alongside qualitative evidence in queries
 
-### Competitive Intelligence
-
-- **COMP-01**: Competitor mentions extracted from customer calls during enrichment
-- **COMP-02**: Weekly competitive digest generated from external review platforms
-
 ### Integrations
-
 - **INTG-01**: User can export briefs to Linear as epics
 - **INTG-02**: User can export briefs to Notion database
 - **INTG-03**: User can connect Gong for automatic call ingestion
 
 ## Out of Scope
 
-Explicitly excluded. Documented to prevent scope creep.
-
 | Feature | Reason |
 |---------|--------|
-| Enterprise SSO (SAML) | Phase 3 — not needed for design partners |
-| Signal heatmap dashboard | Deferred — not critical for v1.0 ship readiness |
-| Stripe Elements (custom payment form) | PCI complexity not justified; hosted checkout sufficient |
-| Stripe metered billing API | Over-engineered for design partner scale; simple counter in DB |
-| Multi-seat / team billing | Requires invite flows, seat counting, proration — Phase 2 |
-| Referral / viral waitlist | Only worthwhile at 200+ signups; design partners are direct outreach |
-| Interactive demo on landing page | 2-4 weeks engineering; static screenshots achieve 80% of conversion lift |
-| Landing page blog / SEO content | Long-term growth lever; not a launch requirement |
-| GitHub Issues / JSON export | Clipboard + .md sufficient for design partners |
-| Annual billing discount | Churn reduction lever; premature for design partner phase |
-| Figma/Linear/Notion export integrations | Each is a 1-week integration; clipboard is sufficient |
+| Real-time competitive monitoring | Full product category, not a feature — weekly batch scraping gives 80% value |
+| Custom branded deck templates | 3 built-in themes sufficient for design partners |
+| AI-generated speaker notes | Generic output, worse than writing from scratch |
+| In-browser presentation mode | PPTX export is the present mode |
+| Competitive battlecards | Sales enablement JTBD, not PM research |
+| AI slide images (DALL-E/SD) | Generic, can't evidence-trace, expensive |
+| Enterprise SSO (SAML) | Not needed for design partners |
 
 ## Traceability
 
-Which phases cover which requirements. Updated during roadmap creation.
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BRIEF-01 | Phase 1 | Complete |
-| BRIEF-02 | Phase 1 | Complete |
-| BRIEF-03 | Phase 1 | Pending |
-| BRIEF-04 | Phase 1 | Complete |
-| EXPORT-01 | Phase 2 | Complete |
-| EXPORT-02 | Phase 2 | Complete |
-| EXPORT-03 | Phase 2 | Complete |
-| BILL-01 | Phase 3 | Complete |
-| BILL-02 | Phase 3 | Complete |
-| BILL-03 | Phase 3 | Complete |
-| BILL-04 | Phase 3 | Complete |
-| BILL-05 | Phase 3 | Complete |
-| BILL-06 | Phase 3 | Complete |
-| LAND-01 | Phase 4 | Pending |
-| LAND-02 | Phase 4 | Complete |
-| LAND-03 | Phase 4 | Pending |
-| LAND-04 | Phase 4 | Pending |
+| COMP-01 | TBD | Pending |
+| COMP-02 | TBD | Pending |
+| COMP-03 | TBD | Pending |
+| COMP-04 | TBD | Pending |
+| COMP-05 | TBD | Pending |
+| COMP-06 | TBD | Pending |
+| DECK-01 | TBD | Pending |
+| DECK-02 | TBD | Pending |
+| DECK-03 | TBD | Pending |
+| DECK-04 | TBD | Pending |
+| DECK-05 | TBD | Pending |
+| DECK-06 | TBD | Pending |
+| DECK-07 | TBD | Pending |
+| DECK-08 | TBD | Pending |
+| DECK-09 | TBD | Pending |
+| DECK-10 | TBD | Pending |
+| DECK-11 | TBD | Pending |
 
 **Coverage:**
-- v1.0 requirements: 17 total
-- Mapped to phases: 17
-- Unmapped: 0 ✓
+- v2.0 requirements: 17 total
+- Mapped to phases: 0 (pending roadmap)
+- Unmapped: 17
 
 ---
-*Requirements defined: 2026-02-25*
-*Last updated: 2026-02-25 after roadmap creation*
+*Requirements defined: 2026-02-25 (v1.0)*
+*Last updated: 2026-03-04 after v2.0 milestone definition*
