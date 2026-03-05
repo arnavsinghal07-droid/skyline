@@ -1,13 +1,15 @@
 'use client'
 
 import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
+import { SPRING_DEFAULT, DURATION_SECTION, VIEWPORT_ONCE } from './motion'
 
 interface ScrollRevealProps {
   children: React.ReactNode
   className?: string
   delay?: number
   direction?: 'up' | 'down' | 'left' | 'right'
+  amount?: 'sm' | 'md'
 }
 
 export function ScrollReveal({
@@ -15,16 +17,27 @@ export function ScrollReveal({
   className,
   delay = 0,
   direction = 'up',
+  amount = 'md',
 }: ScrollRevealProps) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: '-60px' })
+  const isInView = useInView(ref, VIEWPORT_ONCE)
+  const prefersReduced = useReducedMotion()
+
+  const dist = amount === 'sm' ? 20 : 40
+  const reducedDist = dist * 0.6
+
+  const d = prefersReduced ? reducedDist : dist
 
   const offsets = {
-    up: { y: 40 },
-    down: { y: -40 },
-    left: { x: 40 },
-    right: { x: -40 },
+    up: { y: d },
+    down: { y: -d },
+    left: { x: d },
+    right: { x: -d },
   }
+
+  const transition = prefersReduced
+    ? { duration: DURATION_SECTION * 0.5, delay }
+    : { ...SPRING_DEFAULT, delay }
 
   return (
     <motion.div
@@ -35,11 +48,7 @@ export function ScrollReveal({
           ? { opacity: 1, x: 0, y: 0 }
           : { opacity: 0, ...offsets[direction] }
       }
-      transition={{
-        duration: 0.7,
-        ease: [0.21, 0.47, 0.32, 0.98],
-        delay,
-      }}
+      transition={transition}
       className={className}
     >
       {children}

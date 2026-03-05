@@ -2,13 +2,13 @@
 ## Sightline — AI-Native Product Discovery Platform
 ### "Cursor for Product Managers"
 
-**Version:** 1.2  
-**Status:** Ready for Engineering  
-**Date:** February 2026  
-**Author:** Founding Team  
+**Version:** 1.3
+**Status:** Ready for Engineering
+**Date:** March 2026
+**Author:** Founding Team
 **Confidentiality:** Internal / Seed Investors Only
 
-> **v1.2 Update:** This version incorporates direct analysis of YC's Spring 2026 Request for Startups video on "Cursor for Product Managers." Three new capabilities have been added: UI/UX Proposals, Data Model Hints, and the Signal Loop Closer. Usage Data Ingestion has been elevated to a core MVP feature. The Coding Agent Export has been upgraded to a full implementation package.
+> **v1.3 Update:** Adds the **Deck Generator** module — AI-powered presentation generation that turns Sightline's evidence-backed outputs into stakeholder-ready slide decks. PMs can generate decks from briefs, discovery queries, competitive digests, and decision logs, or build custom presentations for their own projects with Sightline's evidence library as a source. This closes the last manual step in the PM communication loop. Previous v1.2 changes (UI/UX Proposals, Data Model Hints, Signal Loop Closer, Usage Data Ingestion) remain unchanged.
 
 ---
 
@@ -18,10 +18,10 @@ Sightline is an AI-native product discovery platform that closes the gap between
 
 YC's Spring 2026 RFS describes this opportunity precisely: *"Imagine a tool where you upload customer interviews and product usage data, ask 'What should we build next?' and get the outline of a new feature, complete with an explanation based on customer feedback as to why this is a change worth making. The tool would also propose specific changes to your product's UI, data model, and workflows and would break down the development tasks so that they could be handled by your favorite coding agent."*
 
-Sightline is that tool — and it goes further. It not only generates the implementation package for coding agents, it closes the loop after features ship by monitoring whether the customer pain that prompted the decision actually decreases.
+Sightline is that tool — and it goes further. It not only generates the implementation package for coding agents, it closes the loop after features ship by monitoring whether the customer pain that prompted the decision actually decreases. And when PMs need to present their findings, proposals, or decisions to stakeholders, Sightline generates polished, evidence-backed slide decks directly from its outputs — eliminating the hours PMs spend manually recreating insights in PowerPoint.
 
 > **Core Value Proposition**
-> Upload your customer interviews and usage data. Ask "What should we build next?" Get a prioritized feature brief with customer evidence, UI component proposals, data model hints, and a coding agent export — ready for Cursor or Claude Code to implement. Then track whether it worked.
+> Upload your customer interviews and usage data. Ask "What should we build next?" Get a prioritized feature brief with customer evidence, UI component proposals, data model hints, and a coding agent export — ready for Cursor or Claude Code to implement. Present it to stakeholders with a generated slide deck. Then track whether it worked.
 
 **Key Metrics at a Glance**
 
@@ -126,6 +126,7 @@ Sightline is a workspace that understands your product. It ingests every signal 
 | Competitive intelligence | ✅ Yes | ❌ No | ❌ No | ❌ No |
 | Decision audit trail | ✅ Yes | ❌ No | ❌ No | ❌ No |
 | Signal loop closer (outcome tracking) | ✅ Yes | ❌ No | ❌ No | ❌ No |
+| AI deck generation from evidence | ✅ Yes | ❌ No | ❌ No | ❌ No |
 | Conversational queries | ✅ Native | ⚠ Limited | ⚠ Limited | ✅ Yes |
 
 ---
@@ -410,6 +411,75 @@ Institutional memory for product decisions. Every brief that gets exported creat
 
 ---
 
+### Feature 10: Deck Generator *(New in v1.3)*
+
+The missing communication layer. PMs don't just build features — they sell ideas internally. Every discovery insight, feature proposal, and post-ship outcome eventually needs to become a presentation for leadership, investors, design reviews, or cross-functional alignment. Today, PMs manually recreate Sightline's outputs in Google Slides or PowerPoint, losing hours and stripping away the evidence traceability. The Deck Generator closes this gap.
+
+**Two modes of operation:**
+
+**Mode 1: Generate from Sightline Outputs (One-Click)**
+Turn any Sightline artifact into a presentation instantly:
+- **From a Brief** → Feature proposal deck (problem, solution, evidence, UI direction, success metrics)
+- **From a Discovery Query** → Insight presentation (finding, supporting evidence, confidence, recommendations)
+- **From a Competitive Digest** → Competitive landscape deck (positioning, gaps, opportunities)
+- **From a Decision Log entry** → Decision review deck (what we decided, why, what happened)
+- **From a Signal Loop Check** → Outcome report deck (before/after metrics, signal trends, learnings)
+
+**Mode 2: Custom Deck Builder (PM-Driven)**
+PMs building presentations for their own projects — quarterly roadmap reviews, board updates, sprint planning, design proposals — can use Sightline's evidence library as a source:
+1. PM selects a deck template (or starts blank)
+2. PM describes intent: "Quarterly product review for the board" or "Design proposal for checkout redesign"
+3. Sightline suggests a slide structure based on the intent
+4. PM can pull in evidence from the corpus, usage data, competitive signals, and decision history
+5. Each slide maintains evidence traceability — hovering a claim shows its source
+6. PM edits, reorders, and refines in a slide editor
+
+**Slide Generation Pipeline**
+1. **Intent Analysis** — Claude determines the presentation goal, audience, and appropriate structure
+2. **Content Selection** — relevant evidence, metrics, and visuals pulled from the knowledge base
+3. **Slide Composition** — each slide generated with a headline, supporting content, and source annotations
+4. **Design Application** — layout, typography, and color applied from the selected theme
+5. **Evidence Linking** — every data point on every slide traced back to its source
+
+**Slide Types Available**
+- Title / section divider
+- Key insight with supporting evidence quotes
+- Data visualization (bar, line, funnel, comparison)
+- Before/after comparison (signal trends, usage metrics)
+- Feature proposal (problem → solution → impact)
+- Competitive matrix
+- User story or persona summary
+- Timeline / roadmap
+- Decision summary with confidence and evidence
+- Custom freeform
+
+**Design System**
+- 3 built-in themes: Clean (minimal, light), Executive (polished, dark), Brand (customizable to company colors)
+- Consistent typography hierarchy: headline, subhead, body, caption
+- Evidence citations styled as subtle footnotes — present but not distracting
+- Data visualizations auto-generated from usage signals and corpus analytics
+- Opinionated layouts that prevent the "wall of text" antipattern — Sightline structures content visually
+
+**Export Formats**
+- **PPTX** — editable PowerPoint, compatible with Google Slides import
+- **Google Slides** — direct API push to user's Google Workspace (OAuth)
+- **PDF** — polished read-only export for sharing
+- **Web link** — shareable Sightline-hosted presentation with interactive evidence drill-down (viewers can click a claim to see the underlying sources)
+
+**Why this matters:**
+The presentation is often where product decisions actually get made. A PM can run perfect discovery, generate the ideal brief, but if the stakeholder deck doesn't land, nothing ships. By generating the deck directly from the evidence-backed outputs, Sightline ensures that what gets presented to leadership is the same grounded, cited analysis — not a lossy manual retelling. The interactive web link export is particularly powerful: investors and executives can drill into the evidence behind any claim, building the same trust in the analysis that the PM already has.
+
+**Acceptance Criteria**
+- Brief-to-deck generation completes in under 15 seconds for a 12-slide deck
+- Generated decks score ≥4/5 in design quality assessment (internal benchmark: 10 PMs rate 20 generated decks)
+- Every data claim on every slide is traceable to a source — no orphaned statistics
+- PPTX export opens cleanly in PowerPoint and Google Slides with no layout breakage
+- Custom deck builder supports drag-and-drop reordering and inline text editing
+- PM can regenerate individual slides without affecting the rest of the deck
+- Web link export supports interactive evidence drill-down without requiring a Sightline account
+
+---
+
 ## 6. Technical Architecture
 
 ### 6.1 Technology Stack
@@ -444,6 +514,8 @@ Institutional memory for product decisions. Every brief that gets exported creat
 | Brief | id, query_id, content_json, ui_direction_json, data_model_hints_json, exports[] | Full brief v2 |
 | CompetitorSignal | id, org_id, competitor, source, content, date | Competitive data |
 | Decision | id, brief_id, workspace_id, user_id, title, evidence_ids[], confidence, outcome, signal_loop_check_json | Decision log |
+| Deck | id, workspace_id, user_id, title, source_type, source_id, theme, slides_json, status | Generated presentation |
+| DeckSlide | id, deck_id, position, slide_type, content_json, evidence_ids[], layout | Individual slide within a deck |
 
 ### 6.3 Security & Compliance
 
@@ -490,6 +562,20 @@ Institutional memory for product decisions. Every brief that gets exported creat
 3. Combined confidence score accounts for both signal types
 4. Brief generated with UI changes targeting the specific drop-off points
 
+**Flow 4: Brief → Stakeholder Deck (One-Click)**
+1. PM generates a brief from a discovery query
+2. PM clicks "Generate Deck" on the brief panel
+3. Sightline generates a 10–15 slide feature proposal deck: problem, evidence, solution, UI direction, success metrics
+4. PM reviews in the slide editor, reorders or edits slides inline
+5. PM exports to PPTX for the leadership meeting — or shares a web link where executives can drill into the evidence behind each claim
+
+**Flow 5: Custom Deck for Board Update**
+1. PM opens the Deck Builder and selects "Board / Investor Update" template
+2. PM describes: "Q1 product review — what we shipped, what we learned, what's next"
+3. Sightline suggests a 15-slide structure and auto-fills from decision log, signal loop outcomes, and upcoming briefs
+4. PM drags in additional evidence cards from the corpus, edits narrative text
+5. Exports to Google Slides for the board meeting
+
 ---
 
 ## 8. Product Roadmap
@@ -532,6 +618,7 @@ Institutional memory for product decisions. Every brief that gets exported creat
 
 - Competitive intelligence module
 - Interview guide generator
+- **Deck Generator v1 — one-click generation from briefs, queries, and decision log entries (PPTX + PDF export)**
 - Linear + Notion integrations
 - Intercom + Zendesk connectors
 - Gong OAuth connector
@@ -542,6 +629,7 @@ Institutional memory for product decisions. Every brief that gets exported creat
 
 - Usage data ingestion (Mixpanel / Amplitude)
 - Signal loop closer (post-ship monitoring)
+- **Deck Generator v2 — custom deck builder, template library, Google Slides integration, shareable web links with evidence drill-down**
 - Team workspaces — shared queries, collaborative briefs
 - Slack connector (signals from #feedback and #support)
 - Decision quality analytics — which evidence patterns led to good outcomes
@@ -551,6 +639,7 @@ Institutional memory for product decisions. Every brief that gets exported creat
 
 - Enterprise SSO (SAML via WorkOS)
 - SOC 2 Type I certification
+- **Deck Generator v3 — brand kit upload (company fonts, colors, logos), team deck templates, presentation analytics (who viewed, which slides, evidence clicks)**
 - Signal quality scoring — Sightline learns which evidence patterns predict good decisions
 - Multi-product workspaces
 - API access for engineering teams
@@ -571,6 +660,7 @@ Institutional memory for product decisions. Every brief that gets exported creat
 | UI Direction in briefs | ✅ | ✅ | ✅ |
 | Data Model Hints | ✅ | ✅ | ✅ |
 | Agent export | ❌ | ✅ | ✅ + custom format |
+| Deck generator | One-click only | Full builder + templates | Full + brand kit + analytics |
 | Competitive module | ❌ | ✅ | ✅ |
 | Signal loop closer | ❌ | ✅ | ✅ |
 | Decision log | Basic | Full + outcomes | Full + team analytics |
@@ -602,6 +692,9 @@ Institutional memory for product decisions. Every brief that gets exported creat
 - **UI Direction usability** — % of exports used in coding agents without modification (target >50%)
 - **Hallucination rate** — quotes that can't be found in source material (target <1%)
 - **Signal loop accuracy** — % of loop checks where PM agrees with Sightline's outcome assessment (target >70%)
+- **Deck adoption rate** — % of briefs that generate a deck within 48 hours (target >30%)
+- **Deck evidence integrity** — % of data claims on slides traceable to a source (target 100%)
+- **Deck design quality** — average PM rating of generated deck quality (target ≥4.0/5.0)
 
 ---
 
@@ -615,11 +708,12 @@ The demo that wins a YC interview:
 4. **Generate** — click "Generate Brief" — UI Direction and Data Model Hints appear alongside the spec
 5. **Export** — click "Export to Claude Code" — show the complete implementation package
 6. **Paste** — open Cursor, paste the export, watch it start implementing
+7. **Present** — click "Generate Deck" — a polished 12-slide feature proposal appears in seconds, every claim sourced. Share a link where the partners can click any data point and see the underlying evidence.
 
-Total demo time: under 2 minutes. Every step is something competitors can't do. The UI Direction and Data Model Hints are the moments that make engineers in the room lean forward — because they immediately understand that this closes the loop between discovery and implementation.
+Total demo time: under 2.5 minutes. Every step is something competitors can't do. The UI Direction and Data Model Hints are the moments that make engineers in the room lean forward. The deck generation is the moment that makes PMs lean forward — because they immediately see that the hours they spend rebuilding insights in slides are gone.
 
 **The line that wins the room:**
-*"Every other PM tool stops at the brief. We go all the way to the coding agent — and then we come back 30 days later to tell you if it worked."*
+*"Every other PM tool stops at the brief. We go all the way to the coding agent, generate the stakeholder deck, and then come back 30 days later to tell you if it worked."*
 
 ---
 

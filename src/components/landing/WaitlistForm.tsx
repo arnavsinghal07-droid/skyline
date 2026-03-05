@@ -45,21 +45,28 @@ export function WaitlistForm() {
           onChange={e => setEmail(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleSubmit()}
           placeholder="you@company.com"
-          className="flex-1 bg-[#f5f5f7] border border-[#e0e0e4] focus:border-[#bbb] rounded-full px-5 py-3 text-sm text-[#111] placeholder:text-[#999] outline-none transition-colors"
+          className="flex-1 bg-white/70 backdrop-blur-[12px] border border-black/[0.08] focus:border-[#7c3aed]/40 focus:shadow-[0_0_0_3px_rgba(124,58,237,0.1)] rounded-full px-5 py-3 text-sm text-[#0f0f14] placeholder:text-[#0f0f14]/30 outline-none transition-all duration-200"
         />
         <button
           onClick={handleSubmit}
           disabled={state === 'loading'}
-          className="flex items-center gap-2 bg-[#111] text-white rounded-full px-6 py-3 text-sm font-semibold hover:bg-[#222] active:bg-[#333] transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+          className="group relative flex items-center gap-2 overflow-hidden bg-gradient-to-r from-[#7c3aed] to-[#6d28d9] text-white rounded-full px-6 py-3 text-sm font-semibold shadow-lg shadow-purple-500/15 hover:shadow-xl hover:shadow-purple-500/25 active:scale-[0.97] active:duration-[120ms] transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
         >
-          {state === 'loading' ? (
-            <Loader2 size={14} className="animate-spin" />
-          ) : (
-            <>
-              Join waitlist
-              <ArrowRight size={13} />
-            </>
-          )}
+          {/* Light sweep */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 -translate-x-[200%] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-[200%]"
+          />
+          <span className="relative z-10 flex items-center gap-2">
+            {state === 'loading' ? (
+              <Loader2 size={14} className="animate-spin" />
+            ) : (
+              <>
+                Join waitlist
+                <ArrowRight size={13} />
+              </>
+            )}
+          </span>
         </button>
       </div>
       {state === 'error' && (

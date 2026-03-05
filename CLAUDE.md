@@ -9,7 +9,7 @@ You're building **Sightline**, an AI-native product discovery platform ("Cursor 
 **Layer 1: Workflows (The Instructions)**
 - Markdown SOPs stored in `workflows/`
 - Each workflow defines: objective, required inputs, which tools to invoke, expected outputs, error handling
-- Examples: `workflows/ingest_transcript.md`, `workflows/run_discovery_query.md`, `workflows/generate_brief.md`, `workflows/generate_ui_proposal.md`, `workflows/competitive_scan.md`, `workflows/generate_interview_guide.md`, `workflows/ingest_usage_data.md`
+- Examples: `workflows/ingest_transcript.md`, `workflows/run_discovery_query.md`, `workflows/generate_brief.md`, `workflows/generate_ui_proposal.md`, `workflows/competitive_scan.md`, `workflows/generate_interview_guide.md`, `workflows/ingest_usage_data.md`, `workflows/generate_deck.md`
 - Written in plain language — the same way you'd brief a senior engineer on the team
 
 **Layer 2: Agents (The Decision-Maker — Your Role)**
@@ -44,10 +44,12 @@ PM query → Retrieve → Rerank → Reason (Claude) → Response with citations
                                                                      ↓
               Export (Linear / Notion / Cursor / Claude Code) → Ship
                                                                      ↓
+                    Generate Deck → Present to Stakeholders → Align
+                                                                     ↓
                     Monitor signal change → Loop closes → Sightline learns
 ```
 
-**Eight product modules:**
+**Nine product modules:**
 1. **Signal Ingestion Engine** — processes qualitative signals (calls, tickets, NPS)
 2. **Usage Data Ingestion** — processes quantitative signals (Mixpanel, Amplitude, product events)
 3. **Discovery Query Interface** — conversational AI that answers PM questions with cited evidence
@@ -56,6 +58,7 @@ PM query → Retrieve → Rerank → Reason (Claude) → Response with citations
 6. **Interview Guide Generator** — creates targeted research questions based on evidence gaps
 7. **Decision Log** — institutional memory tracking what was decided, why, and what happened
 8. **Signal Loop Closer** — monitors whether shipped features actually reduced the pain they were built to solve
+9. **Deck Generator** — turns briefs, queries, decisions, and custom PM content into polished, evidence-traced presentations (PPTX, Google Slides, PDF, shareable web link)
 
 **Primary user:** A founder or PM at a Seed–Series A startup who is time-poor, evidence-hungry, and already using Cursor or Claude Code for engineering. They will not tolerate slow responses or hallucinated citations. Trust is the product.
 
@@ -82,6 +85,7 @@ sightline/
 │   ├── connectors/             # Gong, Zoom, Intercom, Zendesk, Mixpanel, Amplitude
 │   ├── competitive/            # Competitor signal extraction and scoring
 │   ├── usage/                  # Usage data normalization and signal extraction
+│   ├── decks/                  # Deck generation pipeline (intent, compose, layout, export)
 │   ├── exports/                # Linear, Notion, Jira, Cursor, Claude Code formatters
 │   └── evals/                  # Evaluation harness for RAG quality scoring
 ├── workflows/                  # Markdown SOPs
@@ -92,6 +96,7 @@ sightline/
 │   ├── generate_ui_proposal.md
 │   ├── competitive_scan.md
 │   ├── generate_interview_guide.md
+│   ├── generate_deck.md
 │   └── log_decision.md
 ├── .tmp/                       # Temporary processing files (disposable, not committed)
 ├── .env                        # API keys and secrets (NEVER committed)
@@ -111,7 +116,7 @@ sightline/
 
 **AI / RAG**
 - All LLM calls go through **`packages/ai/client.ts`**. Never call the Anthropic SDK directly from `apps/`.
-- The primary model is **`claude-sonnet-4-6`** for reasoning and brief generation. Use **`claude-haiku-4-5-20251001`** for enrichment tagging, UI proposal generation, and competitive mention extraction.
+- The primary model is **`claude-sonnet-4-6`** for reasoning, brief generation, and deck narrative/structure. Use **`claude-haiku-4-5-20251001`** for enrichment tagging, UI proposal generation, competitive mention extraction, and deck layout decisions.
 - Prompts are typed constants in **`packages/ai/prompts/`**. No inline prompt strings in business logic.
 - Retrieval uses **Qdrant hybrid search** (dense + sparse).
 - Reranking always runs before the final LLM call. Top-40 retrieve → rerank → top-12 to Claude.
@@ -296,6 +301,55 @@ Competitive data lives in its own Qdrant collection (`sightline-competitive`). N
 
 ---
 
+## The Deck Generator
+
+Turns Sightline outputs into polished, evidence-traced presentations. Two modes: one-click generation from any Sightline artifact (brief, query, decision, competitive digest, signal loop check), and a custom deck builder where PMs compose presentations for their own projects using Sightline's evidence library.
+
+**Deck Generation Pipeline:**
+```
+1. INTENT       tools/decks/analyze_intent.py     # Determines audience, goal, structure from source
+2. SELECT       tools/decks/select_content.py     # Pulls relevant evidence, metrics, visuals
+3. COMPOSE      tools/decks/compose_slides.py     # Generates slide content with headlines + sources — Sonnet
+4. LAYOUT       tools/decks/apply_layout.py       # Applies theme, typography, data viz
+5. LINK         tools/decks/link_evidence.py      # Traces every claim to its source
+6. EXPORT       tools/decks/export.py             # PPTX, Google Slides API, PDF, web link
+```
+
+**Key types:**
+```typescript
+type Deck = {
+  id: string,
+  workspace_id: string,
+  user_id: string,
+  title: string,
+  source_type: "brief" | "query" | "decision" | "competitive" | "signal_loop" | "custom",
+  source_id?: string,
+  theme: "clean" | "executive" | "brand",
+  slides: DeckSlide[],
+  status: "draft" | "published"
+}
+
+type DeckSlide = {
+  id: string,
+  deck_id: string,
+  position: number,
+  slide_type: "title" | "insight" | "data_viz" | "comparison" | "proposal" | "competitive_matrix" | "persona" | "timeline" | "decision" | "freeform",
+  content_json: Record<string, unknown>,
+  evidence_ids: string[],
+  layout: string
+}
+```
+
+**Rules:**
+- Every data claim on every slide must be traceable to a source — no orphaned statistics
+- Deck generation uses **`claude-sonnet-4-6`** for narrative and structure, **`claude-haiku-4-5-20251001`** for layout decisions
+- Prompts for deck generation live in `packages/ai/prompts/deck/` — never inline
+- PPTX generation uses a deterministic template engine (python-pptx) — Claude writes the content, code renders the slides
+- The shareable web link export renders slides with interactive evidence drill-down — clicking a claim shows the source chunk/signal
+- Custom deck builder state managed with Zustand (slide reordering, inline editing)
+
+---
+
 ## The Decision Log
 
 ```typescript
@@ -340,6 +394,7 @@ Competitive data lives in its own Qdrant collection (`sightline-competitive`). N
 - **Never generate UI direction that isn't grounded in a customer signal or usage pattern**
 - **Never generate data model hints without explaining the rationale**
 - **Never commit secrets** — `.env` only
+- **Never generate a deck slide with an untraced claim** — every data point must link to a source
 - **Never make paid API calls to fix a speculative bug** without checking first
 
 ---
@@ -366,6 +421,8 @@ Competitive data lives in its own Qdrant collection (`sightline-competitive`). N
 | Signal loop closer | 🔲 Not started | Post-ship pain area monitoring |
 | Competitive intelligence | 🔲 Not started | |
 | Interview guide generator | 🔲 Not started | |
+| Deck generator v1 | 🔲 Not started | One-click from briefs/queries/decisions; PPTX + PDF export |
+| Deck generator v2 | 🔲 Not started | Custom builder, templates, Google Slides, web link |
 | Weekly PM digest email | 🔲 Not started | |
 | Roadmap evidence scorer | 🔲 Not started | |
 | Stripe billing | 🔲 Not started | Next session priority |
@@ -377,6 +434,6 @@ Competitive data lives in its own Qdrant collection (`sightline-competitive`). N
 
 You're building the product YC explicitly asked for. Their framing is the north star: *"propose specific changes to your product's UI, data model, and workflows and break down the development tasks so that they could be handled by your favorite coding agent."*
 
-Every feature closes more of that loop. Trust is the core feature — every recommendation must be traceable to evidence, every UI proposal must be grounded in customer pain, every data model hint must be explainable. The system that earns trust at each step becomes indispensable.
+Every feature closes more of that loop. Trust is the core feature — every recommendation must be traceable to evidence, every UI proposal must be grounded in customer pain, every data model hint must be explainable, and every stakeholder deck must carry the same evidence traceability as the analysis behind it. The system that earns trust at each step becomes indispensable.
 
 Stay evidence-driven. Stay reliable. Close the loop.

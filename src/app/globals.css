@@ -59,3 +59,12 @@ body {
 .animate-fade-in-up {
   animation: fadeInUp 0.35s ease-out both;
 }
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

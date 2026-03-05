@@ -10,27 +10,27 @@ export function FeatureDisplayCards() {
       title: 'Signal Ingestion',
       description: 'Ingest calls, tickets & usage data',
       date: 'Automated',
-      iconBgClassName: 'bg-orange-100',
+      iconBgClassName: 'bg-orange-500/15',
       titleClassName: 'text-orange-600',
       className:
-        '[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-[#e8e8ec] before:h-[100%] before:content-[\'\'] before:bg-blend-overlay before:bg-white/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0',
+        '[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-black/[0.06] before:h-[100%] before:content-[\'\'] before:bg-blend-overlay before:bg-white/70 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0',
     },
     {
       icon: <MessageSquare className="size-4 text-pink-400" />,
       title: 'Discovery Query',
       description: 'Ask questions, get cited answers',
       date: 'Real-time',
-      iconBgClassName: 'bg-pink-100',
+      iconBgClassName: 'bg-pink-500/15',
       titleClassName: 'text-pink-600',
       className:
-        '[grid-area:stack] translate-x-12 translate-y-10 hover:-translate-y-1 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-[#e8e8ec] before:h-[100%] before:content-[\'\'] before:bg-blend-overlay before:bg-white/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0',
+        '[grid-area:stack] translate-x-12 translate-y-10 hover:-translate-y-1 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-black/[0.06] before:h-[100%] before:content-[\'\'] before:bg-blend-overlay before:bg-white/70 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0',
     },
     {
       icon: <FileText className="size-4 text-purple-400" />,
       title: 'Feature Briefs',
       description: 'Complete specs with UI direction',
       date: 'Auto-generated',
-      iconBgClassName: 'bg-purple-100',
+      iconBgClassName: 'bg-purple-500/15',
       titleClassName: 'text-purple-600',
       className:
         '[grid-area:stack] translate-x-24 translate-y-20 hover:translate-y-10',
