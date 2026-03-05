@@ -8,15 +8,14 @@ An AI-native product discovery platform ("Cursor for Product Managers") that ing
 
 Every product recommendation must be traceable to customer evidence — no fabricated citations, no unsupported claims. Trust is the product.
 
-## Current Milestone: v1.0 Brief v2 + Ship Ready
+## Current Milestone: v2.0 Competitive Intelligence + Deck Generator
 
-**Goal:** Upgrade the brief generator with UI Direction and Data Model Hints, add coding agent export, integrate Stripe billing, and ship a marketing landing page — making Sightline ready for design partners.
+**Goal:** Add competitive intelligence (internal signal extraction + external review scraping) and a full deck generation system (one-click from artifacts + custom builder with shareable links) — expanding Sightline from discovery tool to PM command center.
 
 **Target features:**
-- Brief v2 (UI Direction + Data Model Hints sections)
-- Coding Agent Export (full 7-section package, clipboard + .md download)
-- Stripe billing (Starter $79/mo + Pro $299/mo)
-- Landing page (marketing/waitlist with email capture)
+- Competitive Intelligence — extract competitor mentions from customer calls, scrape G2/Capterra reviews, gap scoring, weekly digest
+- Deck Generator v1 — one-click from any Sightline artifact (brief, query, decision, competitive digest), PPTX + PDF export, evidence tracing
+- Deck Generator v2 — custom builder, Google Slides export, shareable web link (public or authenticated), interactive evidence drill-down
 
 ## Requirements
 
@@ -38,11 +37,16 @@ Every product recommendation must be traceable to customer evidence — no fabri
 
 <!-- Current scope. Building toward these. -->
 
-- [ ] Brief v2 — UI Direction section
-- [ ] Brief v2 — Data Model Hints section
-- [ ] Coding agent export (7-section package, clipboard + .md)
-- [ ] Stripe billing (Starter + Pro tiers)
-- [ ] Landing page (marketing/waitlist, email capture)
+- [ ] Competitive Intelligence — extract competitor mentions from customer calls during enrichment
+- [ ] Competitive Intelligence — scrape G2/Capterra reviews, extract pain points and switching reasons
+- [ ] Competitive Intelligence — gap scoring (competitor weaknesses vs feature backlog)
+- [ ] Competitive Intelligence — weekly competitive digest
+- [ ] Deck Generator v1 — one-click generation from any Sightline artifact
+- [ ] Deck Generator v1 — PPTX + PDF export with evidence tracing
+- [ ] Deck Generator v2 — custom builder with slide reordering and inline editing
+- [ ] Deck Generator v2 — Google Slides export
+- [ ] Deck Generator v2 — shareable web link (public or authenticated, owner chooses)
+- [ ] Deck Generator v2 — interactive evidence drill-down on web viewer
 
 ### Out of Scope
 
@@ -87,4 +91,4 @@ Every product recommendation must be traceable to customer evidence — no fabri
 | Waitlist landing page (not full conversion) | Get signups flowing before billing is battle-tested | — Pending |
 
 ---
-*Last updated: 2026-02-25 after milestone v1.0 initialization*
+*Last updated: 2026-03-04 after milestone v2.0 initialization*
