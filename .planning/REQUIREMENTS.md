@@ -97,29 +97,29 @@ Deferred to future milestones.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| COMP-01 | TBD | Pending |
-| COMP-02 | TBD | Pending |
-| COMP-03 | TBD | Pending |
-| COMP-04 | TBD | Pending |
-| COMP-05 | TBD | Pending |
-| COMP-06 | TBD | Pending |
-| DECK-01 | TBD | Pending |
-| DECK-02 | TBD | Pending |
-| DECK-03 | TBD | Pending |
-| DECK-04 | TBD | Pending |
-| DECK-05 | TBD | Pending |
-| DECK-06 | TBD | Pending |
-| DECK-07 | TBD | Pending |
-| DECK-08 | TBD | Pending |
-| DECK-09 | TBD | Pending |
-| DECK-10 | TBD | Pending |
-| DECK-11 | TBD | Pending |
+| COMP-01 | Phase 5 | Pending |
+| COMP-02 | Phase 5 | Pending |
+| COMP-03 | Phase 5 | Pending |
+| COMP-04 | Phase 6 | Pending |
+| COMP-05 | Phase 6 | Pending |
+| COMP-06 | Phase 5 | Pending |
+| DECK-01 | Phase 7 | Pending |
+| DECK-02 | Phase 7 | Pending |
+| DECK-03 | Phase 7 | Pending |
+| DECK-04 | Phase 7 | Pending |
+| DECK-05 | Phase 7 | Pending |
+| DECK-06 | Phase 7 | Pending |
+| DECK-07 | Phase 8 | Pending |
+| DECK-08 | Phase 8 | Pending |
+| DECK-09 | Phase 8 | Pending |
+| DECK-10 | Phase 8 | Pending |
+| DECK-11 | Phase 8 | Pending |
 
 **Coverage:**
 - v2.0 requirements: 17 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 17
+- Mapped to phases: 17/17
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-25 (v1.0)*
-*Last updated: 2026-03-04 after v2.0 milestone definition*
+*Last updated: 2026-03-04 after v2.0 roadmap creation*

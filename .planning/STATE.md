@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Competitive Intelligence + Deck Generator
-status: defining_requirements
+status: roadmap_complete
 last_updated: "2026-03-04T00:00:00Z"
 progress:
-  total_phases: 0
+  total_phases: 4
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -22,10 +22,10 @@ See: .planning/PROJECT.md (updated 2026-03-04)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: Phase 5 — Competitive Core (not started)
 Plan: —
-Status: Defining requirements
-Last activity: 2026-03-04 — Milestone v2.0 started
+Status: Roadmap complete, ready to plan Phase 5
+Last activity: 2026-03-04 — v2.0 roadmap created (4 phases, 17 requirements mapped)
 
 Progress: ░░░░░░░░░░ 0%
 
@@ -60,23 +60,27 @@ Carried from v1.0:
 - All LLM calls through packages/ai/client.ts — never direct Anthropic SDK from apps/
 - claude-sonnet-4-6 for reasoning/briefs/deck narrative, claude-haiku-4-5-20251001 for enrichment/tagging/layout
 - Competitive data in separate Qdrant collection (sightline-competitive) — never mixed with main corpus
-- Deck generation: Sonnet for narrative/structure, Haiku for layout decisions
+- Deck generation runs as BullMQ background job — 6 pipeline steps are too slow for synchronous requests
 - PPTX via python-pptx deterministic template engine — Claude writes content, code renders slides
 - Prompts for deck generation in packages/ai/prompts/deck/ — never inline
+- evidence_ids must propagate through all 6 deck pipeline steps (analyze_intent → select_content → compose_slides → apply_layout → link_evidence → export)
+- G2/Capterra CSV upload fallback must be available Day 1 — scraping is unstable
 
 ### Pending Todos
 
-None yet.
+- Phase 4 (Landing Page) plan 04-02 still in progress from v1.0 — complete before starting Phase 5
 
 ### Blockers/Concerns
 
-- G2/Capterra scraping may require API access or headless browser — research during Phase 1
-- python-pptx dependency needs to be added — currently no Python tooling in the monorepo beyond tools/
-- Google Slides API requires OAuth consent screen and service account setup
-- Shareable web links require a public route with optional auth — security model needs design
+- G2/Capterra scraping requires headless browser (playwright + playwright-stealth) — may be blocked by Cloudflare; CSV fallback is mandatory
+- python-pptx dependency needs to be added to tools/ — currently no PPTX tooling in monorepo
+- Google Slides API requires OAuth consent screen and service account setup — needed for Phase 8
+- Shareable web links require a public route with optional auth — security model needs design before Phase 8
+- PII in evidence chunks must be sanitized for unauthenticated deck viewers (public share links)
 
 ## Session Continuity
 
 Last session: 2026-03-04
-Stopped at: Milestone v2.0 initialization — defining requirements
+Stopped at: v2.0 roadmap creation complete — 4 phases (5-8), 17 requirements mapped
 Resume file: None
+Next action: `/gsd:plan-phase 5` to plan Competitive Core
