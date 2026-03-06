@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Competitive Intelligence + Deck Generator
-status: roadmap_complete
-last_updated: "2026-03-04T00:00:00Z"
+status: executing
+last_updated: "2026-03-06T20:42:00Z"
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_plans: 2
+  completed_plans: 1
 ---
 
 # State: Sightline
@@ -22,25 +22,25 @@ See: .planning/PROJECT.md (updated 2026-03-04)
 
 ## Current Position
 
-Phase: Phase 5 — Competitive Core (not started)
-Plan: —
-Status: Roadmap complete, ready to plan Phase 5
-Last activity: 2026-03-04 — v2.0 roadmap created (4 phases, 17 requirements mapped)
+Phase: Phase 5 — Competitive Core (in progress)
+Plan: 05-01 complete, 05-02 next
+Status: Executing phase 5 plans
+Last activity: 2026-03-06 — 05-01 competitive backend complete (schema, extraction, API routes)
 
-Progress: ░░░░░░░░░░ 0%
+Progress: █████░░░░░ 50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: —
-- Total execution time: 0 hours
+- Total plans completed: 1
+- Average duration: 4min
+- Total execution time: 4min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 05-competitive-core | 1 | 4min | 4min |
 
 **Recent Trend (from v1.0):**
 | Phase 01-brief-v2 P01 | 2 | 2 tasks | 2 files |
@@ -66,6 +66,11 @@ Carried from v1.0:
 - evidence_ids must propagate through all 6 deck pipeline steps (analyze_intent → select_content → compose_slides → apply_layout → link_evidence → export)
 - G2/Capterra CSV upload fallback must be available Day 1 — scraping is unstable
 
+v2.0 Phase 5:
+- Used stable after() from Next.js 16 instead of unstable_after — API stabilized in this version
+- Postgres-backed job queue via scraping_jobs table — no Redis/BullMQ infrastructure needed
+- Single extractCompetitiveSignals() function shared by scrape and CSV paths for identical extraction
+
 ### Pending Todos
 
 - Phase 4 (Landing Page) plan 04-02 still in progress from v1.0 — complete before starting Phase 5
@@ -80,7 +85,7 @@ Carried from v1.0:
 
 ## Session Continuity
 
-Last session: 2026-03-04
-Stopped at: v2.0 roadmap creation complete — 4 phases (5-8), 17 requirements mapped
+Last session: 2026-03-06
+Stopped at: Completed 05-01-PLAN.md (competitive backend)
 Resume file: None
-Next action: `/gsd:plan-phase 5` to plan Competitive Core
+Next action: Execute 05-02-PLAN.md (competitive frontend)

@@ -40,12 +40,12 @@ Requirements for milestone v2.0 — Competitive Intelligence + Deck Generator.
 
 ### Competitive Intelligence
 
-- [ ] **COMP-01**: User can trigger competitor mention extraction from existing customer call signals during enrichment
-- [ ] **COMP-02**: User can add competitors to track (name, G2 slug, Capterra slug) and trigger external review scraping
-- [ ] **COMP-03**: System extracts structured signals (pain points, switching reasons, feature requests) from scraped reviews via Haiku
+- [x] **COMP-01**: User can trigger competitor mention extraction from existing customer call signals during enrichment
+- [x] **COMP-02**: User can add competitors to track (name, G2 slug, Capterra slug) and trigger external review scraping
+- [x] **COMP-03**: System extracts structured signals (pain points, switching reasons, feature requests) from scraped reviews via Haiku
 - [ ] **COMP-04**: User can view gap scoring that cross-references competitor weaknesses against their feature backlog
 - [ ] **COMP-05**: User receives a weekly competitive digest email summarizing new competitive signals and gaps
-- [ ] **COMP-06**: Competitive signals are stored in a separate Qdrant collection and clearly labeled in the evidence panel
+- [x] **COMP-06**: Competitive signals are stored in a separate Qdrant collection and clearly labeled in the evidence panel
 
 ### Deck Generator v1
 
@@ -97,12 +97,12 @@ Deferred to future milestones.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| COMP-01 | Phase 5 | Pending |
-| COMP-02 | Phase 5 | Pending |
-| COMP-03 | Phase 5 | Pending |
+| COMP-01 | Phase 5 | Complete |
+| COMP-02 | Phase 5 | Complete |
+| COMP-03 | Phase 5 | Complete |
 | COMP-04 | Phase 6 | Pending |
 | COMP-05 | Phase 6 | Pending |
-| COMP-06 | Phase 5 | Pending |
+| COMP-06 | Phase 5 | Complete |
 | DECK-01 | Phase 7 | Pending |
 | DECK-02 | Phase 7 | Pending |
 | DECK-03 | Phase 7 | Pending |
