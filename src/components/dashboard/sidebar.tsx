@@ -8,6 +8,7 @@ import {
   Search,
   FileText,
   GitMerge,
+  Swords,
   Settings,
   LogOut,
   Loader2,
@@ -18,8 +19,9 @@ const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/query',     label: 'Query',     icon: Search },
   { href: '/briefs',    label: 'Briefs',    icon: FileText },
-  { href: '/decisions', label: 'Decisions', icon: GitMerge },
-  { href: '/settings',  label: 'Settings',  icon: Settings },
+  { href: '/decisions',   label: 'Decisions',   icon: GitMerge },
+  { href: '/competitors', label: 'Competitors', icon: Swords },
+  { href: '/settings',    label: 'Settings',    icon: Settings },
 ] as const
 
 export default function Sidebar() {
