@@ -19,6 +19,9 @@ import type { BriefContent } from '@/app/api/briefs/generate/route'
 import { UIDirectionSection } from '@/components/briefs/UIDirectionSection'
 import { DataModelSection } from '@/components/briefs/DataModelSection'
 import { UpgradeGate } from '@/components/billing/UpgradeGate'
+import { CompetitiveSignalCard } from '@/components/competitors/CompetitiveSignalCard'
+import type { CompetitiveSignalForPanel } from '@/components/competitors/CompetitiveSignalCard'
+import type { SignalType } from '@/lib/competitive/types'
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -450,6 +453,13 @@ export default function QueryPage() {
   const [briefError, setBriefError] = useState('')
   const [saveState, setSaveState] = useState<SaveState>('idle')
 
+  // ── Competitive signals state ──────────────────────────────────────────
+  type EvidenceTab = 'customer' | 'competitive'
+  const [evidenceTab, setEvidenceTab] = useState<EvidenceTab>('customer')
+  const [competitiveSignals, setCompetitiveSignals] = useState<CompetitiveSignalForPanel[]>([])
+  const [competitorFilter, setCompetitorFilter] = useState<string>('all')
+  const [signalTypeFilter, setSignalTypeFilter] = useState<string>('all')
+
   // ── Billing state ──────────────────────────────────────────────────────
   const [billingPlan, setBillingPlan] = useState<string>('free')
   const [briefsUsed, setBriefsUsed] = useState(0)
@@ -493,6 +503,10 @@ export default function QueryPage() {
     setBrief(null)
     setBriefError('')
     setSaveState('idle')
+    setEvidenceTab('customer')
+    setCompetitiveSignals([])
+    setCompetitorFilter('all')
+    setSignalTypeFilter('all')
 
     try {
       const res = await fetch('/api/query', {
@@ -524,6 +538,17 @@ export default function QueryPage() {
       if (!gotResult) {
         setErrorMsg('The analysis completed without returning a result. Please try again.')
         setPhase('error')
+      } else {
+        // Fetch competitive signals for the evidence panel tab
+        try {
+          const compRes = await fetch('/api/competitors/signals')
+          if (compRes.ok) {
+            const compData = await compRes.json()
+            setCompetitiveSignals(compData.signals ?? [])
+          }
+        } catch {
+          // Non-blocking — competitive signals are supplementary
+        }
       }
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Something went wrong')
@@ -542,6 +567,10 @@ export default function QueryPage() {
     setBrief(null)
     setBriefError('')
     setSaveState('idle')
+    setEvidenceTab('customer')
+    setCompetitiveSignals([])
+    setCompetitorFilter('all')
+    setSignalTypeFilter('all')
     setTimeout(() => inputRef.current?.focus(), 50)
   }
 
@@ -774,16 +803,96 @@ export default function QueryPage() {
             </div>
 
             {/* Evidence panel */}
-            {result.evidence?.length > 0 && (
+            {(result.evidence?.length > 0 || competitiveSignals.length > 0) && (
               <div>
                 <p className="text-xs text-[#bbb] uppercase tracking-widest mb-3 px-1">
                   Supporting evidence
                 </p>
-                <div className="space-y-2.5">
-                  {result.evidence.map((item, i) => (
-                    <EvidenceCard key={i} item={item} index={i} />
-                  ))}
-                </div>
+
+                {/* Tab switcher — only shown when competitive signals exist */}
+                {competitiveSignals.length > 0 && (
+                  <div className="flex gap-1 mb-3 bg-[#f5f5f7] rounded-lg p-1">
+                    <button
+                      onClick={() => setEvidenceTab('customer')}
+                      className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                        evidenceTab === 'customer'
+                          ? 'bg-white text-[#333] shadow-sm'
+                          : 'text-[#999] hover:text-[#666]'
+                      }`}
+                    >
+                      Customer Signals ({result.evidence?.length ?? 0})
+                    </button>
+                    <button
+                      onClick={() => setEvidenceTab('competitive')}
+                      className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                        evidenceTab === 'competitive'
+                          ? 'bg-purple-50 text-purple-600 shadow-sm'
+                          : 'text-[#999] hover:text-[#666]'
+                      }`}
+                    >
+                      Competitive Signals ({competitiveSignals.length})
+                    </button>
+                  </div>
+                )}
+
+                {/* Customer signals tab */}
+                {evidenceTab === 'customer' && (
+                  <div className="space-y-2.5">
+                    {result.evidence.map((item, i) => (
+                      <EvidenceCard key={i} item={item} index={i} />
+                    ))}
+                  </div>
+                )}
+
+                {/* Competitive signals tab */}
+                {evidenceTab === 'competitive' && (
+                  <div>
+                    {/* Filters */}
+                    <div className="flex gap-2 mb-3">
+                      <select
+                        value={competitorFilter}
+                        onChange={e => setCompetitorFilter(e.target.value)}
+                        className="bg-white border border-[#e0e0e5] text-xs text-[#555] rounded-lg px-2.5 py-1.5 outline-none focus:border-[#bbb] transition-colors"
+                      >
+                        <option value="all">All Competitors</option>
+                        {Array.from(new Set(competitiveSignals.map(s => s.competitor_name)))
+                          .sort()
+                          .map(name => (
+                            <option key={name} value={name}>{name}</option>
+                          ))}
+                      </select>
+                      <select
+                        value={signalTypeFilter}
+                        onChange={e => setSignalTypeFilter(e.target.value)}
+                        className="bg-white border border-[#e0e0e5] text-xs text-[#555] rounded-lg px-2.5 py-1.5 outline-none focus:border-[#bbb] transition-colors"
+                      >
+                        <option value="all">All Types</option>
+                        <option value="pain_point">Pain Point</option>
+                        <option value="switching_reason">Switching Reason</option>
+                        <option value="feature_request">Feature Request</option>
+                        <option value="positive_mention">Positive Mention</option>
+                      </select>
+                    </div>
+
+                    {/* Filtered signal cards */}
+                    <div className="space-y-2.5">
+                      {competitiveSignals
+                        .filter(s => competitorFilter === 'all' || s.competitor_name === competitorFilter)
+                        .filter(s => signalTypeFilter === 'all' || s.signal_type === (signalTypeFilter as SignalType))
+                        .map(signal => (
+                          <CompetitiveSignalCard key={signal.id} signal={signal} />
+                        ))}
+                      {competitiveSignals
+                        .filter(s => competitorFilter === 'all' || s.competitor_name === competitorFilter)
+                        .filter(s => signalTypeFilter === 'all' || s.signal_type === (signalTypeFilter as SignalType))
+                        .length === 0 && (
+                        <p className="text-xs text-[#bbb] py-4 text-center">
+                          No signals match the selected filters.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
