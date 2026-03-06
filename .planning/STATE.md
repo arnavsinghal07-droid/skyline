@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Competitive Intelligence + Deck Generator
 status: executing
-last_updated: "2026-03-06T20:42:00Z"
+last_updated: "2026-03-06T22:03:00Z"
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # State: Sightline
@@ -22,25 +22,25 @@ See: .planning/PROJECT.md (updated 2026-03-04)
 
 ## Current Position
 
-Phase: Phase 5 — Competitive Core (in progress)
-Plan: 05-01 complete, 05-02 next
-Status: Executing phase 5 plans
-Last activity: 2026-03-06 — 05-01 competitive backend complete (schema, extraction, API routes)
+Phase: Phase 5 — Competitive Core (complete)
+Plan: 05-01 complete, 05-02 complete
+Status: Phase 5 complete — all plans executed
+Last activity: 2026-03-06 — 05-02 competitive frontend complete (competitors page, evidence panel tabs, filters)
 
-Progress: █████░░░░░ 50%
+Progress: ██████████ 100% (Phase 5)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 4min
-- Total execution time: 4min
+- Total plans completed: 2
+- Average duration: 6min
+- Total execution time: 12min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 05-competitive-core | 1 | 4min | 4min |
+| 05-competitive-core | 2 | 12min | 6min |
 
 **Recent Trend (from v1.0):**
 | Phase 01-brief-v2 P01 | 2 | 2 tasks | 2 files |
@@ -70,6 +70,8 @@ v2.0 Phase 5:
 - Used stable after() from Next.js 16 instead of unstable_after — API stabilized in this version
 - Postgres-backed job queue via scraping_jobs table — no Redis/BullMQ infrastructure needed
 - Single extractCompetitiveSignals() function shared by scrape and CSV paths for identical extraction
+- Dedicated /api/competitors/signals endpoint for evidence panel rather than extending existing GET route
+- Competitive signals fetched non-blocking after query result completes
 
 ### Pending Todos
 
@@ -86,6 +88,6 @@ v2.0 Phase 5:
 ## Session Continuity
 
 Last session: 2026-03-06
-Stopped at: Completed 05-01-PLAN.md (competitive backend)
+Stopped at: Completed 05-02-PLAN.md (competitive frontend)
 Resume file: None
-Next action: Execute 05-02-PLAN.md (competitive frontend)
+Next action: Phase 5 complete — proceed to next phase (deck generator or other modules)

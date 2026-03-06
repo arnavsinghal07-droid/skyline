@@ -93,8 +93,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 05-01: Backend — database migration, competitor CRUD API, Haiku signal extraction, G2/Capterra scraping, CSV upload, re-enrichment scanning
-- [ ] 05-02: Frontend — /competitors page with add/edit/delete/refresh/upload/rescan, evidence panel competitive tab with filters
+- [x] 05-01: Backend — database migration, competitor CRUD API, Haiku signal extraction, G2/Capterra scraping, CSV upload, re-enrichment scanning
+- [x] 05-02: Frontend — /competitors page with add/edit/delete/refresh/upload/rescan, evidence panel competitive tab with filters
 
 ### Phase 6: Competitive Intelligence Layer
 **Goal**: Users can see how competitors are weak relative to their own feature backlog and receive a weekly competitive digest — making competitive data actionable, not just stored
@@ -141,7 +141,7 @@ Phases execute in numeric order: 5 → 6 → 7 → 8
 | 2. Coding Agent Export | v1.0 | 2/2 | Complete | 2026-02-26 |
 | 3. Stripe Billing | v1.0 | 2/2 | Complete | 2026-03-01 |
 | 4. Landing Page | v1.0 | 1/2 | In Progress | - |
-| 5. Competitive Core | v2.0 | 0/2 | Planned | - |
+| 5. Competitive Core | v2.0 | 2/2 | Complete | 2026-03-06 |
 | 6. Competitive Intelligence Layer | v2.0 | 0/TBD | Not started | - |
 | 7. Deck Generator v1 | v2.0 | 0/TBD | Not started | - |
 | 8. Deck Generator v2 | v2.0 | 0/TBD | Not started | - |
