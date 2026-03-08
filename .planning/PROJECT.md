@@ -32,13 +32,24 @@ Every product recommendation must be traceable to customer evidence — no fabri
 - ✓ Briefs page (full brief panel with Log Decision) — Sprint 3-4
 - ✓ Decision log (timeline with outcome tracking) — Sprint 3-4
 - ✓ Onboarding flow (3-step, creates org/user/workspace) — Sprint 7-8
+- ✓ Brief v2 — UI Direction section with evidence-grounded screen/component changes — v1.0
+- ✓ Brief v2 — Data Model Hints section with typed field suggestions and rationale — v1.0
+- ✓ Brief v2 — backward compatibility with v1 briefs — v1.0
+- ✓ Brief v2 — token limit error handling (structured error instead of truncated JSON) — v1.0
+- ✓ Coding agent export — 7-section package (Context, Feature, Criteria, UI, Data Model, Edge Cases, File Paths) — v1.0
+- ✓ Coding agent export — clipboard copy and .md download — v1.0
+- ✓ Stripe billing — Starter ($79/mo) and Pro ($299/mo) via hosted checkout — v1.0
+- ✓ Stripe billing — webhook idempotency, customer portal, plan-gated brief generation — v1.0
+- ✓ Stripe billing — billing page with plan and usage display — v1.0
+- ✓ Waitlist — email capture with Resend confirmation — v1.0
+- ✓ Competitive Core — competitor mention extraction from customer signals — v2.0 (Phase 5)
+- ✓ Competitive Core — G2/Capterra scraping + CSV fallback with Haiku signal extraction — v2.0 (Phase 5)
+- ✓ Competitive Core — separate competitive corpus, labeled in evidence panel — v2.0 (Phase 5)
 
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-- [ ] Competitive Intelligence — extract competitor mentions from customer calls during enrichment
-- [ ] Competitive Intelligence — scrape G2/Capterra reviews, extract pain points and switching reasons
 - [ ] Competitive Intelligence — gap scoring (competitor weaknesses vs feature backlog)
 - [ ] Competitive Intelligence — weekly competitive digest
 - [ ] Deck Generator v1 — one-click generation from any Sightline artifact
@@ -52,21 +63,23 @@ Every product recommendation must be traceable to customer evidence — no fabri
 
 <!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
 
-- Enterprise SSO (SAML) — Phase 3, not needed for design partners
-- Signal heatmap dashboard — Deferred, not critical for v1.0
-- Usage data ingestion (Mixpanel/Amplitude) — Phase 2
-- Competitive intelligence module — Phase 1
-- Interview guide generator — Phase 1
-- Signal loop closer — Phase 2
-- Weekly PM digest email — Phase 1
-- GitHub Issues / JSON export targets — Clipboard + .md sufficient for v1.0
+- Enterprise SSO (SAML) — not needed for design partners
+- Signal heatmap dashboard — deferred, not critical for current milestones
+- Usage data ingestion (Mixpanel/Amplitude) — deferred to future milestone
+- Interview guide generator — deferred to future milestone
+- Signal loop closer — deferred to future milestone
+- Weekly PM digest email — deferred to future milestone
+- GitHub Issues / JSON export targets — clipboard + .md sufficient for now
 
 ## Context
 
-- Existing codebase is a Next.js 15 monorepo with Fastify + tRPC backend, Supabase (Postgres + Auth), Qdrant vector DB
+- Next.js 15 monorepo with Route Handlers, Supabase (Postgres + Auth), Qdrant vector DB
 - RAG pipeline: receive → transcribe → chunk → enrich → embed → index; query: retrieve → rerank → reason → format
-- Brief generator currently produces: Problem Statement, Proposed Solution, User Stories, Success Metrics, Out of Scope — missing UI Direction and Data Model Hints
-- PRD v1.2 defines the full brief structure including UI Direction and Data Model Hints types
+- Brief generator produces full 7-section v2 briefs: Problem Statement, Proposed Solution, User Stories, UI Direction, Data Model Hints, Success Metrics, Out of Scope
+- Coding agent export generates complete implementation packages from v2 briefs
+- Stripe billing live with Starter ($79/mo, 10 briefs) and Pro ($299/mo, unlimited) plans
+- Competitive intelligence core shipped: competitor tracking, G2/Capterra scraping, CSV fallback, evidence panel integration
+- ~15,000 LOC TypeScript across 86+ files
 - Target user: Founder-PM at Seed–Series A startup, already using Cursor/Claude Code for engineering
 - YC Spring 2026 RFS explicitly describes this product opportunity
 
@@ -86,9 +99,12 @@ Every product recommendation must be traceable to customer evidence — no fabri
 | Supabase for auth + DB | PLG motion needs magic link + social login; Postgres for relational data | ✓ Good |
 | Qdrant for vector search | High-performance ANN with metadata filtering | ✓ Good |
 | tRPC for API layer | Type-safe end-to-end, good DX | ✓ Good |
-| Starter + Pro tiers only for v1.0 | Enterprise is contact sales — simplifies billing implementation | — Pending |
-| Clipboard + .md for agent export | Sufficient for design partners; avoid over-engineering export targets | — Pending |
-| Waitlist landing page (not full conversion) | Get signups flowing before billing is battle-tested | — Pending |
+| Starter + Pro tiers only for v1.0 | Enterprise is contact sales — simplifies billing implementation | ✓ Good |
+| Clipboard + .md for agent export | Sufficient for design partners; avoid over-engineering export targets | ✓ Good |
+| Waitlist landing page (not full conversion) | Get signups flowing before billing is battle-tested | ✓ Good |
+| Postgres-backed job queue for scraping | No Redis/BullMQ infrastructure needed at this scale | ✓ Good |
+| Separate Qdrant collection for competitive data | Clean corpus isolation, labeled evidence | ✓ Good |
+| CSV fallback for G2/Capterra | Scraping unstable behind Cloudflare — CSV gives same extraction | ✓ Good |
 
 ---
-*Last updated: 2026-03-04 after milestone v2.0 initialization*
+*Last updated: 2026-03-08 after v1.0 milestone completion*

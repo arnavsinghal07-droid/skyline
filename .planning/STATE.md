@@ -1,21 +1,21 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
+milestone: v2.0
 milestone_name: Competitive Intelligence + Deck Generator
-status: unknown
-last_updated: "2026-03-06T22:10:50.989Z"
+status: in_progress
+last_updated: "2026-03-08T19:30:00.000Z"
 progress:
-  total_phases: 5
-  completed_phases: 4
-  total_plans: 10
-  completed_plans: 9
+  total_phases: 4
+  completed_phases: 1
+  total_plans: 4
+  completed_plans: 2
 ---
 
 # State: Sightline
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-04)
+See: .planning/PROJECT.md (updated 2026-03-08)
 
 **Core value:** Every product recommendation must be traceable to customer evidence — trust is the product.
 **Current focus:** Milestone v2.0 — Competitive Intelligence + Deck Generator
@@ -24,58 +24,37 @@ See: .planning/PROJECT.md (updated 2026-03-04)
 
 Phase: Phase 5 — Competitive Core (complete)
 Plan: 05-01 complete, 05-02 complete
-Status: Phase 5 complete — all plans executed
-Last activity: 2026-03-06 — 05-02 competitive frontend complete (competitors page, evidence panel tabs, filters)
+Status: Phase 5 complete — next phase is Phase 6 (Competitive Intelligence Layer)
+Last activity: 2026-03-08 — Completed v1.0 milestone archival
 
-Progress: ██████████ 100% (Phase 5)
+Progress: ██░░░░░░░░ 25% (v2.0: 1/4 phases)
 
-## Performance Metrics
+## Milestone History
 
-**Velocity:**
-- Total plans completed: 2
-- Average duration: 6min
-- Total execution time: 12min
-
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 05-competitive-core | 2 | 12min | 6min |
-
-**Recent Trend (from v1.0):**
-| Phase 01-brief-v2 P01 | 2 | 2 tasks | 2 files |
-| Phase 01-brief-v2 P02 | 8 | 3 tasks | 6 files |
-| Phase 02-coding-agent-export P01 | 1 | 1 task | 1 file |
-| Phase 03-stripe-billing P01 | 225s | 4 tasks | 8 files |
-| Phase 03-stripe-billing P02 | 309s | 3 tasks | 8 files |
-| Phase 04-landing-page P01 | 123s | 2 tasks | 3 files |
+- **v1.0 Brief v2 + Ship Ready** — SHIPPED 2026-03-08 (4 phases, 8 plans, 9 days)
+  - See: .planning/MILESTONES.md
 
 ## Accumulated Context
 
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
-Carried from v1.0:
 
-- All LLM calls through packages/ai/client.ts — never direct Anthropic SDK from apps/
-- claude-sonnet-4-6 for reasoning/briefs/deck narrative, claude-haiku-4-5-20251001 for enrichment/tagging/layout
+v2.0 Decisions:
 - Competitive data in separate Qdrant collection (sightline-competitive) — never mixed with main corpus
 - Deck generation runs as BullMQ background job — 6 pipeline steps are too slow for synchronous requests
 - PPTX via python-pptx deterministic template engine — Claude writes content, code renders slides
 - Prompts for deck generation in packages/ai/prompts/deck/ — never inline
-- evidence_ids must propagate through all 6 deck pipeline steps (analyze_intent → select_content → compose_slides → apply_layout → link_evidence → export)
+- evidence_ids must propagate through all 6 deck pipeline steps
 - G2/Capterra CSV upload fallback must be available Day 1 — scraping is unstable
-
-v2.0 Phase 5:
-- Used stable after() from Next.js 16 instead of unstable_after — API stabilized in this version
 - Postgres-backed job queue via scraping_jobs table — no Redis/BullMQ infrastructure needed
-- Single extractCompetitiveSignals() function shared by scrape and CSV paths for identical extraction
-- Dedicated /api/competitors/signals endpoint for evidence panel rather than extending existing GET route
+- Single extractCompetitiveSignals() function shared by scrape and CSV paths
+- Dedicated /api/competitors/signals endpoint for evidence panel
 - Competitive signals fetched non-blocking after query result completes
 
 ### Pending Todos
 
-- Phase 4 (Landing Page) plan 04-02 still in progress from v1.0 — complete before starting Phase 5
+- Phase 4 landing page gaps (LAND-01/03/04) documented as known gaps in v1.0 — address in future milestone
 
 ### Blockers/Concerns
 
@@ -87,7 +66,7 @@ v2.0 Phase 5:
 
 ## Session Continuity
 
-Last session: 2026-03-06
-Stopped at: Completed 05-02-PLAN.md (competitive frontend)
+Last session: 2026-03-08
+Stopped at: Completed v1.0 milestone archival
 Resume file: None
-Next action: Phase 5 complete — proceed to next phase (deck generator or other modules)
+Next action: Plan Phase 6 (Competitive Intelligence Layer) or Phase 7 (Deck Generator v1)
